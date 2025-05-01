@@ -11,7 +11,7 @@
     "build": "yarn run clean && tsc",
     "generate:api": "del-cli src/ docs/ && openapi-generator-cli generate -i ./oas/src/v2/spec.yaml -g rust -o .",
 
-    "generate:hub-api": "del-cli src/hub-api && openapi-generator-cli generate -i ./oas/src/hub-rest-api/spec.yaml -g typescript-axios -o ./src/hub-api"
+    "generate:hub-api": "del-cli src/hub-api && openapi-generator-cli generate -i ./oas/src/hub-rest-api/spec.yaml -g rust -o hubble-sdk"
   },
   "author": "Neynar",
   "license": "MIT",
