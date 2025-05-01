@@ -15,14 +15,14 @@ use serde::{Deserialize, Serialize};
 #[serde(untagged)]
 pub enum DeployFungibleReqBodyMetadataMedia {
     /// Media file associated with the token.  Supported formats are image/jpeg, image/gif and image/png 
-    String(std::path::PathBuf),
+    Binary(Vec<u8>),
     /// URI of the media file
-    String(String),
+    URI(String),
 }
 
 impl Default for DeployFungibleReqBodyMetadataMedia {
     fn default() -> Self {
-        Self::String(Default::default())
+        Self::Binary(Default::default())
     }
 }
 

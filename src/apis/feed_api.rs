@@ -673,7 +673,7 @@ pub async fn fetch_replies_and_recasts_for_user(configuration: &configuration::C
 }
 
 /// Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
-pub async fn fetch_trending_feed(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>, viewer_fid: Option<i32>, time_window: Option<models::models::TrendingTimeWindow>, channel_id: Option<&str>, parent_url: Option<&str>, provider: Option<models::FeedTrendingProvider>, provider_metadata: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchTrendingFeedError>> {
+pub async fn fetch_trending_feed(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>, viewer_fid: Option<i32>, time_window: Option<models::TrendingTimeWindow>, channel_id: Option<&str>, parent_url: Option<&str>, provider: Option<models::FeedTrendingProvider>, provider_metadata: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchTrendingFeedError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_limit = limit;
     let p_cursor = cursor;

@@ -44,7 +44,7 @@ pub enum FetchUserBalanceError {
 
 
 /// Creates a new token. This is an allowlisted API, reach out if you want access. 
-pub async fn deploy_fungible(configuration: &configuration::Configuration, owner: &str, symbol: &str, name: &str, metadata_left_square_bracket_media_right_square_bracket: Option<models::models::DeployFungibleReqBodyMetadataMedia>, metadata_left_square_bracket_description_right_square_bracket: Option<&str>, metadata_left_square_bracket_nsfw_right_square_bracket: Option<&str>, metadata_left_square_bracket_website_link_right_square_bracket: Option<&str>, metadata_left_square_bracket_twitter_right_square_bracket: Option<&str>, metadata_left_square_bracket_discord_right_square_bracket: Option<&str>, metadata_left_square_bracket_telegram_right_square_bracket: Option<&str>, network: Option<&str>, factory: Option<&str>) -> Result<models::DeployFungibleResponse, Error<DeployFungibleError>> {
+pub async fn deploy_fungible(configuration: &configuration::Configuration, owner: &str, symbol: &str, name: &str, metadata_left_square_bracket_media_right_square_bracket: Option<models::DeployFungibleReqBodyMetadataMedia>, metadata_left_square_bracket_description_right_square_bracket: Option<&str>, metadata_left_square_bracket_nsfw_right_square_bracket: Option<&str>, metadata_left_square_bracket_website_link_right_square_bracket: Option<&str>, metadata_left_square_bracket_twitter_right_square_bracket: Option<&str>, metadata_left_square_bracket_discord_right_square_bracket: Option<&str>, metadata_left_square_bracket_telegram_right_square_bracket: Option<&str>, network: Option<&str>, factory: Option<&str>) -> Result<models::DeployFungibleResponse, Error<DeployFungibleError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_owner = owner;
     let p_symbol = symbol;
@@ -78,7 +78,31 @@ pub async fn deploy_fungible(configuration: &configuration::Configuration, owner
     multipart_form = multipart_form.text("symbol", p_symbol.to_string());
     multipart_form = multipart_form.text("name", p_name.to_string());
     if let Some(param_value) = p_metadata_left_square_bracket_media_right_square_bracket {
-        multipart_form = multipart_form.text("metadata[media]", param_value.to_string());
+    match param_value {
+        models::DeployFungibleReqBodyMetadataMedia::Binary(data) => {
+            // Determine MIME type (default to "application/octet-stream")
+            let mime_type = infer::get(&data)
+                .map(|kind| kind.mime_type())
+                .unwrap_or("application/octet-stream");
+
+            // Ensure the MIME type is supported
+            if mime_type == "image/jpeg" || mime_type == "image/gif" {
+                let part = reqwest::multipart::Part::bytes(data)
+                    .file_name("media.bin") // Optional: Set a file name
+                    .mime_str(mime_type)?; // Set MIME type dynamically
+                multipart_form = multipart_form.part("metadata[media]", part);
+            } else {
+                return Err(Error::Io(std::io::Error::new(
+                    std::io::ErrorKind::InvalidInput,
+                    format!("Unsupported MIME type: {}", mime_type),
+                )));
+            }
+        }
+        models::DeployFungibleReqBodyMetadataMedia::URI(uri) => {
+            // Add URI as a text part
+            multipart_form = multipart_form.text("metadata[media]", uri);
+        }
+    }
     }
     if let Some(param_value) = p_metadata_left_square_bracket_description_right_square_bracket {
         multipart_form = multipart_form.text("metadata[description]", param_value.to_string());
