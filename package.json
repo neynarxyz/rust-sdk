@@ -1,0 +1,34 @@
+{
+  "name": "@neynar/rust-sdk",
+  "version": "2.33.1",
+  "description": "Rust SDK to interact with Neynar APIs (https://docs.neynar.com/reference/quickstart)",
+  "files": [
+    "build/**/*",
+    "v1-to-v2-migration.md"
+  ],
+  "scripts": {
+    "clean": "del-cli ./build/*",
+    "build": "yarn run clean && tsc",
+    "generate:api": "del-cli src/ docs/ && openapi-generator-cli generate -i ./oas/src/v2/spec.yaml -g rust -o .",
+
+    "generate:hub-api": "del-cli src/hub-api && openapi-generator-cli generate -i ./oas/src/hub-rest-api/spec.yaml -g typescript-axios -o ./src/hub-api"
+  },
+  "author": "Neynar",
+  "license": "MIT",
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.14.1"
+  },
+  "devDependencies": {
+    "del-cli": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=19.9.0"
+  },
+  "keywords": [
+    "ethereum",
+    "optimism",
+    "farcaster",
+    "neynar",
+    "nodejs"
+  ]
+}
