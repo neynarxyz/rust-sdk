@@ -142,8 +142,6 @@ pub mod delete_frame_req_body;
 pub use self::delete_frame_req_body::DeleteFrameReqBody;
 pub mod delete_frame_response;
 pub use self::delete_frame_response::DeleteFrameResponse;
-pub mod deploy_fungible_req_body_metadata_media_;
-pub use self::deploy_fungible_req_body_metadata_media_::DeployFungibleReqBodyMetadataMedia;
 pub mod deploy_fungible_response;
 pub use self::deploy_fungible_response::DeployFungibleResponse;
 pub mod deploy_fungible_response_contract;

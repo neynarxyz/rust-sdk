@@ -1,6 +1,6 @@
 [package]
 name = "hubble_sdk"
-version = "2.21.0"
+version = "0.0.1"
 authors = ["team@neynar.com"]
 description = "Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. "
 # Override this license by providing a License Object in the OpenAPI.

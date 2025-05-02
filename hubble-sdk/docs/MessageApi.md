@@ -21,7 +21,7 @@ Submit a message to the Farcaster network.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | **std::path::PathBuf** | A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.  | [required] |
+**body** | **Vec<u8>** | A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.  | [required] |
 
 ### Return type
 
@@ -51,7 +51,7 @@ Validate a message on the Farcaster network.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | **std::path::PathBuf** | A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.  | [required] |
+**body** | **Vec<u8>** | A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity.  | [required] |
 
 ### Return type
 

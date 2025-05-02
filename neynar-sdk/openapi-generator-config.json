@@ -1,0 +1,11 @@
+{
+  "ensureUniqueParams": true,
+  "generateAliasAsModel": true,
+  "additionalProperties": {
+    "packageName": "neynar_sdk",
+    "packageVersion": "0.0.1"
+  },
+  "typeMappings": {
+    "file": "Vec<u8>"
+  }
+}

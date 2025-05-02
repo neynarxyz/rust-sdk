@@ -25,7 +25,7 @@ Name | Type | Description  | Required | Notes
 **owner** | **String** | Ethereum address of the one who is creating the token | [required] |
 **symbol** | **String** | Symbol/Ticker for the token | [required] |
 **name** | **String** | Name of the token | [required] |
-**metadata_left_square_bracket_media_right_square_bracket** | Option<[**models::DeployFungibleReqBodyMetadataMedia**](DeployFungibleReqBody_metadata_media_.md)> |  |  |
+**metadata_left_square_bracket_media_right_square_bracket** | Option<**Vec<u8>**> | Media file associated with the token.  Supported formats are image/jpeg, image/gif and image/png  |  |
 **metadata_left_square_bracket_description_right_square_bracket** | Option<**String**> | Description of the token |  |
 **metadata_left_square_bracket_nsfw_right_square_bracket** | Option<**String**> | Indicates if the token is NSFW (Not Safe For Work).  |  |
 **metadata_left_square_bracket_website_link_right_square_bracket** | Option<**String**> | Website link related to the token |  |

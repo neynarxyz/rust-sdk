@@ -33,7 +33,7 @@ pub enum ValidateMessageError {
 
 
 /// Submit a message to the Farcaster network.
-pub async fn publish_message(configuration: &configuration::Configuration, body: std::path::PathBuf) -> Result<models::Message, Error<PublishMessageError>> {
+pub async fn publish_message(configuration: &configuration::Configuration, body: Vec<u8>) -> Result<models::Message, Error<PublishMessageError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body = body;
 
@@ -51,8 +51,7 @@ pub async fn publish_message(configuration: &configuration::Configuration, body:
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    let file_content = tokio::fs::read(p_body).await?;
-    req_builder = req_builder.body(file_content);
+    req_builder = req_builder.body(p_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -80,7 +79,7 @@ pub async fn publish_message(configuration: &configuration::Configuration, body:
 }
 
 /// Validate a message on the Farcaster network.
-pub async fn validate_message(configuration: &configuration::Configuration, body: std::path::PathBuf) -> Result<models::ValidateMessageResponse, Error<ValidateMessageError>> {
+pub async fn validate_message(configuration: &configuration::Configuration, body: Vec<u8>) -> Result<models::ValidateMessageResponse, Error<ValidateMessageError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body = body;
 
@@ -98,8 +97,7 @@ pub async fn validate_message(configuration: &configuration::Configuration, body
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    let file_content = tokio::fs::read(p_body).await?;
-    req_builder = req_builder.body(file_content);
+    req_builder = req_builder.body(p_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

@@ -223,7 +223,6 @@ Class | Method | HTTP request | Description
  - [DeleteCastReqBody](docs/DeleteCastReqBody.md)
  - [DeleteFrameReqBody](docs/DeleteFrameReqBody.md)
  - [DeleteFrameResponse](docs/DeleteFrameResponse.md)
- - [DeployFungibleReqBodyMetadataMedia](docs/DeployFungibleReqBodyMetadataMedia.md)
  - [DeployFungibleResponse](docs/DeployFungibleResponse.md)
  - [DeployFungibleResponseContract](docs/DeployFungibleResponseContract.md)
  - [DeployFungibleResponseContractFungible](docs/DeployFungibleResponseContractFungible.md)
