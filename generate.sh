@@ -27,9 +27,6 @@ npx --yes @openapitools/openapi-generator-cli \
     --inline-schema-options 'SKIP_SCHEMA_REUSE=true' \
     --type-mappings='"file=Vec<u8>"'
 
-# Fix generated code if needed
-perl -pi -e 's/models::models/models/g' ./generated/api/src/apis/feed_api.rs
-
 # Build the workspace
 cargo fmt
 cargo build
