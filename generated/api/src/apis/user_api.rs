@@ -325,6 +325,7 @@ pub async fn delete_verification(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.remove_verification_req_body);
 
     let req = req_builder.build()?;
@@ -685,6 +686,7 @@ pub async fn follow_user(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.follow_req_body);
 
     let req = req_builder.build()?;
@@ -951,6 +953,7 @@ pub async fn publish_verification(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.add_verification_req_body);
 
     let req = req_builder.build()?;
@@ -1003,6 +1006,7 @@ pub async fn register_account(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.register_user_req_body);
 
     let req = req_builder.build()?;
@@ -1117,6 +1121,7 @@ pub async fn unfollow_user(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.follow_req_body);
 
     let req = req_builder.build()?;
@@ -1169,6 +1174,7 @@ pub async fn update_user(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.update_user_req_body);
 
     let req = req_builder.build()?;

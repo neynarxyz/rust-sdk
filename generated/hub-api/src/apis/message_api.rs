@@ -64,6 +64,7 @@ pub async fn publish_message(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/octet-stream");
     req_builder = req_builder.body(params.body);
 
     let req = req_builder.build()?;
@@ -116,6 +117,7 @@ pub async fn validate_message(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/octet-stream");
     req_builder = req_builder.body(params.body);
 
     let req = req_builder.build()?;

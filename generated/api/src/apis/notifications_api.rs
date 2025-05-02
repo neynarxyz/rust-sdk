@@ -324,6 +324,7 @@ pub async fn mark_notifications_as_seen(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.mark_notifications_as_seen_req_body);
 
     let req = req_builder.build()?;

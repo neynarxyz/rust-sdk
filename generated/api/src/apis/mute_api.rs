@@ -89,6 +89,7 @@ pub async fn delete_mute(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.mute_req_body);
 
     let req = req_builder.build()?;
@@ -200,6 +201,7 @@ pub async fn publish_mute(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.mute_req_body);
 
     let req = req_builder.build()?;

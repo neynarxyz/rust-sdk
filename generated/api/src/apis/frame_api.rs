@@ -280,6 +280,7 @@ pub async fn delete_neynar_frame(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.delete_frame_req_body);
 
     let req = req_builder.build()?;
@@ -818,6 +819,7 @@ pub async fn post_frame_action(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.frame_action_req_body);
 
     let req = req_builder.build()?;
@@ -873,6 +875,7 @@ pub async fn post_frame_action_developer_managed(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.frame_developer_managed_action_req_body);
 
     let req = req_builder.build()?;
@@ -926,6 +929,7 @@ pub async fn publish_frame_notifications(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.send_frame_notifications_req_body);
 
     let req = req_builder.build()?;
@@ -978,6 +982,7 @@ pub async fn publish_neynar_frame(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.neynar_frame_creation_req_body);
 
     let req = req_builder.build()?;
@@ -1028,6 +1033,7 @@ pub async fn update_neynar_frame(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.neynar_frame_update_req_body);
 
     let req = req_builder.build()?;
@@ -1080,6 +1086,7 @@ pub async fn validate_frame_action(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.validate_frame_action_req_body);
 
     let req = req_builder.build()?;

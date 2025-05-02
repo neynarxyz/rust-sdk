@@ -112,6 +112,7 @@ pub async fn delete_webhook(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.webhook_delete_req_body);
 
     let req = req_builder.build()?;
@@ -262,6 +263,7 @@ pub async fn publish_webhook(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.webhook_post_req_body);
 
     let req = req_builder.build()?;
@@ -312,6 +314,7 @@ pub async fn update_webhook(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.webhook_put_req_body);
 
     let req = req_builder.build()?;
@@ -364,6 +367,7 @@ pub async fn update_webhook_active_status(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.webhook_patch_req_body);
 
     let req = req_builder.build()?;

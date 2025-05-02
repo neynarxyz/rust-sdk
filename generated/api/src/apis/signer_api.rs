@@ -411,6 +411,7 @@ pub async fn publish_message_to_farcaster(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.body);
 
     let req = req_builder.build()?;
@@ -463,6 +464,7 @@ pub async fn register_signed_key(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.register_signer_key_req_body);
 
     let req = req_builder.build()?;
@@ -519,6 +521,7 @@ pub async fn register_signed_key_for_developer_managed_signer(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.register_developer_managed_signed_key_req_body);
 
     let req = req_builder.build()?;

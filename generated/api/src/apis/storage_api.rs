@@ -78,6 +78,7 @@ pub async fn buy_storage(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.buy_storage_req_body);
 
     let req = req_builder.build()?;

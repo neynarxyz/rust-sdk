@@ -211,6 +211,7 @@ pub async fn delete_cast(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.delete_cast_req_body);
 
     let req = req_builder.build()?;
@@ -569,6 +570,7 @@ pub async fn publish_cast(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.post_cast_req_body);
 
     let req = req_builder.build()?;

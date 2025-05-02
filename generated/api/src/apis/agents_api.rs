@@ -89,6 +89,7 @@ pub async fn create_transaction_pay_frame(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.frame_pay_transaction_request_body);
 
     let req = req_builder.build()?;

@@ -936,6 +936,7 @@ pub async fn follow_channel(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.channel_follow_req_body);
 
     let req = req_builder.build()?;
@@ -991,6 +992,7 @@ pub async fn invite_channel_member(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.invite_channel_member_req_body);
 
     let req = req_builder.build()?;
@@ -1099,6 +1101,7 @@ pub async fn remove_channel_member(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.remove_channel_member_req_body);
 
     let req = req_builder.build()?;
@@ -1152,6 +1155,7 @@ pub async fn respond_channel_invite(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.respond_channel_invite_req_body);
 
     let req = req_builder.build()?;
@@ -1260,6 +1264,7 @@ pub async fn unfollow_channel(
         };
         req_builder = req_builder.header("x-api-key", value);
     };
+    req_builder = req_builder.header(reqwest::header::CONTENT_TYPE, "application/json");
     req_builder = req_builder.json(&params.channel_follow_req_body);
 
     let req = req_builder.build()?;
