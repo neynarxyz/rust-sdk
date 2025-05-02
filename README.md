@@ -1,14 +1,14 @@
-# Rust SDK for Neynar (beta)
+# Rust SDK for Neynar
 
 `rust-sdk` is an easy-to-use SDK built to interact with [Neynar APIs](https://docs.neynar.com/) via the Rust programming language.
 
-**It is currently in beta/preview status.** Please flag any problems you encounter as issues here on the Github repository.
+**This SDK is currently in beta/preview status.** Please flag any problems you encounter as issues here on the Github repository.
 
 ## Usage
 
 Please refer to the READMEs of the individual Rust packages for detailed instructions on how to use the SDK:
 - [api](generated/api/README.md): The main package for interacting with the Neynar API.
-- [hub-api](generated/hub-api/README.md): The package for interacting with Neynar's Farcaster hub API.
+- [hub-api](generated/hub-api/README.md): The package for interacting with Neynar's Farcaster hub (Hubble/Snapchain) API.
 
 ## Contribution Guidelines
 
