@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
 members = [ 
-    "api",
-    "hub-api"
+    "generated/api",
+    "generated/hub-api"
 ]
