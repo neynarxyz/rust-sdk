@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -32,7 +32,14 @@ pub struct CastAdd {
 }
 
 impl CastAdd {
-    pub fn new(hash: String, hash_scheme: models::HashScheme, signature: Vec<u8>, signature_scheme: models::SignatureScheme, signer: String, data: models::CastAddAllOfData) -> CastAdd {
+    pub fn new(
+        hash: String,
+        hash_scheme: models::HashScheme,
+        signature: Vec<u8>,
+        signature_scheme: models::SignatureScheme,
+        signer: String,
+        data: models::CastAddAllOfData,
+    ) -> CastAdd {
         CastAdd {
             hash,
             hash_scheme,
@@ -43,4 +50,3 @@ impl CastAdd {
         }
     }
 }
-

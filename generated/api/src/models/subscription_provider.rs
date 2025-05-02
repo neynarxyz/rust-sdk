@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -11,13 +11,12 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// SubscriptionProvider : The provider of the subscription. 
-/// The provider of the subscription. 
+/// SubscriptionProvider : The provider of the subscription.
+/// The provider of the subscription.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum SubscriptionProvider {
     #[serde(rename = "fabric_stp")]
     FabricStp,
-
 }
 
 impl std::fmt::Display for SubscriptionProvider {
@@ -33,4 +32,3 @@ impl Default for SubscriptionProvider {
         Self::FabricStp
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -28,7 +28,14 @@ pub struct ErrorResponse {
 }
 
 impl ErrorResponse {
-    pub fn new(err_code: String, presentable: bool, name: String, code: i32, details: String, metadata: models::ErrorResponseMetadata) -> ErrorResponse {
+    pub fn new(
+        err_code: String,
+        presentable: bool,
+        name: String,
+        code: i32,
+        details: String,
+        metadata: models::ErrorResponseMetadata,
+    ) -> ErrorResponse {
         ErrorResponse {
             err_code,
             presentable,
@@ -39,4 +46,3 @@ impl ErrorResponse {
         }
     }
 }
-

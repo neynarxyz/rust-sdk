@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,8 +13,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct WebhookSubscriptionFiltersCast {
-    /// Exclude casts that matches these authors. **Note:** This is applied as an AND operation against rest of the filters. Rest of the filters are bundled as an OR operation. 
-    #[serde(rename = "exclude_author_fids", skip_serializing_if = "Option::is_none")]
+    /// Exclude casts that matches these authors. **Note:** This is applied as an AND operation against rest of the filters. Rest of the filters are bundled as an OR operation.
+    #[serde(
+        rename = "exclude_author_fids",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub exclude_author_fids: Option<Vec<i32>>,
     #[serde(rename = "author_fids", skip_serializing_if = "Option::is_none")]
     pub author_fids: Option<Vec<i32>>,
@@ -28,10 +31,10 @@ pub struct WebhookSubscriptionFiltersCast {
     pub parent_hashes: Option<Vec<String>>,
     #[serde(rename = "parent_author_fids", skip_serializing_if = "Option::is_none")]
     pub parent_author_fids: Option<Vec<i32>>,
-    /// Regex pattern to match the text key of the cast. **Note:**  1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex) 2) Use backslashes to escape special characters. For example: (?i)\\\\$degen should be written as (?i)\\\\\\\\$degen 
+    /// Regex pattern to match the text key of the cast. **Note:**  1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex) 2) Use backslashes to escape special characters. For example: (?i)\\\\$degen should be written as (?i)\\\\\\\\$degen
     #[serde(rename = "text", skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
-    /// Regex pattern to match the embeded_url (key embeds) of the cast. **Note:**  1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex) 2) Use backslashes to escape special characters. For example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b 
+    /// Regex pattern to match the embeded_url (key embeds) of the cast. **Note:**  1) Regex must be parsed by Go's RE2 engine (Test your expression here: https://www.lddgo.net/en/string/golangregex) 2) Use backslashes to escape special characters. For example: \\\\b(farcaster|neynar)\\\\b should be written as \\\\\\\\b(farcaster|neynar)\\\\\\\\b
     #[serde(rename = "embeds", skip_serializing_if = "Option::is_none")]
     pub embeds: Option<String>,
 }
@@ -51,4 +54,3 @@ impl WebhookSubscriptionFiltersCast {
         }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -37,7 +37,6 @@ pub enum MessageType {
     MessageTypeUsernameProof,
     #[serde(rename = "MESSAGE_TYPE_FRAME_ACTION")]
     MessageTypeFrameAction,
-
 }
 
 impl std::fmt::Display for MessageType {
@@ -49,7 +48,9 @@ impl std::fmt::Display for MessageType {
             Self::MessageTypeReactionRemove => write!(f, "MESSAGE_TYPE_REACTION_REMOVE"),
             Self::MessageTypeLinkAdd => write!(f, "MESSAGE_TYPE_LINK_ADD"),
             Self::MessageTypeLinkRemove => write!(f, "MESSAGE_TYPE_LINK_REMOVE"),
-            Self::MessageTypeVerificationAddEthAddress => write!(f, "MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS"),
+            Self::MessageTypeVerificationAddEthAddress => {
+                write!(f, "MESSAGE_TYPE_VERIFICATION_ADD_ETH_ADDRESS")
+            }
             Self::MessageTypeVerificationRemove => write!(f, "MESSAGE_TYPE_VERIFICATION_REMOVE"),
             Self::MessageTypeUserDataAdd => write!(f, "MESSAGE_TYPE_USER_DATA_ADD"),
             Self::MessageTypeUsernameProof => write!(f, "MESSAGE_TYPE_USERNAME_PROOF"),
@@ -63,4 +64,3 @@ impl Default for MessageType {
         Self::MessageTypeCastAdd
     }
 }
-

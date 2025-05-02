@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -11,25 +11,30 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-use serde_repr::{Serialize_repr,Deserialize_repr};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 /// VerificationChainId : Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
 /// Chain ID for farcaster verifications. 0 for EOA verifications, 1 or 10 for contract verifications
 #[repr(i64)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+)]
 pub enum VerificationChainId {
     Variant0 = 0,
     Variant1 = 1,
     Variant10 = 10,
-
 }
 
 impl std::fmt::Display for VerificationChainId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", match self {
-            Self::Variant0 => "0",
-            Self::Variant1 => "1",
-            Self::Variant10 => "10",
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Variant0 => "0",
+                Self::Variant1 => "1",
+                Self::Variant10 => "10",
+            }
+        )
     }
 }
 impl Default for VerificationChainId {
@@ -37,4 +42,3 @@ impl Default for VerificationChainId {
         Self::Variant0
     }
 }
-

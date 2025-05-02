@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -28,7 +28,12 @@ pub struct RegisterUserReqBody {
 }
 
 impl RegisterUserReqBody {
-    pub fn new(signature: String, fid: f64, requested_user_custody_address: String, deadline: f64) -> RegisterUserReqBody {
+    pub fn new(
+        signature: String,
+        fid: f64,
+        requested_user_custody_address: String,
+        deadline: f64,
+    ) -> RegisterUserReqBody {
         RegisterUserReqBody {
             signature,
             fid,
@@ -39,4 +44,3 @@ impl RegisterUserReqBody {
         }
     }
 }
-

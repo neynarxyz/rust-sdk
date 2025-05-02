@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataVerificationRemove {
 
 impl MessageDataVerificationRemove {
     /// Represents a message that removes an existing blockchain address verification from a user's profile. This allows users to disassociate previously verified addresses from their account.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, verification_remove_body: models::VerificationRemoveBody) -> MessageDataVerificationRemove {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        verification_remove_body: models::VerificationRemoveBody,
+    ) -> MessageDataVerificationRemove {
         MessageDataVerificationRemove {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataVerificationRemove {
         }
     }
 }
-

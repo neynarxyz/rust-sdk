@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataReaction {
 
 impl MessageDataReaction {
     /// Represents a user's reaction to content on the Farcaster network. Reactions can be likes or recasts of casts, allowing users to express appreciation or share content with their followers.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, reaction_body: models::ReactionBody) -> MessageDataReaction {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        reaction_body: models::ReactionBody,
+    ) -> MessageDataReaction {
         MessageDataReaction {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataReaction {
         }
     }
 }
-

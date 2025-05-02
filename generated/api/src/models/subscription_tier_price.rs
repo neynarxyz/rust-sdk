@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,7 +13,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SubscriptionTierPrice {
-    #[serde(rename = "period_duration_seconds", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "period_duration_seconds",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub period_duration_seconds: Option<i32>,
     #[serde(rename = "tokens_per_period", skip_serializing_if = "Option::is_none")]
     pub tokens_per_period: Option<String>,
@@ -30,4 +33,3 @@ impl SubscriptionTierPrice {
         }
     }
 }
-

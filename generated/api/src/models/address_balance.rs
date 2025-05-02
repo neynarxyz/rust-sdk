@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -24,7 +24,11 @@ pub struct AddressBalance {
 
 impl AddressBalance {
     /// The token balances associated with a wallet address
-    pub fn new(object: Object, verified_address: models::AddressBalanceVerifiedAddress, token_balances: Vec<models::TokenBalance>) -> AddressBalance {
+    pub fn new(
+        object: Object,
+        verified_address: models::AddressBalanceVerifiedAddress,
+        token_balances: Vec<models::TokenBalance>,
+    ) -> AddressBalance {
         AddressBalance {
             object,
             verified_address: Box::new(verified_address),
@@ -32,7 +36,7 @@ impl AddressBalance {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "address_balance")]
@@ -44,4 +48,3 @@ impl Default for Object {
         Self::AddressBalance
     }
 }
-

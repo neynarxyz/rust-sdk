@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -39,7 +39,15 @@ pub struct ValidatedFrameAction {
 }
 
 impl ValidatedFrameAction {
-    pub fn new(object: Object, url: String, interactor: models::User, tapped_button: models::ValidatedFrameActionTappedButton, state: models::FrameState, cast: models::CastWithInteractions, timestamp: String) -> ValidatedFrameAction {
+    pub fn new(
+        object: Object,
+        url: String,
+        interactor: models::User,
+        tapped_button: models::ValidatedFrameActionTappedButton,
+        state: models::FrameState,
+        cast: models::CastWithInteractions,
+        timestamp: String,
+    ) -> ValidatedFrameAction {
         ValidatedFrameAction {
             object,
             url,
@@ -55,7 +63,7 @@ impl ValidatedFrameAction {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "validated_frame_action")]
@@ -67,4 +75,3 @@ impl Default for Object {
         Self::ValidatedFrameAction
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -19,7 +19,12 @@ pub struct CastDehydrated {
     pub hash: String,
     #[serde(rename = "author", skip_serializing_if = "Option::is_none")]
     pub author: Option<Box<models::UserDehydrated>>,
-    #[serde(rename = "app", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "app",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub app: Option<Option<Box<models::UserDehydrated>>>,
 }
 
@@ -33,7 +38,7 @@ impl CastDehydrated {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "cast_dehydrated")]
@@ -45,4 +50,3 @@ impl Default for Object {
         Self::CastDehydrated
     }
 }
-

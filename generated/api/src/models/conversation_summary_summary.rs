@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -25,7 +25,11 @@ pub struct ConversationSummarySummary {
 }
 
 impl ConversationSummarySummary {
-    pub fn new(text: String, participants: Vec<models::User>, mentioned_profiles: Vec<models::User>) -> ConversationSummarySummary {
+    pub fn new(
+        text: String,
+        participants: Vec<models::User>,
+        mentioned_profiles: Vec<models::User>,
+    ) -> ConversationSummarySummary {
         ConversationSummarySummary {
             text,
             participants,
@@ -33,4 +37,3 @@ impl ConversationSummarySummary {
         }
     }
 }
-

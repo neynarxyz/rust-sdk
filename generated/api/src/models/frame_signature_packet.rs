@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -22,11 +22,13 @@ pub struct FrameSignaturePacket {
 
 impl FrameSignaturePacket {
     /// The Mini app Signature Packet (https://docs.farcaster.xyz/developers/frames/spec#frame-signature-packet)
-    pub fn new(untrusted_data: models::FrameSignaturePacketUntrustedData, trusted_data: models::FrameSignaturePacketTrustedData) -> FrameSignaturePacket {
+    pub fn new(
+        untrusted_data: models::FrameSignaturePacketUntrustedData,
+        trusted_data: models::FrameSignaturePacketTrustedData,
+    ) -> FrameSignaturePacket {
         FrameSignaturePacket {
             untrusted_data: Box::new(untrusted_data),
             trusted_data: Box::new(trusted_data),
         }
     }
 }
-

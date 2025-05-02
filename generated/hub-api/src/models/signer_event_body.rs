@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -30,7 +30,13 @@ pub struct SignerEventBody {
 }
 
 impl SignerEventBody {
-    pub fn new(key: String, key_type: i64, event_type: models::SignerEventType, metadata: Vec<u8>, metadata_type: i64) -> SignerEventBody {
+    pub fn new(
+        key: String,
+        key_type: i64,
+        event_type: models::SignerEventType,
+        metadata: Vec<u8>,
+        metadata_type: i64,
+    ) -> SignerEventBody {
         SignerEventBody {
             key,
             key_type,
@@ -40,4 +46,3 @@ impl SignerEventBody {
         }
     }
 }
-

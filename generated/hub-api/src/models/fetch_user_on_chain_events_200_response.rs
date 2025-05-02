@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -19,9 +19,6 @@ pub struct FetchUserOnChainEvents200Response {
 
 impl FetchUserOnChainEvents200Response {
     pub fn new(events: Vec<models::OnChainEvent>) -> FetchUserOnChainEvents200Response {
-        FetchUserOnChainEvents200Response {
-            events,
-        }
+        FetchUserOnChainEvents200Response { events }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -25,7 +25,11 @@ pub struct FetchRelevantFrames200ResponseRelevantFramesInner {
 }
 
 impl FetchRelevantFrames200ResponseRelevantFramesInner {
-    pub fn new(frames: Vec<models::FrameV2WithFullAuthor>, top_relevant_users: Vec<models::User>, remaining_relevant_users: Vec<models::UserDehydrated>) -> FetchRelevantFrames200ResponseRelevantFramesInner {
+    pub fn new(
+        frames: Vec<models::FrameV2WithFullAuthor>,
+        top_relevant_users: Vec<models::User>,
+        remaining_relevant_users: Vec<models::UserDehydrated>,
+    ) -> FetchRelevantFrames200ResponseRelevantFramesInner {
         FetchRelevantFrames200ResponseRelevantFramesInner {
             frames,
             top_relevant_users,
@@ -33,4 +37,3 @@ impl FetchRelevantFrames200ResponseRelevantFramesInner {
         }
     }
 }
-

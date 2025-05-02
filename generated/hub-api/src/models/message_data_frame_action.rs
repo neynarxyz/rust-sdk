@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataFrameAction {
 
 impl MessageDataFrameAction {
     /// Represents a user's interaction with a Farcaster Frame, which is an interactive element embedded within a cast. Frames allow users to engage with content through clickable buttons, creating interactive experiences within the Farcaster network.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, frame_action_body: models::FrameActionBody) -> MessageDataFrameAction {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        frame_action_body: models::FrameActionBody,
+    ) -> MessageDataFrameAction {
         MessageDataFrameAction {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataFrameAction {
         }
     }
 }
-

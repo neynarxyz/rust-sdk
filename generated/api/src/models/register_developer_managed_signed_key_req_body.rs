@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -25,7 +25,7 @@ pub struct RegisterDeveloperManagedSignedKeyReqBody {
     /// unix timestamp in seconds that controls how long the signed key request is valid for. (24 hours from now is recommended)
     #[serde(rename = "deadline")]
     pub deadline: i32,
-    /// Url to redirect to after the signer is approved.  **Note** : This should only be used when requesting a signer from a native mobile application. 
+    /// Url to redirect to after the signer is approved.  **Note** : This should only be used when requesting a signer from a native mobile application.
     #[serde(rename = "redirect_url", skip_serializing_if = "Option::is_none")]
     pub redirect_url: Option<String>,
     #[serde(rename = "sponsor", skip_serializing_if = "Option::is_none")]
@@ -33,7 +33,12 @@ pub struct RegisterDeveloperManagedSignedKeyReqBody {
 }
 
 impl RegisterDeveloperManagedSignedKeyReqBody {
-    pub fn new(public_key: String, signature: String, app_fid: i32, deadline: i32) -> RegisterDeveloperManagedSignedKeyReqBody {
+    pub fn new(
+        public_key: String,
+        signature: String,
+        app_fid: i32,
+        deadline: i32,
+    ) -> RegisterDeveloperManagedSignedKeyReqBody {
         RegisterDeveloperManagedSignedKeyReqBody {
             public_key,
             signature,
@@ -44,4 +49,3 @@ impl RegisterDeveloperManagedSignedKeyReqBody {
         }
     }
 }
-

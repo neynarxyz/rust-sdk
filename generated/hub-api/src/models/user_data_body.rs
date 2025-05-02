@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -25,10 +25,6 @@ pub struct UserDataBody {
 impl UserDataBody {
     /// Contains the data for updating a specific field of a user's profile metadata. Each update operation modifies one profile field at a time, allowing granular control over profile information.
     pub fn new(r#type: models::UserDataType, value: String) -> UserDataBody {
-        UserDataBody {
-            r#type,
-            value,
-        }
+        UserDataBody { r#type, value }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -16,7 +16,9 @@ use serde::{Deserialize, Serialize};
 pub enum FrameValidateAnalyticsResponse {
     FrameValidateAnalyticsInteractors(Box<models::FrameValidateAnalyticsInteractors>),
     FrameValidateAnalyticsTotalInteractors(Box<models::FrameValidateAnalyticsTotalInteractors>),
-    FrameValidateAnalyticsInteractionsPerCast(Box<models::FrameValidateAnalyticsInteractionsPerCast>),
+    FrameValidateAnalyticsInteractionsPerCast(
+        Box<models::FrameValidateAnalyticsInteractionsPerCast>,
+    ),
     FrameValidateAnalyticsInputText(Box<models::FrameValidateAnalyticsInputText>),
 }
 
@@ -25,4 +27,3 @@ impl Default for FrameValidateAnalyticsResponse {
         Self::FrameValidateAnalyticsInteractors(Default::default())
     }
 }
-

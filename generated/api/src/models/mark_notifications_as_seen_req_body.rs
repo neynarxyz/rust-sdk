@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct MarkNotificationsAsSeenReqBody {
-    /// The UUID of the signer. Signer should have atleast one write permission 
+    /// The UUID of the signer. Signer should have atleast one write permission
     #[serde(rename = "signer_uuid")]
     pub signer_uuid: String,
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
@@ -28,4 +28,3 @@ impl MarkNotificationsAsSeenReqBody {
         }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -20,11 +20,13 @@ pub struct MergeMessageBody {
 }
 
 impl MergeMessageBody {
-    pub fn new(message: models::Message, deleted_messages: Vec<models::Message>) -> MergeMessageBody {
+    pub fn new(
+        message: models::Message,
+        deleted_messages: Vec<models::Message>,
+    ) -> MergeMessageBody {
         MergeMessageBody {
             message: Box::new(message),
             deleted_messages,
         }
     }
 }
-

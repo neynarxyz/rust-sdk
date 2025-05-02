@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -28,7 +28,11 @@ pub struct SendFrameNotificationsReqBodyNotification {
 }
 
 impl SendFrameNotificationsReqBodyNotification {
-    pub fn new(title: String, body: String, target_url: String) -> SendFrameNotificationsReqBodyNotification {
+    pub fn new(
+        title: String,
+        body: String,
+        target_url: String,
+    ) -> SendFrameNotificationsReqBodyNotification {
         SendFrameNotificationsReqBodyNotification {
             title,
             body,
@@ -37,4 +41,3 @@ impl SendFrameNotificationsReqBodyNotification {
         }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -23,7 +23,10 @@ pub struct FrameDeveloperManagedActionReqBody {
 }
 
 impl FrameDeveloperManagedActionReqBody {
-    pub fn new(action: models::FrameAction, signature_packet: models::FrameSignaturePacket) -> FrameDeveloperManagedActionReqBody {
+    pub fn new(
+        action: models::FrameAction,
+        signature_packet: models::FrameSignaturePacket,
+    ) -> FrameDeveloperManagedActionReqBody {
         FrameDeveloperManagedActionReqBody {
             cast_hash: None,
             action: Box::new(action),
@@ -31,4 +34,3 @@ impl FrameDeveloperManagedActionReqBody {
         }
     }
 }
-

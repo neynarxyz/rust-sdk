@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum HtmlMetadataAllOfOembed {
-    #[serde(rename="rich")]
+    #[serde(rename = "rich")]
     Rich(Box<models::OembedRichData>),
-    #[serde(rename="video")]
+    #[serde(rename = "video")]
     Video(Box<models::OembedVideoData>),
-    #[serde(rename="photo")]
+    #[serde(rename = "photo")]
     Photo(Box<models::OembedPhotoData>),
-    #[serde(rename="link")]
+    #[serde(rename = "link")]
     Link(Box<models::OembedLinkData>),
 }
 
@@ -29,5 +29,3 @@ impl Default for HtmlMetadataAllOfOembed {
         Self::Rich(Default::default())
     }
 }
-
-

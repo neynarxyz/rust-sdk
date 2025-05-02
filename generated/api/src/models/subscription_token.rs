@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -24,7 +24,12 @@ pub struct SubscriptionToken {
 }
 
 impl SubscriptionToken {
-    pub fn new(symbol: String, address: Option<String>, decimals: i32, erc20: bool) -> SubscriptionToken {
+    pub fn new(
+        symbol: String,
+        address: Option<String>,
+        decimals: i32,
+        erc20: bool,
+    ) -> SubscriptionToken {
         SubscriptionToken {
             symbol,
             address,
@@ -33,4 +38,3 @@ impl SubscriptionToken {
         }
     }
 }
-

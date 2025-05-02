@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -25,7 +25,12 @@ pub struct CastEmbedded {
     pub parent_author: Box<models::CastEmbeddedParentAuthor>,
     #[serde(rename = "author")]
     pub author: Box<models::UserDehydrated>,
-    #[serde(rename = "app", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "app",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub app: Option<Option<Box<models::UserDehydrated>>>,
     #[serde(rename = "text")]
     pub text: String,
@@ -40,7 +45,19 @@ pub struct CastEmbedded {
 }
 
 impl CastEmbedded {
-    pub fn new(hash: String, parent_hash: Option<String>, parent_url: Option<String>, root_parent_url: Option<String>, parent_author: models::CastEmbeddedParentAuthor, author: models::UserDehydrated, text: String, timestamp: String, r#type: models::CastNotificationType, embeds: Vec<models::EmbedDeep>, channel: Option<models::ChannelDehydrated>) -> CastEmbedded {
+    pub fn new(
+        hash: String,
+        parent_hash: Option<String>,
+        parent_url: Option<String>,
+        root_parent_url: Option<String>,
+        parent_author: models::CastEmbeddedParentAuthor,
+        author: models::UserDehydrated,
+        text: String,
+        timestamp: String,
+        r#type: models::CastNotificationType,
+        embeds: Vec<models::EmbedDeep>,
+        channel: Option<models::ChannelDehydrated>,
+    ) -> CastEmbedded {
         CastEmbedded {
             hash,
             parent_hash,
@@ -53,8 +70,11 @@ impl CastEmbedded {
             timestamp,
             r#type,
             embeds,
-            channel: if let Some(x) = channel {Some(Box::new(x))} else {None},
+            channel: if let Some(x) = channel {
+                Some(Box::new(x))
+            } else {
+                None
+            },
         }
     }
 }
-

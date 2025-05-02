@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -24,7 +24,12 @@ pub struct ReactionForCast {
 }
 
 impl ReactionForCast {
-    pub fn new(reaction_type: ReactionType, reaction_timestamp: String, object: Object, user: models::User) -> ReactionForCast {
+    pub fn new(
+        reaction_type: ReactionType,
+        reaction_timestamp: String,
+        object: Object,
+        user: models::User,
+    ) -> ReactionForCast {
         ReactionForCast {
             reaction_type,
             reaction_timestamp,
@@ -33,7 +38,7 @@ impl ReactionForCast {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ReactionType {
     #[serde(rename = "like")]
@@ -47,7 +52,7 @@ impl Default for ReactionType {
         Self::Like
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "likes")]
@@ -61,4 +66,3 @@ impl Default for Object {
         Self::Likes
     }
 }
-

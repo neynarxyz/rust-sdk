@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -24,7 +24,11 @@ pub struct UserVerifiedAddresses {
 }
 
 impl UserVerifiedAddresses {
-    pub fn new(eth_addresses: Vec<String>, sol_addresses: Vec<String>, primary: models::UserVerifiedAddressesPrimary) -> UserVerifiedAddresses {
+    pub fn new(
+        eth_addresses: Vec<String>,
+        sol_addresses: Vec<String>,
+        primary: models::UserVerifiedAddressesPrimary,
+    ) -> UserVerifiedAddresses {
         UserVerifiedAddresses {
             eth_addresses,
             sol_addresses,
@@ -32,4 +36,3 @@ impl UserVerifiedAddresses {
         }
     }
 }
-

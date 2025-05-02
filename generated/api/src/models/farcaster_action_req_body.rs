@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,10 +13,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FarcasterActionReqBody {
-    /// The signer_uuid of the user on behalf of whom the action is being performed. 
+    /// The signer_uuid of the user on behalf of whom the action is being performed.
     #[serde(rename = "signer_uuid")]
     pub signer_uuid: uuid::Uuid,
-    /// The base URL of the app on which the action is being performed. 
+    /// The base URL of the app on which the action is being performed.
     #[serde(rename = "base_url")]
     pub base_url: String,
     #[serde(rename = "action")]
@@ -24,7 +24,11 @@ pub struct FarcasterActionReqBody {
 }
 
 impl FarcasterActionReqBody {
-    pub fn new(signer_uuid: uuid::Uuid, base_url: String, action: models::FarcasterActionReqBodyAction) -> FarcasterActionReqBody {
+    pub fn new(
+        signer_uuid: uuid::Uuid,
+        base_url: String,
+        action: models::FarcasterActionReqBodyAction,
+    ) -> FarcasterActionReqBody {
         FarcasterActionReqBody {
             signer_uuid,
             base_url,
@@ -32,4 +36,3 @@ impl FarcasterActionReqBody {
         }
     }
 }
-

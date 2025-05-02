@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -20,9 +20,6 @@ pub struct UserExperimental {
 
 impl UserExperimental {
     pub fn new(neynar_user_score: f64) -> UserExperimental {
-        UserExperimental {
-            neynar_user_score,
-        }
+        UserExperimental { neynar_user_score }
     }
 }
-

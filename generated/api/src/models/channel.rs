@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -23,10 +23,16 @@ pub struct Channel {
     pub name: Option<String>,
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    #[serde(rename = "description_mentioned_profiles", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "description_mentioned_profiles",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub description_mentioned_profiles: Option<Vec<models::UserDehydrated>>,
     /// Positions within the text (inclusive start, exclusive end) where each mention occurs.
-    #[serde(rename = "description_mentioned_profiles_ranges", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "description_mentioned_profiles_ranges",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub description_mentioned_profiles_ranges: Option<Vec<models::TextRange>>,
     /// Epoch timestamp in seconds.
     #[serde(rename = "created_at", skip_serializing_if = "Option::is_none")]
@@ -83,7 +89,7 @@ impl Channel {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "channel")]
@@ -95,4 +101,3 @@ impl Default for Object {
         Self::Channel
     }
 }
-

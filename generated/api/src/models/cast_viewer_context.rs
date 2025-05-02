@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -25,10 +25,6 @@ pub struct CastViewerContext {
 impl CastViewerContext {
     /// Adds context on interactions the viewer has made with the cast.
     pub fn new(liked: bool, recasted: bool) -> CastViewerContext {
-        CastViewerContext {
-            liked,
-            recasted,
-        }
+        CastViewerContext { liked, recasted }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -28,7 +28,13 @@ pub struct TransactionFrameBase {
 }
 
 impl TransactionFrameBase {
-    pub fn new(id: String, url: String, r#type: models::TransactionFrameType, config: models::TransactionFrameConfig, status: models::TransactionFrameStatus) -> TransactionFrameBase {
+    pub fn new(
+        id: String,
+        url: String,
+        r#type: models::TransactionFrameType,
+        config: models::TransactionFrameConfig,
+        status: models::TransactionFrameStatus,
+    ) -> TransactionFrameBase {
         TransactionFrameBase {
             id,
             url,
@@ -38,4 +44,3 @@ impl TransactionFrameBase {
         }
     }
 }
-

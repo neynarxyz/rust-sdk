@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -27,7 +27,12 @@ pub struct Cast {
     pub parent_author: Box<models::CastParentAuthor>,
     #[serde(rename = "author")]
     pub author: Box<models::User>,
-    #[serde(rename = "app", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "app",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub app: Option<Option<Box<models::UserDehydrated>>>,
     #[serde(rename = "text")]
     pub text: String,
@@ -40,7 +45,18 @@ pub struct Cast {
 }
 
 impl Cast {
-    pub fn new(object: Object, hash: String, parent_hash: Option<String>, parent_url: Option<String>, root_parent_url: Option<String>, parent_author: models::CastParentAuthor, author: models::User, text: String, timestamp: String, embeds: Vec<models::Embed>) -> Cast {
+    pub fn new(
+        object: Object,
+        hash: String,
+        parent_hash: Option<String>,
+        parent_url: Option<String>,
+        root_parent_url: Option<String>,
+        parent_author: models::CastParentAuthor,
+        author: models::User,
+        text: String,
+        timestamp: String,
+        embeds: Vec<models::Embed>,
+    ) -> Cast {
         Cast {
             object,
             hash,
@@ -57,7 +73,7 @@ impl Cast {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "cast")]
@@ -69,4 +85,3 @@ impl Default for Object {
         Self::Cast
     }
 }
-

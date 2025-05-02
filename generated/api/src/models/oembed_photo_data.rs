@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -18,31 +18,76 @@ pub struct OembedPhotoData {
     #[serde(rename = "version", deserialize_with = "Option::deserialize")]
     pub version: Option<String>,
     /// A text title, describing the resource.
-    #[serde(rename = "title", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "title",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub title: Option<Option<String>>,
     /// The name of the author/owner of the resource.
-    #[serde(rename = "author_name", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "author_name",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub author_name: Option<Option<String>>,
     /// A URL for the author/owner of the resource.
-    #[serde(rename = "author_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "author_url",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub author_url: Option<Option<String>>,
     /// The name of the resource provider.
-    #[serde(rename = "provider_name", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "provider_name",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub provider_name: Option<Option<String>>,
     /// The url of the resource provider.
-    #[serde(rename = "provider_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "provider_url",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub provider_url: Option<Option<String>>,
     /// The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
-    #[serde(rename = "cache_age", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "cache_age",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub cache_age: Option<Option<String>>,
     /// A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
-    #[serde(rename = "thumbnail_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "thumbnail_url",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub thumbnail_url: Option<Option<String>>,
     /// The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-    #[serde(rename = "thumbnail_width", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "thumbnail_width",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub thumbnail_width: Option<Option<f64>>,
     /// The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-    #[serde(rename = "thumbnail_height", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "thumbnail_height",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub thumbnail_height: Option<Option<f64>>,
     /// The source URL of the image. Consumers should be able to insert this URL into an <img> element. Only HTTP and HTTPS URLs are valid.
     #[serde(rename = "url", deserialize_with = "Option::deserialize")]
@@ -56,7 +101,13 @@ pub struct OembedPhotoData {
 }
 
 impl OembedPhotoData {
-    pub fn new(r#type: Type, version: Option<String>, url: Option<String>, width: Option<f64>, height: Option<f64>) -> OembedPhotoData {
+    pub fn new(
+        r#type: Type,
+        version: Option<String>,
+        url: Option<String>,
+        width: Option<f64>,
+        height: Option<f64>,
+    ) -> OembedPhotoData {
         OembedPhotoData {
             r#type,
             version,
@@ -75,7 +126,7 @@ impl OembedPhotoData {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
     #[serde(rename = "photo")]
@@ -87,4 +138,3 @@ impl Default for Type {
         Self::Photo
     }
 }
-

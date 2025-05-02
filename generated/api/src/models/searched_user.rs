@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -57,7 +57,21 @@ pub struct SearchedUser {
 }
 
 impl SearchedUser {
-    pub fn new(object: Object, fid: i32, username: String, custody_address: String, profile: models::UserProfile, follower_count: i32, following_count: i32, verifications: Vec<String>, verified_addresses: models::UserVerifiedAddresses, verified_accounts: Vec<models::UserVerifiedAccountsInner>, power_badge: bool, score: f64, pfp: models::ProfileUrlPfp) -> SearchedUser {
+    pub fn new(
+        object: Object,
+        fid: i32,
+        username: String,
+        custody_address: String,
+        profile: models::UserProfile,
+        follower_count: i32,
+        following_count: i32,
+        verifications: Vec<String>,
+        verified_addresses: models::UserVerifiedAddresses,
+        verified_accounts: Vec<models::UserVerifiedAccountsInner>,
+        power_badge: bool,
+        score: f64,
+        pfp: models::ProfileUrlPfp,
+    ) -> SearchedUser {
         SearchedUser {
             object,
             fid,
@@ -79,7 +93,7 @@ impl SearchedUser {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "user")]
@@ -91,4 +105,3 @@ impl Default for Object {
         Self::User
     }
 }
-

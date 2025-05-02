@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -32,7 +32,13 @@ pub struct CastAddBody {
 
 impl CastAddBody {
     /// Adds a new Cast
-    pub fn new(embeds_deprecated: Vec<String>, mentions: Vec<i32>, text: String, mentions_positions: Vec<i64>, embeds: Vec<models::Embed>) -> CastAddBody {
+    pub fn new(
+        embeds_deprecated: Vec<String>,
+        mentions: Vec<i32>,
+        text: String,
+        mentions_positions: Vec<i64>,
+        embeds: Vec<models::Embed>,
+    ) -> CastAddBody {
         CastAddBody {
             embeds_deprecated,
             mentions,
@@ -44,4 +50,3 @@ impl CastAddBody {
         }
     }
 }
-

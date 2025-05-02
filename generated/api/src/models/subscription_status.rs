@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -26,17 +26,27 @@ pub struct SubscriptionStatus {
 }
 
 impl SubscriptionStatus {
-    pub fn new(object: Object, status: bool, expires_at: Option<i64>, subscribed_at: Option<i64>, tier: Option<models::SubscriptionTier>) -> SubscriptionStatus {
+    pub fn new(
+        object: Object,
+        status: bool,
+        expires_at: Option<i64>,
+        subscribed_at: Option<i64>,
+        tier: Option<models::SubscriptionTier>,
+    ) -> SubscriptionStatus {
         SubscriptionStatus {
             object,
             status,
             expires_at,
             subscribed_at,
-            tier: if let Some(x) = tier {Some(Box::new(x))} else {None},
+            tier: if let Some(x) = tier {
+                Some(Box::new(x))
+            } else {
+                None
+            },
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "subscribed_to_dehydrated")]
@@ -48,4 +58,3 @@ impl Default for Object {
         Self::SubscribedToDehydrated
     }
 }
-

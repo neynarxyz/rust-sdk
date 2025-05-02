@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -30,7 +30,12 @@ pub struct UserViewerContext {
 
 impl UserViewerContext {
     /// Adds context on the viewer's follow relationship with the user.
-    pub fn new(following: bool, followed_by: bool, blocking: bool, blocked_by: bool) -> UserViewerContext {
+    pub fn new(
+        following: bool,
+        followed_by: bool,
+        blocking: bool,
+        blocked_by: bool,
+    ) -> UserViewerContext {
         UserViewerContext {
             following,
             followed_by,
@@ -39,4 +44,3 @@ impl UserViewerContext {
         }
     }
 }
-

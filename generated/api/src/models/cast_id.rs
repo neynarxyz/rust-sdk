@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -22,10 +22,6 @@ pub struct CastId {
 
 impl CastId {
     pub fn new(fid: i32, hash: String) -> CastId {
-        CastId {
-            fid,
-            hash,
-        }
+        CastId { fid, hash }
     }
 }
-

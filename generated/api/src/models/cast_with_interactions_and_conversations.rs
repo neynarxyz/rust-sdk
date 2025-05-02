@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -27,7 +27,12 @@ pub struct CastWithInteractionsAndConversations {
     pub parent_author: Box<models::CastParentAuthor>,
     #[serde(rename = "author")]
     pub author: Box<models::User>,
-    #[serde(rename = "app", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "app",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub app: Option<Option<Box<models::UserDehydrated>>>,
     #[serde(rename = "text")]
     pub text: String,
@@ -47,19 +52,22 @@ pub struct CastWithInteractionsAndConversations {
     pub thread_hash: Option<String>,
     #[serde(rename = "mentioned_profiles")]
     pub mentioned_profiles: Vec<models::User>,
-    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_profiles list. 
+    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
     #[serde(rename = "mentioned_profiles_ranges")]
     pub mentioned_profiles_ranges: Vec<models::TextRange>,
     #[serde(rename = "mentioned_channels")]
     pub mentioned_channels: Vec<models::ChannelDehydrated>,
-    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_channels list. 
+    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
     #[serde(rename = "mentioned_channels_ranges")]
     pub mentioned_channels_ranges: Vec<models::TextRange>,
     #[serde(rename = "channel", deserialize_with = "Option::deserialize")]
     pub channel: Option<Box<models::ChannelOrChannelDehydrated>>,
     #[serde(rename = "viewer_context", skip_serializing_if = "Option::is_none")]
     pub viewer_context: Option<Box<models::CastViewerContext>>,
-    #[serde(rename = "author_channel_context", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "author_channel_context",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub author_channel_context: Option<Box<models::ChannelUserContext>>,
     /// note: This is recursive. It contains the direct replies to the cast and their direct replies up to n reply_depth.
     #[serde(rename = "direct_replies")]
@@ -67,7 +75,27 @@ pub struct CastWithInteractionsAndConversations {
 }
 
 impl CastWithInteractionsAndConversations {
-    pub fn new(object: Object, hash: String, parent_hash: Option<String>, parent_url: Option<String>, root_parent_url: Option<String>, parent_author: models::CastParentAuthor, author: models::User, text: String, timestamp: String, embeds: Vec<models::Embed>, reactions: models::CastWithInteractionsReactions, replies: models::CastWithInteractionsReplies, thread_hash: Option<String>, mentioned_profiles: Vec<models::User>, mentioned_profiles_ranges: Vec<models::TextRange>, mentioned_channels: Vec<models::ChannelDehydrated>, mentioned_channels_ranges: Vec<models::TextRange>, channel: Option<models::ChannelOrChannelDehydrated>, direct_replies: Vec<models::CastWithInteractionsAndConversationsRef>) -> CastWithInteractionsAndConversations {
+    pub fn new(
+        object: Object,
+        hash: String,
+        parent_hash: Option<String>,
+        parent_url: Option<String>,
+        root_parent_url: Option<String>,
+        parent_author: models::CastParentAuthor,
+        author: models::User,
+        text: String,
+        timestamp: String,
+        embeds: Vec<models::Embed>,
+        reactions: models::CastWithInteractionsReactions,
+        replies: models::CastWithInteractionsReplies,
+        thread_hash: Option<String>,
+        mentioned_profiles: Vec<models::User>,
+        mentioned_profiles_ranges: Vec<models::TextRange>,
+        mentioned_channels: Vec<models::ChannelDehydrated>,
+        mentioned_channels_ranges: Vec<models::TextRange>,
+        channel: Option<models::ChannelOrChannelDehydrated>,
+        direct_replies: Vec<models::CastWithInteractionsAndConversationsRef>,
+    ) -> CastWithInteractionsAndConversations {
         CastWithInteractionsAndConversations {
             object,
             hash,
@@ -89,14 +117,18 @@ impl CastWithInteractionsAndConversations {
             mentioned_profiles_ranges,
             mentioned_channels,
             mentioned_channels_ranges,
-            channel: if let Some(x) = channel {Some(Box::new(x))} else {None},
+            channel: if let Some(x) = channel {
+                Some(Box::new(x))
+            } else {
+                None
+            },
             viewer_context: None,
             author_channel_context: None,
             direct_replies,
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "cast")]
@@ -108,4 +140,3 @@ impl Default for Object {
         Self::Cast
     }
 }
-

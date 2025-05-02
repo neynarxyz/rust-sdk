@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -11,23 +11,28 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-use serde_repr::{Serialize_repr,Deserialize_repr};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 /// VerificationType : Type of verification. 0 = EOA, 1 = contract
 /// Type of verification. 0 = EOA, 1 = contract
 #[repr(i64)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
+#[derive(
+    Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr,
+)]
 pub enum VerificationType {
     Variant0 = 0,
     Variant1 = 1,
-
 }
 
 impl std::fmt::Display for VerificationType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", match self {
-            Self::Variant0 => "0",
-            Self::Variant1 => "1",
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Variant0 => "0",
+                Self::Variant1 => "1",
+            }
+        )
     }
 }
 impl Default for VerificationType {
@@ -35,4 +40,3 @@ impl Default for VerificationType {
         Self::Variant0
     }
 }
-

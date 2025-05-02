@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,9 +13,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RelevantFungibleOwnersResponse {
-    #[serde(rename = "top_relevant_owners_hydrated", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "top_relevant_owners_hydrated",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub top_relevant_owners_hydrated: Option<Vec<models::User>>,
-    #[serde(rename = "all_relevant_owners_dehydrated", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "all_relevant_owners_dehydrated",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub all_relevant_owners_dehydrated: Option<Vec<models::User>>,
 }
 
@@ -27,4 +33,3 @@ impl RelevantFungibleOwnersResponse {
         }
     }
 }
-

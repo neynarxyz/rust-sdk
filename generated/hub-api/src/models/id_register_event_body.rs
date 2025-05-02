@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -24,7 +24,12 @@ pub struct IdRegisterEventBody {
 }
 
 impl IdRegisterEventBody {
-    pub fn new(to: String, event_type: models::IdRegisterEventType, from: String, recovery_address: String) -> IdRegisterEventBody {
+    pub fn new(
+        to: String,
+        event_type: models::IdRegisterEventType,
+        from: String,
+        recovery_address: String,
+    ) -> IdRegisterEventBody {
         IdRegisterEventBody {
             to,
             event_type,
@@ -33,4 +38,3 @@ impl IdRegisterEventBody {
         }
     }
 }
-

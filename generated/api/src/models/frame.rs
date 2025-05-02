@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "version")]
 pub enum Frame {
-    #[serde(rename="vNext")]
+    #[serde(rename = "vNext")]
     VNext(Box<models::FrameV1>),
-    #[serde(rename="next")]
+    #[serde(rename = "next")]
     Next(Box<models::FrameV2>),
 }
 
@@ -25,5 +25,3 @@ impl Default for Frame {
         Self::VNext(Default::default())
     }
 }
-
-

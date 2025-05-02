@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "object")]
 pub enum ChannelOrChannelDehydrated {
-    #[serde(rename="channel")]
+    #[serde(rename = "channel")]
     Channel(Box<models::Channel>),
-    #[serde(rename="channel_dehydrated")]
+    #[serde(rename = "channel_dehydrated")]
     ChannelDehydrated(Box<models::ChannelDehydrated>),
 }
 
@@ -25,5 +25,3 @@ impl Default for ChannelOrChannelDehydrated {
         Self::Channel(Default::default())
     }
 }
-
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -20,9 +20,6 @@ pub struct NeynarNextFramePageRedirect {
 
 impl NeynarNextFramePageRedirect {
     pub fn new(redirect_url: String) -> NeynarNextFramePageRedirect {
-        NeynarNextFramePageRedirect {
-            redirect_url,
-        }
+        NeynarNextFramePageRedirect { redirect_url }
     }
 }
-

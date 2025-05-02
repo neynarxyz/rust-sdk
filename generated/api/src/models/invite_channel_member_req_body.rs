@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct InviteChannelMemberReqBody {
-    /// UUID of the signer. `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key. 
+    /// UUID of the signer. `signer_uuid` is paired with API key, can't use a `uuid` made with a different API key.
     #[serde(rename = "signer_uuid")]
     pub signer_uuid: String,
     /// The unique identifier of a farcaster channel
@@ -27,7 +27,12 @@ pub struct InviteChannelMemberReqBody {
 }
 
 impl InviteChannelMemberReqBody {
-    pub fn new(signer_uuid: String, channel_id: String, fid: i32, role: models::ChannelMemberRole) -> InviteChannelMemberReqBody {
+    pub fn new(
+        signer_uuid: String,
+        channel_id: String,
+        fid: i32,
+        role: models::ChannelMemberRole,
+    ) -> InviteChannelMemberReqBody {
         InviteChannelMemberReqBody {
             signer_uuid,
             channel_id,
@@ -36,4 +41,3 @@ impl InviteChannelMemberReqBody {
         }
     }
 }
-

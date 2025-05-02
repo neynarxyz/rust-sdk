@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -26,7 +26,13 @@ pub struct ZodErrorErrorsInner {
 }
 
 impl ZodErrorErrorsInner {
-    pub fn new(code: String, expected: String, received: String, path: Vec<String>, message: String) -> ZodErrorErrorsInner {
+    pub fn new(
+        code: String,
+        expected: String,
+        received: String,
+        path: Vec<String>,
+        message: String,
+    ) -> ZodErrorErrorsInner {
         ZodErrorErrorsInner {
             code,
             expected,
@@ -36,4 +42,3 @@ impl ZodErrorErrorsInner {
         }
     }
 }
-

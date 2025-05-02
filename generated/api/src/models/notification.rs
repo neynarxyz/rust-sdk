@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -33,7 +33,12 @@ pub struct Notification {
 }
 
 impl Notification {
-    pub fn new(object: Object, most_recent_timestamp: String, r#type: Type, seen: bool) -> Notification {
+    pub fn new(
+        object: Object,
+        most_recent_timestamp: String,
+        r#type: Type,
+        seen: bool,
+    ) -> Notification {
         Notification {
             object,
             most_recent_timestamp,
@@ -46,7 +51,7 @@ impl Notification {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "notification")]
@@ -58,7 +63,7 @@ impl Default for Object {
         Self::Notification
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
     #[serde(rename = "follows")]
@@ -80,4 +85,3 @@ impl Default for Type {
         Self::Follows
     }
 }
-

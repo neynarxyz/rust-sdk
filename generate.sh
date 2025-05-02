@@ -31,4 +31,5 @@ npx --yes @openapitools/openapi-generator-cli \
 perl -pi -e 's/models::models/models/g' ./generated/api/src/apis/feed_api.rs
 
 # Build the workspace
+cargo fmt
 cargo build

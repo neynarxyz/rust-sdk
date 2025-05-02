@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -17,7 +17,10 @@ pub struct ValidateFrameActionReqBody {
     #[serde(rename = "message_bytes_in_hex")]
     pub message_bytes_in_hex: String,
     /// Adds viewer_context inside the cast object to indicate whether the interactor reacted to the cast housing the mini app.
-    #[serde(rename = "cast_reaction_context", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "cast_reaction_context",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub cast_reaction_context: Option<bool>,
     /// Adds viewer_context inside the user (interactor) object to indicate whether the interactor follows or is followed by the cast author.
     #[serde(rename = "follow_context", skip_serializing_if = "Option::is_none")]
@@ -26,7 +29,10 @@ pub struct ValidateFrameActionReqBody {
     #[serde(rename = "signer_context", skip_serializing_if = "Option::is_none")]
     pub signer_context: Option<bool>,
     /// Adds context about the channel that the cast belongs to inside of the cast object.
-    #[serde(rename = "channel_follow_context", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "channel_follow_context",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub channel_follow_context: Option<bool>,
 }
 
@@ -41,4 +47,3 @@ impl ValidateFrameActionReqBody {
         }
     }
 }
-

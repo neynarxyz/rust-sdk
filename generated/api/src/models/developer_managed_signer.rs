@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -18,7 +18,10 @@ pub struct DeveloperManagedSigner {
     pub public_key: String,
     #[serde(rename = "status")]
     pub status: Status,
-    #[serde(rename = "signer_approval_url", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "signer_approval_url",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub signer_approval_url: Option<String>,
     /// The unique identifier of a farcaster user (unsigned integer)
     #[serde(rename = "fid", skip_serializing_if = "Option::is_none")]
@@ -35,7 +38,7 @@ impl DeveloperManagedSigner {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "pending_approval")]
@@ -51,4 +54,3 @@ impl Default for Status {
         Self::PendingApproval
     }
 }
-

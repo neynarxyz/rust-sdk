@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -14,13 +14,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum OnChainEvent {
-    #[serde(rename="EVENT_TYPE_SIGNER")]
+    #[serde(rename = "EVENT_TYPE_SIGNER")]
     EventTypeSigner(Box<models::OnChainEventSigner>),
-    #[serde(rename="EVENT_TYPE_SIGNER_MIGRATED")]
+    #[serde(rename = "EVENT_TYPE_SIGNER_MIGRATED")]
     EventTypeSignerMigrated(Box<models::OnChainEventSignerMigrated>),
-    #[serde(rename="EVENT_TYPE_ID_REGISTER")]
+    #[serde(rename = "EVENT_TYPE_ID_REGISTER")]
     EventTypeIdRegister(Box<models::OnChainEventIdRegister>),
-    #[serde(rename="EVENT_TYPE_STORAGE_RENT")]
+    #[serde(rename = "EVENT_TYPE_STORAGE_RENT")]
     EventTypeStorageRent(Box<models::OnChainEventStorageRent>),
 }
 
@@ -29,5 +29,3 @@ impl Default for OnChainEvent {
         Self::EventTypeSigner(Default::default())
     }
 }
-
-

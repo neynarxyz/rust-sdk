@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataUserDataAdd {
 
 impl MessageDataUserDataAdd {
     /// Represents a message that updates a user's profile metadata. This can include changes to profile picture, display name, bio, URL, or preferred username. Each update modifies a single profile field.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, user_data_body: models::UserDataBody) -> MessageDataUserDataAdd {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        user_data_body: models::UserDataBody,
+    ) -> MessageDataUserDataAdd {
         MessageDataUserDataAdd {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataUserDataAdd {
         }
     }
 }
-

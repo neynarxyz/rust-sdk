@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -11,8 +11,8 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// ForYouProvider : The provider of the For You feed. 
-/// The provider of the For You feed. 
+/// ForYouProvider : The provider of the For You feed.
+/// The provider of the For You feed.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ForYouProvider {
     #[serde(rename = "neynar")]
@@ -21,7 +21,6 @@ pub enum ForYouProvider {
     Openrank,
     #[serde(rename = "mbd")]
     Mbd,
-
 }
 
 impl std::fmt::Display for ForYouProvider {
@@ -39,4 +38,3 @@ impl Default for ForYouProvider {
         Self::Neynar
     }
 }
-

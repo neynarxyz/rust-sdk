@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -24,7 +24,11 @@ pub struct TokenBalance {
 
 impl TokenBalance {
     /// The token balance associated with a wallet address and a network
-    pub fn new(object: Object, token: models::TokenBalanceToken, balance: models::TokenBalanceBalance) -> TokenBalance {
+    pub fn new(
+        object: Object,
+        token: models::TokenBalanceToken,
+        balance: models::TokenBalanceBalance,
+    ) -> TokenBalance {
         TokenBalance {
             object,
             token: Box::new(token),
@@ -32,7 +36,7 @@ impl TokenBalance {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "token_balance")]
@@ -44,4 +48,3 @@ impl Default for Object {
         Self::TokenBalance
     }
 }
-

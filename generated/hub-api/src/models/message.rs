@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -34,7 +34,14 @@ pub struct Message {
 
 impl Message {
     /// A Message is a delta operation on the Farcaster network that represents a state change. Messages are the fundamental unit of data in Farcaster and can represent various actions like: - Creating or removing casts (posts) - Adding or removing reactions - Following or unfollowing users - Updating profile data - Verifying Ethereum addresses  Each message contains: - A MessageData object with the actual content - A hash of the content for integrity verification - A cryptographic signature to prove authenticity - The signer's public key for verification  Messages are immutable once created and form an append-only log of all user actions on the network.
-    pub fn new(hash: String, hash_scheme: models::HashScheme, signature: Vec<u8>, signature_scheme: models::SignatureScheme, signer: String, data: models::MessageAllOfData) -> Message {
+    pub fn new(
+        hash: String,
+        hash_scheme: models::HashScheme,
+        signature: Vec<u8>,
+        signature_scheme: models::SignatureScheme,
+        signer: String,
+        data: models::MessageAllOfData,
+    ) -> Message {
         Message {
             hash,
             hash_scheme,
@@ -45,4 +52,3 @@ impl Message {
         }
     }
 }
-

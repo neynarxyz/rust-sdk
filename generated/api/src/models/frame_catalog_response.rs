@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -20,11 +20,13 @@ pub struct FrameCatalogResponse {
 }
 
 impl FrameCatalogResponse {
-    pub fn new(frames: Vec<models::FrameV2WithFullAuthor>, next: models::NextCursor) -> FrameCatalogResponse {
+    pub fn new(
+        frames: Vec<models::FrameV2WithFullAuthor>,
+        next: models::NextCursor,
+    ) -> FrameCatalogResponse {
         FrameCatalogResponse {
             frames,
             next: Box::new(next),
         }
     }
 }
-

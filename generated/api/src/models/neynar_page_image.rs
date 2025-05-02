@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -23,10 +23,7 @@ pub struct NeynarPageImage {
 
 impl NeynarPageImage {
     pub fn new(url: String, aspect_ratio: AspectRatio) -> NeynarPageImage {
-        NeynarPageImage {
-            url,
-            aspect_ratio,
-        }
+        NeynarPageImage { url, aspect_ratio }
     }
 }
 /// The aspect ratio of the image.
@@ -43,4 +40,3 @@ impl Default for AspectRatio {
         Self::Variant1Period91Colon1
     }
 }
-

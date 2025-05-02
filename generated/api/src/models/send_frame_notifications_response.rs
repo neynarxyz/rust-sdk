@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -18,10 +18,11 @@ pub struct SendFrameNotificationsResponse {
 }
 
 impl SendFrameNotificationsResponse {
-    pub fn new(notification_deliveries: Vec<models::NotificationDelivery>) -> SendFrameNotificationsResponse {
+    pub fn new(
+        notification_deliveries: Vec<models::NotificationDelivery>,
+    ) -> SendFrameNotificationsResponse {
         SendFrameNotificationsResponse {
             notification_deliveries,
         }
     }
 }
-

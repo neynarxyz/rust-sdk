@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -46,7 +46,22 @@ pub struct Webhook {
 }
 
 impl Webhook {
-    pub fn new(object: Object, webhook_id: String, developer_uuid: String, target_url: String, title: String, secrets: Vec<models::WebhookSecret>, description: String, http_timeout: String, rate_limit: i32, active: bool, rate_limit_duration: String, created_at: String, updated_at: String, deleted_at: String) -> Webhook {
+    pub fn new(
+        object: Object,
+        webhook_id: String,
+        developer_uuid: String,
+        target_url: String,
+        title: String,
+        secrets: Vec<models::WebhookSecret>,
+        description: String,
+        http_timeout: String,
+        rate_limit: i32,
+        active: bool,
+        rate_limit_duration: String,
+        created_at: String,
+        updated_at: String,
+        deleted_at: String,
+    ) -> Webhook {
         Webhook {
             object,
             webhook_id,
@@ -66,7 +81,7 @@ impl Webhook {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "webhook")]
@@ -78,4 +93,3 @@ impl Default for Object {
         Self::Webhook
     }
 }
-

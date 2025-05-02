@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -21,13 +21,10 @@ pub struct WebhookPatchReqBody {
 
 impl WebhookPatchReqBody {
     pub fn new(webhook_id: String, active: Active) -> WebhookPatchReqBody {
-        WebhookPatchReqBody {
-            webhook_id,
-            active,
-        }
+        WebhookPatchReqBody { webhook_id, active }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Active {
     #[serde(rename = "true")]
@@ -41,4 +38,3 @@ impl Default for Active {
         Self::True
     }
 }
-

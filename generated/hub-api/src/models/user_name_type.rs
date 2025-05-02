@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -11,14 +11,13 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UserNameType {
     #[serde(rename = "USERNAME_TYPE_FNAME")]
     UsernameTypeFname,
     #[serde(rename = "USERNAME_TYPE_ENS_L1")]
     UsernameTypeEnsL1,
-
 }
 
 impl std::fmt::Display for UserNameType {
@@ -35,4 +34,3 @@ impl Default for UserNameType {
         Self::UsernameTypeFname
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -30,7 +30,14 @@ pub struct HubInfoResponse {
 }
 
 impl HubInfoResponse {
-    pub fn new(version: String, is_syncing: bool, nickname: String, root_hash: String, peer_id: String, hub_operator_fid: i32) -> HubInfoResponse {
+    pub fn new(
+        version: String,
+        is_syncing: bool,
+        nickname: String,
+        root_hash: String,
+        peer_id: String,
+        hub_operator_fid: i32,
+    ) -> HubInfoResponse {
         HubInfoResponse {
             version,
             is_syncing,
@@ -42,4 +49,3 @@ impl HubInfoResponse {
         }
     }
 }
-

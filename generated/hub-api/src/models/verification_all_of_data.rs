@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,13 @@ pub struct VerificationAllOfData {
 }
 
 impl VerificationAllOfData {
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, verification_add_eth_address_body: models::VerificationAddEthAddressBody, r#type: models::MessageType) -> VerificationAllOfData {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        verification_add_eth_address_body: models::VerificationAddEthAddressBody,
+        r#type: models::MessageType,
+    ) -> VerificationAllOfData {
         VerificationAllOfData {
             fid,
             timestamp,
@@ -39,4 +45,3 @@ impl VerificationAllOfData {
         }
     }
 }
-

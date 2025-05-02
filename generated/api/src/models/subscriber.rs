@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -22,7 +22,11 @@ pub struct Subscriber {
 }
 
 impl Subscriber {
-    pub fn new(object: Object, user: models::User, subscribed_to: models::SubscribedToObject) -> Subscriber {
+    pub fn new(
+        object: Object,
+        user: models::User,
+        subscribed_to: models::SubscribedToObject,
+    ) -> Subscriber {
         Subscriber {
             object,
             user: Box::new(user),
@@ -30,7 +34,7 @@ impl Subscriber {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "subscriber")]
@@ -42,4 +46,3 @@ impl Default for Object {
         Self::Subscriber
     }
 }
-

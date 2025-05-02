@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataVerificationAdd {
 
 impl MessageDataVerificationAdd {
     /// Represents a message that adds verification of ownership for an Ethereum or Solana address to a user's profile. This verification proves that the user controls the specified blockchain address.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, verification_add_eth_address_body: models::VerificationAddEthAddressBody) -> MessageDataVerificationAdd {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        verification_add_eth_address_body: models::VerificationAddEthAddressBody,
+    ) -> MessageDataVerificationAdd {
         MessageDataVerificationAdd {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataVerificationAdd {
         }
     }
 }
-

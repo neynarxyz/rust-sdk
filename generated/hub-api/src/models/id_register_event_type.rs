@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum IdRegisterEventType {
     #[serde(rename = "ID_REGISTER_EVENT_TYPE_REGISTER")]
@@ -20,7 +20,6 @@ pub enum IdRegisterEventType {
     IdRegisterEventTypeTransfer,
     #[serde(rename = "ID_REGISTER_EVENT_TYPE_CHANGE_RECOVERY")]
     IdRegisterEventTypeChangeRecovery,
-
 }
 
 impl std::fmt::Display for IdRegisterEventType {
@@ -28,7 +27,9 @@ impl std::fmt::Display for IdRegisterEventType {
         match self {
             Self::IdRegisterEventTypeRegister => write!(f, "ID_REGISTER_EVENT_TYPE_REGISTER"),
             Self::IdRegisterEventTypeTransfer => write!(f, "ID_REGISTER_EVENT_TYPE_TRANSFER"),
-            Self::IdRegisterEventTypeChangeRecovery => write!(f, "ID_REGISTER_EVENT_TYPE_CHANGE_RECOVERY"),
+            Self::IdRegisterEventTypeChangeRecovery => {
+                write!(f, "ID_REGISTER_EVENT_TYPE_CHANGE_RECOVERY")
+            }
         }
     }
 }
@@ -38,4 +39,3 @@ impl Default for IdRegisterEventType {
         Self::IdRegisterEventTypeRegister
     }
 }
-

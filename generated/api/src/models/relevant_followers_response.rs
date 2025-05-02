@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -20,11 +20,13 @@ pub struct RelevantFollowersResponse {
 }
 
 impl RelevantFollowersResponse {
-    pub fn new(top_relevant_followers_hydrated: Vec<models::Follower>, all_relevant_followers_dehydrated: Vec<models::FollowerDehydrated>) -> RelevantFollowersResponse {
+    pub fn new(
+        top_relevant_followers_hydrated: Vec<models::Follower>,
+        all_relevant_followers_dehydrated: Vec<models::FollowerDehydrated>,
+    ) -> RelevantFollowersResponse {
         RelevantFollowersResponse {
             top_relevant_followers_hydrated,
             all_relevant_followers_dehydrated,
         }
     }
 }
-

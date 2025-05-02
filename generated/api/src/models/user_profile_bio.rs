@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -17,13 +17,19 @@ pub struct UserProfileBio {
     pub text: String,
     #[serde(rename = "mentioned_profiles", skip_serializing_if = "Option::is_none")]
     pub mentioned_profiles: Option<Vec<models::UserDehydrated>>,
-    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_profiles list. 
-    #[serde(rename = "mentioned_profiles_ranges", skip_serializing_if = "Option::is_none")]
+    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_profiles list.
+    #[serde(
+        rename = "mentioned_profiles_ranges",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub mentioned_profiles_ranges: Option<Vec<models::TextRange>>,
     #[serde(rename = "mentioned_channels", skip_serializing_if = "Option::is_none")]
     pub mentioned_channels: Option<Vec<models::ChannelDehydrated>>,
-    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_channels list. 
-    #[serde(rename = "mentioned_channels_ranges", skip_serializing_if = "Option::is_none")]
+    /// Positions within the text (inclusive start, exclusive end) where each mention occurs. Each index within this list corresponds to the same-numbered index in the mentioned_channels list.
+    #[serde(
+        rename = "mentioned_channels_ranges",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub mentioned_channels_ranges: Option<Vec<models::TextRange>>,
 }
 
@@ -38,4 +44,3 @@ impl UserProfileBio {
         }
     }
 }
-

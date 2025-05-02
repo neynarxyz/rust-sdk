@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -22,7 +22,11 @@ pub struct ReactionWithUserInfo {
 }
 
 impl ReactionWithUserInfo {
-    pub fn new(object: Object, cast: models::CastDehydrated, user: models::User) -> ReactionWithUserInfo {
+    pub fn new(
+        object: Object,
+        cast: models::CastDehydrated,
+        user: models::User,
+    ) -> ReactionWithUserInfo {
         ReactionWithUserInfo {
             object,
             cast: Box::new(cast),
@@ -30,7 +34,7 @@ impl ReactionWithUserInfo {
         }
     }
 }
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Object {
     #[serde(rename = "likes")]
@@ -44,4 +48,3 @@ impl Default for Object {
         Self::Likes
     }
 }
-

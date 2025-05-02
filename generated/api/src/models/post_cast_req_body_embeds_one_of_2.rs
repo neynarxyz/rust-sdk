@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -19,9 +19,6 @@ pub struct PostCastReqBodyEmbedsOneOf2 {
 
 impl PostCastReqBodyEmbedsOneOf2 {
     pub fn new(url: String) -> PostCastReqBodyEmbedsOneOf2 {
-        PostCastReqBodyEmbedsOneOf2 {
-            url,
-        }
+        PostCastReqBodyEmbedsOneOf2 { url }
     }
 }
-

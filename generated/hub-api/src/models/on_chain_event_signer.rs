@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -36,7 +36,18 @@ pub struct OnChainEventSigner {
 }
 
 impl OnChainEventSigner {
-    pub fn new(r#type: String, chain_id: i32, block_number: i32, block_hash: String, block_timestamp: i32, transaction_hash: String, log_index: i32, tx_index: i32, fid: i32, signer_event_body: models::SignerEventBody) -> OnChainEventSigner {
+    pub fn new(
+        r#type: String,
+        chain_id: i32,
+        block_number: i32,
+        block_hash: String,
+        block_timestamp: i32,
+        transaction_hash: String,
+        log_index: i32,
+        tx_index: i32,
+        fid: i32,
+        signer_event_body: models::SignerEventBody,
+    ) -> OnChainEventSigner {
         OnChainEventSigner {
             r#type,
             chain_id,
@@ -51,4 +62,3 @@ impl OnChainEventSigner {
         }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -31,7 +31,11 @@ pub struct VerificationAddEthAddressBody {
 
 impl VerificationAddEthAddressBody {
     /// Contains the data required to verify ownership of an Ethereum or Solana address. The verification process requires a cryptographic signature from the blockchain address and includes the block hash at the time of signing for timestamp verification.
-    pub fn new(address: String, eth_signature: Vec<u8>, block_hash: String) -> VerificationAddEthAddressBody {
+    pub fn new(
+        address: String,
+        eth_signature: Vec<u8>,
+        block_hash: String,
+    ) -> VerificationAddEthAddressBody {
         VerificationAddEthAddressBody {
             address,
             eth_signature,
@@ -39,4 +43,3 @@ impl VerificationAddEthAddressBody {
         }
     }
 }
-

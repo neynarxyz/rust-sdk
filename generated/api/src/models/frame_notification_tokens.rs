@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -20,11 +20,13 @@ pub struct FrameNotificationTokens {
 }
 
 impl FrameNotificationTokens {
-    pub fn new(notification_tokens: Vec<models::FrameNotificationTokensNotificationTokensInner>, next: models::NextCursor) -> FrameNotificationTokens {
+    pub fn new(
+        notification_tokens: Vec<models::FrameNotificationTokensNotificationTokensInner>,
+        next: models::NextCursor,
+    ) -> FrameNotificationTokens {
         FrameNotificationTokens {
             notification_tokens,
             next: Box::new(next),
         }
     }
 }
-

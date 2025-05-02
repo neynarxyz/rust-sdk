@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -22,7 +22,11 @@ pub struct SubscriptionPrice {
 }
 
 impl SubscriptionPrice {
-    pub fn new(period_duration_seconds: i32, tokens_per_period: String, initial_mint_price: String) -> SubscriptionPrice {
+    pub fn new(
+        period_duration_seconds: i32,
+        tokens_per_period: String,
+        initial_mint_price: String,
+    ) -> SubscriptionPrice {
         SubscriptionPrice {
             period_duration_seconds,
             tokens_per_period,
@@ -30,4 +34,3 @@ impl SubscriptionPrice {
         }
     }
 }
-

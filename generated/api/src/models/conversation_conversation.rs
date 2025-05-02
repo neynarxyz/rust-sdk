@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -15,7 +15,10 @@ use serde::{Deserialize, Serialize};
 pub struct ConversationConversation {
     #[serde(rename = "cast")]
     pub cast: Box<models::CastWithInteractionsAndConversations>,
-    #[serde(rename = "chronological_parent_casts", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "chronological_parent_casts",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub chronological_parent_casts: Option<Vec<models::CastWithInteractions>>,
 }
 
@@ -27,4 +30,3 @@ impl ConversationConversation {
         }
     }
 }
-

@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// 
+///
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum SignerEventType {
     #[serde(rename = "SIGNER_EVENT_TYPE_ADD")]
@@ -20,7 +20,6 @@ pub enum SignerEventType {
     SignerEventTypeRemove,
     #[serde(rename = "SIGNER_EVENT_TYPE_ADMIN_RESET")]
     SignerEventTypeAdminReset,
-
 }
 
 impl std::fmt::Display for SignerEventType {
@@ -38,4 +37,3 @@ impl Default for SignerEventType {
         Self::SignerEventTypeAdd
     }
 }
-

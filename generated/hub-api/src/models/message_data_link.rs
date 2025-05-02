@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,12 @@ pub struct MessageDataLink {
 
 impl MessageDataLink {
     /// Represents a social graph connection between users in the Farcaster network. Currently supports following relationships between users.
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, link_body: models::LinkBody) -> MessageDataLink {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        link_body: models::LinkBody,
+    ) -> MessageDataLink {
         MessageDataLink {
             fid,
             timestamp,
@@ -38,4 +43,3 @@ impl MessageDataLink {
         }
     }
 }
-

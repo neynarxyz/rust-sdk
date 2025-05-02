@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -15,11 +15,20 @@ use serde::{Deserialize, Serialize};
 pub struct MergeUserNameProofBody {
     #[serde(rename = "usernameProof", skip_serializing_if = "Option::is_none")]
     pub username_proof: Option<Box<models::UserNameProof>>,
-    #[serde(rename = "deletedUsernameProof", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "deletedUsernameProof",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub deleted_username_proof: Option<Box<models::UserNameProof>>,
-    #[serde(rename = "usernameProofMessage", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "usernameProofMessage",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub username_proof_message: Option<Box<models::Message>>,
-    #[serde(rename = "deletedUsernameProofMessage", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "deletedUsernameProofMessage",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub deleted_username_proof_message: Option<Box<models::Message>>,
 }
 
@@ -33,4 +42,3 @@ impl MergeUserNameProofBody {
         }
     }
 }
-

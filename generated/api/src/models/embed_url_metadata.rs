@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -15,9 +15,19 @@ use serde::{Deserialize, Serialize};
 pub struct EmbedUrlMetadata {
     #[serde(rename = "_status")]
     pub _status: String,
-    #[serde(rename = "content_type", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "content_type",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub content_type: Option<Option<String>>,
-    #[serde(rename = "content_length", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "content_length",
+        default,
+        with = "::serde_with::rust::double_option",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub content_length: Option<Option<i32>>,
     #[serde(rename = "image", skip_serializing_if = "Option::is_none")]
     pub image: Option<Box<models::EmbedUrlMetadataImage>>,
@@ -42,4 +52,3 @@ impl EmbedUrlMetadata {
         }
     }
 }
-

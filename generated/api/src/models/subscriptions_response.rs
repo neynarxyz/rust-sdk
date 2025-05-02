@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -13,7 +13,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SubscriptionsResponse {
-    #[serde(rename = "subscriptions_created", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "subscriptions_created",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub subscriptions_created: Option<Vec<models::Subscriptions>>,
 }
 
@@ -24,4 +27,3 @@ impl SubscriptionsResponse {
         }
     }
 }
-

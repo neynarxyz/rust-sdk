@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -14,15 +14,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum HubEvent {
-    #[serde(rename="HUB_EVENT_TYPE_MERGE_MESSAGE")]
+    #[serde(rename = "HUB_EVENT_TYPE_MERGE_MESSAGE")]
     HubEventTypeMergeMessage(Box<models::HubEventMergeMessage>),
-    #[serde(rename="HUB_EVENT_TYPE_PRUNE_MESSAGE")]
+    #[serde(rename = "HUB_EVENT_TYPE_PRUNE_MESSAGE")]
     HubEventTypePruneMessage(Box<models::HubEventPruneMessage>),
-    #[serde(rename="HUB_EVENT_TYPE_REVOKE_MESSAGE")]
+    #[serde(rename = "HUB_EVENT_TYPE_REVOKE_MESSAGE")]
     HubEventTypeRevokeMessage(Box<models::HubEventRevokeMessage>),
-    #[serde(rename="HUB_EVENT_TYPE_MERGE_USERNAME_PROOF")]
+    #[serde(rename = "HUB_EVENT_TYPE_MERGE_USERNAME_PROOF")]
     HubEventTypeMergeUsernameProof(Box<models::HubEventMergeUsernameProof>),
-    #[serde(rename="HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT")]
+    #[serde(rename = "HUB_EVENT_TYPE_MERGE_ON_CHAIN_EVENT")]
     HubEventTypeMergeOnChainEvent(Box<models::HubEventMergeOnChainEvent>),
 }
 
@@ -31,5 +31,3 @@ impl Default for HubEvent {
         Self::HubEventTypeMergeMessage(Default::default())
     }
 }
-
-

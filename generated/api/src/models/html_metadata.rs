@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -19,11 +19,20 @@ pub struct HtmlMetadata {
     pub modified_time: Option<String>,
     #[serde(rename = "ogArticleAuthor", skip_serializing_if = "Option::is_none")]
     pub og_article_author: Option<String>,
-    #[serde(rename = "ogArticleExpirationTime", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogArticleExpirationTime",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_article_expiration_time: Option<String>,
-    #[serde(rename = "ogArticleModifiedTime", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogArticleModifiedTime",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_article_modified_time: Option<String>,
-    #[serde(rename = "ogArticlePublishedTime", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogArticlePublishedTime",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_article_published_time: Option<String>,
     #[serde(rename = "ogArticlePublisher", skip_serializing_if = "Option::is_none")]
     pub og_article_publisher: Option<String>,
@@ -63,15 +72,27 @@ pub struct HtmlMetadata {
     pub og_price_amount: Option<String>,
     #[serde(rename = "ogPriceCurrency", skip_serializing_if = "Option::is_none")]
     pub og_price_currency: Option<String>,
-    #[serde(rename = "ogProductAvailability", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogProductAvailability",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_product_availability: Option<String>,
     #[serde(rename = "ogProductCondition", skip_serializing_if = "Option::is_none")]
     pub og_product_condition: Option<String>,
-    #[serde(rename = "ogProductPriceAmount", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogProductPriceAmount",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_product_price_amount: Option<String>,
-    #[serde(rename = "ogProductPriceCurrency", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogProductPriceCurrency",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_product_price_currency: Option<String>,
-    #[serde(rename = "ogProductRetailerItemId", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "ogProductRetailerItemId",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub og_product_retailer_item_id: Option<String>,
     #[serde(rename = "ogSiteName", skip_serializing_if = "Option::is_none")]
     pub og_site_name: Option<String>,
@@ -171,4 +192,3 @@ impl HtmlMetadata {
         }
     }
 }
-

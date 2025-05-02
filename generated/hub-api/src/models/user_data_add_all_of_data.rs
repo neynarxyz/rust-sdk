@@ -1,7 +1,7 @@
 /*
  * Farcaster Hub API
  *
- * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.21.0
  * Contact: team@neynar.com
@@ -29,7 +29,13 @@ pub struct UserDataAddAllOfData {
 }
 
 impl UserDataAddAllOfData {
-    pub fn new(fid: i32, timestamp: i64, network: models::FarcasterNetwork, user_data_body: models::UserDataBody, r#type: models::MessageType) -> UserDataAddAllOfData {
+    pub fn new(
+        fid: i32,
+        timestamp: i64,
+        network: models::FarcasterNetwork,
+        user_data_body: models::UserDataBody,
+        r#type: models::MessageType,
+    ) -> UserDataAddAllOfData {
         UserDataAddAllOfData {
             fid,
             timestamp,
@@ -39,4 +45,3 @@ impl UserDataAddAllOfData {
         }
     }
 }
-

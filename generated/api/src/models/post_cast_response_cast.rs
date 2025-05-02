@@ -1,7 +1,7 @@
 /*
  * Farcaster API V2
  *
- * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details. 
+ * The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
  *
  * The version of the OpenAPI document: 2.33.1
  * Contact: team@neynar.com
@@ -23,7 +23,11 @@ pub struct PostCastResponseCast {
 }
 
 impl PostCastResponseCast {
-    pub fn new(hash: String, author: models::PostCastResponseCastAuthor, text: String) -> PostCastResponseCast {
+    pub fn new(
+        hash: String,
+        author: models::PostCastResponseCastAuthor,
+        text: String,
+    ) -> PostCastResponseCast {
         PostCastResponseCast {
             hash,
             author: Box::new(author),
@@ -31,4 +35,3 @@ impl PostCastResponseCast {
         }
     }
 }
-
