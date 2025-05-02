@@ -139,8 +139,8 @@ pub enum PublishNeynarFrameError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateNeynarFrameError {
-    Status404(models::ErrorRes),
     Status400(models::ErrorRes),
+    Status404(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
 

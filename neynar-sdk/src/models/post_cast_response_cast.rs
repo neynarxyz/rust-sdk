@@ -17,13 +17,13 @@ pub struct PostCastResponseCast {
     #[serde(rename = "hash")]
     pub hash: String,
     #[serde(rename = "author")]
-    pub author: Box<models::CastEmbeddedParentAuthor>,
+    pub author: Box<models::PostCastResponseCastAuthor>,
     #[serde(rename = "text")]
     pub text: String,
 }
 
 impl PostCastResponseCast {
-    pub fn new(hash: String, author: models::CastEmbeddedParentAuthor, text: String) -> PostCastResponseCast {
+    pub fn new(hash: String, author: models::PostCastResponseCastAuthor, text: String) -> PostCastResponseCast {
         PostCastResponseCast {
             hash,
             author: Box::new(author),

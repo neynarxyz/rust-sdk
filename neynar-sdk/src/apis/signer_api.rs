@@ -36,8 +36,8 @@ pub enum FetchAuthorizationUrlError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FetchSignersError {
-    Status401(models::ErrorRes),
     Status400(models::ErrorRes),
+    Status401(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
@@ -55,8 +55,8 @@ pub enum LookupDeveloperManagedSignerError {
 #[serde(untagged)]
 pub enum LookupSignerError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
@@ -75,8 +75,8 @@ pub enum PublishMessageToFarcasterError {
 #[serde(untagged)]
 pub enum RegisterSignedKeyError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }

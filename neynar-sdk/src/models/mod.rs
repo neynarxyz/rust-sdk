@@ -378,6 +378,8 @@ pub mod post_cast_response;
 pub use self::post_cast_response::PostCastResponse;
 pub mod post_cast_response_cast;
 pub use self::post_cast_response_cast::PostCastResponseCast;
+pub mod post_cast_response_cast_author;
+pub use self::post_cast_response_cast_author::PostCastResponseCastAuthor;
 pub mod profile_url;
 pub use self::profile_url::ProfileUrl;
 pub mod profile_url_pfp;

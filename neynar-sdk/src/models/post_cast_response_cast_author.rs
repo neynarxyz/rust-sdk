@@ -12,15 +12,15 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct CastEmbeddedParentAuthor {
+pub struct PostCastResponseCastAuthor {
     /// The unique identifier of a farcaster user (unsigned integer)
-    #[serde(rename = "fid", deserialize_with = "Option::deserialize")]
-    pub fid: Option<i32>,
+    #[serde(rename = "fid")]
+    pub fid: i32,
 }
 
-impl CastEmbeddedParentAuthor {
-    pub fn new(fid: Option<i32>) -> CastEmbeddedParentAuthor {
-        CastEmbeddedParentAuthor {
+impl PostCastResponseCastAuthor {
+    pub fn new(fid: i32) -> PostCastResponseCastAuthor {
+        PostCastResponseCastAuthor {
             fid,
         }
     }

@@ -204,6 +204,7 @@ docs/PostCastReqBodyEmbedsOneOf1.md
 docs/PostCastReqBodyEmbedsOneOf2.md
 docs/PostCastResponse.md
 docs/PostCastResponseCast.md
+docs/PostCastResponseCastAuthor.md
 docs/ProfileUrl.md
 docs/ProfileUrlPfp.md
 docs/ReactionApi.md
@@ -538,6 +539,7 @@ src/models/post_cast_req_body_embeds_one_of_1.rs
 src/models/post_cast_req_body_embeds_one_of_2.rs
 src/models/post_cast_response.rs
 src/models/post_cast_response_cast.rs
+src/models/post_cast_response_cast_author.rs
 src/models/profile_url.rs
 src/models/profile_url_pfp.rs
 src/models/reaction_for_cast.rs

@@ -26,7 +26,7 @@ pub struct UserNameProof {
     #[serde_as(as = "serde_with::base64::Base64")]
     #[serde(rename = "signature")]
     pub signature: Vec<u8>,
-    /// Farcaster ID (FID). A unique identifier assigned to each user in the Farcaster network. This number is permanent and cannot be changed. FIDs are assigned sequentially when users register on the network. 
+    /// The FID of the user who owns this username proof
     #[serde(rename = "fid")]
     pub fid: i32,
     #[serde(rename = "type")]

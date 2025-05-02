@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **object** | **String** |  | 
 **hash** | **String** |  | 
-**parent_hash** | **String** |  | 
-**parent_url** | **String** |  | 
-**root_parent_url** | **String** |  | 
+**parent_hash** | Option<**String**> |  | 
+**parent_url** | Option<**String**> |  | 
+**root_parent_url** | Option<**String**> |  | 
 **parent_author** | [**models::CastEmbeddedParentAuthor**](CastEmbedded_parent_author.md) |  | 
 **author** | [**models::User**](User.md) |  | 
 **app** | Option<[**models::UserDehydrated**](UserDehydrated.md)> |  | [optional]

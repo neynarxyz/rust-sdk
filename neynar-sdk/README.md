@@ -341,6 +341,7 @@ Class | Method | HTTP request | Description
  - [PostCastReqBodyEmbedsOneOf2](docs/PostCastReqBodyEmbedsOneOf2.md)
  - [PostCastResponse](docs/PostCastResponse.md)
  - [PostCastResponseCast](docs/PostCastResponseCast.md)
+ - [PostCastResponseCastAuthor](docs/PostCastResponseCastAuthor.md)
  - [ProfileUrl](docs/ProfileUrl.md)
  - [ProfileUrlPfp](docs/ProfileUrlPfp.md)
  - [ReactionForCast](docs/ReactionForCast.md)

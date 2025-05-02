@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RegisterUserResponse {
     #[serde(rename = "success")]
-    pub success: Success,
+    pub success: bool,
     #[serde(rename = "message")]
     pub message: String,
     #[serde(rename = "signer")]
@@ -24,25 +24,13 @@ pub struct RegisterUserResponse {
 }
 
 impl RegisterUserResponse {
-    pub fn new(success: Success, message: String, signer: models::Signer) -> RegisterUserResponse {
+    pub fn new(success: bool, message: String, signer: models::Signer) -> RegisterUserResponse {
         RegisterUserResponse {
             success,
             message,
             signer: Box::new(signer),
             user: None,
         }
-    }
-}
-/// 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum Success {
-    #[serde(rename = "true")]
-    True,
-}
-
-impl Default for Success {
-    fn default() -> Success {
-        Self::True
     }
 }
 

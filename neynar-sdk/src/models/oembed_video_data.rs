@@ -15,35 +15,35 @@ use serde::{Deserialize, Serialize};
 pub struct OembedVideoData {
     #[serde(rename = "type")]
     pub r#type: Type,
-    #[serde(rename = "version")]
-    pub version: String,
+    #[serde(rename = "version", deserialize_with = "Option::deserialize")]
+    pub version: Option<String>,
     /// A text title, describing the resource.
-    #[serde(rename = "title", skip_serializing_if = "Option::is_none")]
-    pub title: Option<String>,
+    #[serde(rename = "title", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub title: Option<Option<String>>,
     /// The name of the author/owner of the resource.
-    #[serde(rename = "author_name", skip_serializing_if = "Option::is_none")]
-    pub author_name: Option<String>,
+    #[serde(rename = "author_name", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub author_name: Option<Option<String>>,
     /// A URL for the author/owner of the resource.
-    #[serde(rename = "author_url", skip_serializing_if = "Option::is_none")]
-    pub author_url: Option<String>,
+    #[serde(rename = "author_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub author_url: Option<Option<String>>,
     /// The name of the resource provider.
-    #[serde(rename = "provider_name", skip_serializing_if = "Option::is_none")]
-    pub provider_name: Option<String>,
+    #[serde(rename = "provider_name", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub provider_name: Option<Option<String>>,
     /// The url of the resource provider.
-    #[serde(rename = "provider_url", skip_serializing_if = "Option::is_none")]
-    pub provider_url: Option<String>,
+    #[serde(rename = "provider_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub provider_url: Option<Option<String>>,
     /// The suggested cache lifetime for this resource, in seconds. Consumers may choose to use this value or not.
-    #[serde(rename = "cache_age", skip_serializing_if = "Option::is_none")]
-    pub cache_age: Option<String>,
+    #[serde(rename = "cache_age", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub cache_age: Option<Option<String>>,
     /// A URL to a thumbnail image representing the resource. The thumbnail must respect any maxwidth and maxheight parameters. If this parameter is present, thumbnail_width and thumbnail_height must also be present.
-    #[serde(rename = "thumbnail_url", skip_serializing_if = "Option::is_none")]
-    pub thumbnail_url: Option<String>,
+    #[serde(rename = "thumbnail_url", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub thumbnail_url: Option<Option<String>>,
     /// The width of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_height must also be present.
-    #[serde(rename = "thumbnail_width", skip_serializing_if = "Option::is_none")]
-    pub thumbnail_width: Option<f64>,
+    #[serde(rename = "thumbnail_width", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub thumbnail_width: Option<Option<f64>>,
     /// The height of the optional thumbnail. If this parameter is present, thumbnail_url and thumbnail_width must also be present.
-    #[serde(rename = "thumbnail_height", skip_serializing_if = "Option::is_none")]
-    pub thumbnail_height: Option<f64>,
+    #[serde(rename = "thumbnail_height", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub thumbnail_height: Option<Option<f64>>,
     /// The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
     #[serde(rename = "html", deserialize_with = "Option::deserialize")]
     pub html: Option<String>,
@@ -56,7 +56,7 @@ pub struct OembedVideoData {
 }
 
 impl OembedVideoData {
-    pub fn new(r#type: Type, version: String, html: Option<String>, width: Option<f64>, height: Option<f64>) -> OembedVideoData {
+    pub fn new(r#type: Type, version: Option<String>, html: Option<String>, width: Option<f64>, height: Option<f64>) -> OembedVideoData {
         OembedVideoData {
             r#type,
             version,

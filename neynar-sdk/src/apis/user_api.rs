@@ -71,8 +71,8 @@ pub enum FetchUsersByLocationError {
 #[serde(untagged)]
 pub enum FollowUserError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
@@ -146,8 +146,8 @@ pub enum SearchUserError {
 #[serde(untagged)]
 pub enum UnfollowUserError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
@@ -157,8 +157,8 @@ pub enum UnfollowUserError {
 #[serde(untagged)]
 pub enum UpdateUserError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }

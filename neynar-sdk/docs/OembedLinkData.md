@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **r#type** | **String** |  | 
-**version** | **String** |  | 
+**version** | Option<**String**> |  | 
 **title** | Option<**String**> | A text title, describing the resource. | [optional]
 **author_name** | Option<**String**> | The name of the author/owner of the resource. | [optional]
 **author_url** | Option<**String**> | A URL for the author/owner of the resource. | [optional]

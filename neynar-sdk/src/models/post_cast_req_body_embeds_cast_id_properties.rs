@@ -13,18 +13,18 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PostCastReqBodyEmbedsCastIdProperties {
+    #[serde(rename = "hash")]
+    pub hash: String,
     /// The unique identifier of a farcaster user (unsigned integer)
     #[serde(rename = "fid")]
     pub fid: i32,
-    #[serde(rename = "hash")]
-    pub hash: String,
 }
 
 impl PostCastReqBodyEmbedsCastIdProperties {
-    pub fn new(fid: i32, hash: String) -> PostCastReqBodyEmbedsCastIdProperties {
+    pub fn new(hash: String, fid: i32) -> PostCastReqBodyEmbedsCastIdProperties {
         PostCastReqBodyEmbedsCastIdProperties {
-            fid,
             hash,
+            fid,
         }
     }
 }

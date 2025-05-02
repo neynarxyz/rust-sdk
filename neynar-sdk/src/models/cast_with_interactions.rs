@@ -17,18 +17,18 @@ pub struct CastWithInteractions {
     pub object: Object,
     #[serde(rename = "hash")]
     pub hash: String,
-    #[serde(rename = "parent_hash")]
-    pub parent_hash: String,
-    #[serde(rename = "parent_url")]
-    pub parent_url: String,
-    #[serde(rename = "root_parent_url")]
-    pub root_parent_url: String,
+    #[serde(rename = "parent_hash", deserialize_with = "Option::deserialize")]
+    pub parent_hash: Option<String>,
+    #[serde(rename = "parent_url", deserialize_with = "Option::deserialize")]
+    pub parent_url: Option<String>,
+    #[serde(rename = "root_parent_url", deserialize_with = "Option::deserialize")]
+    pub root_parent_url: Option<String>,
     #[serde(rename = "parent_author")]
     pub parent_author: Box<models::CastEmbeddedParentAuthor>,
     #[serde(rename = "author")]
     pub author: Box<models::User>,
-    #[serde(rename = "app", skip_serializing_if = "Option::is_none")]
-    pub app: Option<Box<models::UserDehydrated>>,
+    #[serde(rename = "app", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub app: Option<Option<Box<models::UserDehydrated>>>,
     #[serde(rename = "text")]
     pub text: String,
     #[serde(rename = "timestamp")]
@@ -64,7 +64,7 @@ pub struct CastWithInteractions {
 }
 
 impl CastWithInteractions {
-    pub fn new(object: Object, hash: String, parent_hash: String, parent_url: String, root_parent_url: String, parent_author: models::CastEmbeddedParentAuthor, author: models::User, text: String, timestamp: String, embeds: Vec<models::Embed>, reactions: models::CastWithInteractionsReactions, replies: models::CastWithInteractionsReplies, thread_hash: Option<String>, mentioned_profiles: Vec<models::User>, mentioned_profiles_ranges: Vec<models::TextRange>, mentioned_channels: Vec<models::ChannelDehydrated>, mentioned_channels_ranges: Vec<models::TextRange>, channel: Option<models::ChannelOrChannelDehydrated>) -> CastWithInteractions {
+    pub fn new(object: Object, hash: String, parent_hash: Option<String>, parent_url: Option<String>, root_parent_url: Option<String>, parent_author: models::CastEmbeddedParentAuthor, author: models::User, text: String, timestamp: String, embeds: Vec<models::Embed>, reactions: models::CastWithInteractionsReactions, replies: models::CastWithInteractionsReplies, thread_hash: Option<String>, mentioned_profiles: Vec<models::User>, mentioned_profiles_ranges: Vec<models::TextRange>, mentioned_channels: Vec<models::ChannelDehydrated>, mentioned_channels_ranges: Vec<models::TextRange>, channel: Option<models::ChannelOrChannelDehydrated>) -> CastWithInteractions {
         CastWithInteractions {
             object,
             hash,

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **name** | **String** |  | 
 **owner** | **String** |  | 
 **signature** | **String** |  | 
-**fid** | **i32** | Farcaster ID (FID). A unique identifier assigned to each user in the Farcaster network. This number is permanent and cannot be changed. FIDs are assigned sequentially when users register on the network.  | 
+**fid** | **i32** | The FID of the user who owns this username proof | 
 **r#type** | [**models::UserNameType**](UserNameType.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

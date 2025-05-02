@@ -20,8 +20,8 @@ use super::{Error, configuration, ContentType};
 #[serde(untagged)]
 pub enum DeleteCastError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }
@@ -72,8 +72,8 @@ pub enum LookupCastConversationError {
 #[serde(untagged)]
 pub enum PublishCastError {
     Status400(models::ErrorRes),
-    Status404(models::ErrorRes),
     Status403(models::ErrorRes),
+    Status404(models::ErrorRes),
     Status500(models::ErrorRes),
     UnknownValue(serde_json::Value),
 }

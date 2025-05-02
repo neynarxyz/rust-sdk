@@ -14,15 +14,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct UserVerifiedAddressesPrimary {
     /// Ethereum address
-    #[serde(rename = "eth_address")]
-    pub eth_address: String,
+    #[serde(rename = "eth_address", deserialize_with = "Option::deserialize")]
+    pub eth_address: Option<String>,
     /// Solana address
-    #[serde(rename = "sol_address")]
-    pub sol_address: String,
+    #[serde(rename = "sol_address", deserialize_with = "Option::deserialize")]
+    pub sol_address: Option<String>,
 }
 
 impl UserVerifiedAddressesPrimary {
-    pub fn new(eth_address: String, sol_address: String) -> UserVerifiedAddressesPrimary {
+    pub fn new(eth_address: Option<String>, sol_address: Option<String>) -> UserVerifiedAddressesPrimary {
         UserVerifiedAddressesPrimary {
             eth_address,
             sol_address,
