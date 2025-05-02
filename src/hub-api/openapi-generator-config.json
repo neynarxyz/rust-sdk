@@ -1,0 +1,9 @@
+{
+  "templateDir": "./src/hub-api/templates",
+  "ensureUniqueParams": true,
+  "generateAliasAsModel": true,
+  "additionalProperties": {
+    "packageName": "hub-api",
+    "packageVersion": "1.0.0"
+  }
+}

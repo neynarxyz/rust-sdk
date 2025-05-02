@@ -1,0 +1,9 @@
+{
+  "templateDir": "./src/api/templates",
+  "ensureUniqueParams": true,
+  "generateAliasAsModel": true,
+  "additionalProperties": {
+    "packageName": "api",
+    "packageVersion": "1.0.0"
+  }
+}

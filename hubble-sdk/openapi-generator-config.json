@@ -1,8 +1,0 @@
-{
-  "ensureUniqueParams": true,
-  "generateAliasAsModel": true,
-  "additionalProperties": {
-    "packageName": "hubble_sdk",
-    "packageVersion": "0.0.1"
-  }
-}

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
 members = [ 
-    "hubble-sdk",
-    "neynar-sdk"
+    "api",
+    "hub-api"
 ]
