@@ -28,4 +28,4 @@ npx --yes @openapitools/openapi-generator-cli \
     --type-mappings='"file=Vec<u8>"'
 
 # Fix generated code if needed
-sed -i 's/models::models/models/g' ./generated/api/src/apis/feed_api.rs
+sed -i '' 's/models::models/models/g' ./generated/api/src/apis/feed_api.rs
