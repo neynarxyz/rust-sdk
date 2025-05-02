@@ -29,3 +29,5 @@ npx --yes @openapitools/openapi-generator-cli \
 
 # Fix generated code if needed
 sed -i 's/models::models/models/g' ./generated/api/src/apis/feed_api.rs
+
+cargo build
