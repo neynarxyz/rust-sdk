@@ -14,6 +14,12 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`lookup_user_storage_limit`]
+#[derive(Clone, Debug)]
+pub struct LookupUserStorageLimitParams {
+    pub fid: i32
+}
+
 
 /// struct for typed errors of method [`lookup_user_storage_limit`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,14 +31,12 @@ pub enum LookupUserStorageLimitError {
 
 
 /// Fetch a user's storage limits.
-pub async fn lookup_user_storage_limit(configuration: &configuration::Configuration, fid: i32) -> Result<models::StorageLimitsResponse, Error<LookupUserStorageLimitError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
+pub async fn lookup_user_storage_limit(configuration: &configuration::Configuration, params: LookupUserStorageLimitParams) -> Result<models::StorageLimitsResponse, Error<LookupUserStorageLimitError>> {
 
     let uri_str = format!("{}/v1/storageLimitsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

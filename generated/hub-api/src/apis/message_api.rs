@@ -14,6 +14,20 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`publish_message`]
+#[derive(Clone, Debug)]
+pub struct PublishMessageParams {
+    /// A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity. 
+    pub body: std::path::PathBuf
+}
+
+/// struct for passing parameters to the method [`validate_message`]
+#[derive(Clone, Debug)]
+pub struct ValidateMessageParams {
+    /// A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity. 
+    pub body: std::path::PathBuf
+}
+
 
 /// struct for typed errors of method [`publish_message`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,9 +47,7 @@ pub enum ValidateMessageError {
 
 
 /// Submit a message to the Farcaster network.
-pub async fn publish_message(configuration: &configuration::Configuration, body: std::path::PathBuf) -> Result<models::Message, Error<PublishMessageError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_body = body;
+pub async fn publish_message(configuration: &configuration::Configuration, params: PublishMessageParams) -> Result<models::Message, Error<PublishMessageError>> {
 
     let uri_str = format!("{}/v1/submitMessage", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -51,7 +63,7 @@ pub async fn publish_message(configuration: &configuration::Configuration, body:
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.body(p_body);
+    req_builder = req_builder.body(params.body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -79,9 +91,7 @@ pub async fn publish_message(configuration: &configuration::Configuration, body:
 }
 
 /// Validate a message on the Farcaster network.
-pub async fn validate_message(configuration: &configuration::Configuration, body: std::path::PathBuf) -> Result<models::ValidateMessageResponse, Error<ValidateMessageError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_body = body;
+pub async fn validate_message(configuration: &configuration::Configuration, params: ValidateMessageParams) -> Result<models::ValidateMessageResponse, Error<ValidateMessageError>> {
 
     let uri_str = format!("{}/v1/validateMessage", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -97,7 +107,7 @@ pub async fn validate_message(configuration: &configuration::Configuration, body
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.body(p_body);
+    req_builder = req_builder.body(params.body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

@@ -14,6 +14,21 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_user_data`]
+#[derive(Clone, Debug)]
+pub struct FetchUserDataParams {
+    /// The FID that's being requested
+    pub fid: i32,
+    /// The type of user data, either as a numerical value or type string. If this is omitted, all user data for the FID is returned
+    pub user_data_type: Option<models::UserDataType>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
 
 /// struct for typed errors of method [`fetch_user_data`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,28 +40,22 @@ pub enum FetchUserDataError {
 
 
 /// **Note:** one of two different response schemas is returned based on whether the caller provides the `user_data_type` parameter. If included, a single `UserDataAdd` message is returned (or a `not_found` error). If omitted, a paginated list of `UserDataAdd` messages is returned instead.
-pub async fn fetch_user_data(configuration: &configuration::Configuration, fid: i32, user_data_type: Option<models::UserDataType>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchUserData200Response, Error<FetchUserDataError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_user_data_type = user_data_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_user_data(configuration: &configuration::Configuration, params: FetchUserDataParams) -> Result<models::FetchUserData200Response, Error<FetchUserDataError>> {
 
     let uri_str = format!("{}/v1/userDataByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_user_data_type {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.user_data_type {
         req_builder = req_builder.query(&[("user_data_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {

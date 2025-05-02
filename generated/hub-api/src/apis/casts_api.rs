@@ -14,6 +14,58 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_casts_by_parent`]
+#[derive(Clone, Debug)]
+pub struct FetchCastsByParentParams {
+    /// The Farcaster ID (FID) of the parent cast's creator. This parameter must be used together with the 'hash' parameter to uniquely identify a parent cast. Required only when using hash-based lookup instead of URL-based lookup. The FID is a unique identifier assigned to each Farcaster user.
+    pub fid: Option<i32>,
+    /// The unique hash identifier of the parent cast. Must be used together with the 'fid' parameter when doing hash-based lookup. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies the cast within the creator's posts. Not required if using URL-based lookup.
+    pub hash: Option<String>,
+    /// Cast URL starting with 'chain://'
+    pub url: Option<String>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_casts_mentioning_user`]
+#[derive(Clone, Debug)]
+pub struct FetchCastsMentioningUserParams {
+    /// The FID that is mentioned in a cast
+    pub fid: i32,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_users_casts`]
+#[derive(Clone, Debug)]
+pub struct FetchUsersCastsParams {
+    /// The FID of the casts' creator
+    pub fid: i32,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`lookup_cast_by_hash_and_fid`]
+#[derive(Clone, Debug)]
+pub struct LookupCastByHashAndFidParams {
+    /// The FID of the cast's creator
+    pub fid: i32,
+    /// The unique hash identifier of the cast. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies a specific cast in the Farcaster network.
+    pub hash: String
+}
+
 
 /// struct for typed errors of method [`fetch_casts_by_parent`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,34 +101,27 @@ pub enum LookupCastByHashAndFidError {
 
 
 /// Retrieve all reply casts (responses) to a specific parent cast in the Farcaster network. Parent casts can be identified using either a combination of FID and hash, or by their URL. This endpoint enables traversal of conversation threads and retrieval of all responses to a particular cast.
-pub async fn fetch_casts_by_parent(configuration: &configuration::Configuration, fid: Option<i32>, hash: Option<&str>, url: Option<&str>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchCastsByParent200Response, Error<FetchCastsByParentError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_hash = hash;
-    let p_url = url;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_casts_by_parent(configuration: &configuration::Configuration, params: FetchCastsByParentParams) -> Result<models::FetchCastsByParent200Response, Error<FetchCastsByParentError>> {
 
     let uri_str = format!("{}/v1/castsByParent", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_fid {
+    if let Some(ref param_value) = params.fid {
         req_builder = req_builder.query(&[("fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_hash {
+    if let Some(ref param_value) = params.hash {
         req_builder = req_builder.query(&[("hash", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_url {
+    if let Some(ref param_value) = params.url {
         req_builder = req_builder.query(&[("url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -117,24 +162,19 @@ pub async fn fetch_casts_by_parent(configuration: &configuration::Configuration,
 }
 
 /// Fetch casts mentioning a user.
-pub async fn fetch_casts_mentioning_user(configuration: &configuration::Configuration, fid: i32, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchCastsMentioningUser200Response, Error<FetchCastsMentioningUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_casts_mentioning_user(configuration: &configuration::Configuration, params: FetchCastsMentioningUserParams) -> Result<models::FetchCastsMentioningUser200Response, Error<FetchCastsMentioningUserError>> {
 
     let uri_str = format!("{}/v1/castsByMention", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_page_size {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -175,24 +215,19 @@ pub async fn fetch_casts_mentioning_user(configuration: &configuration::Configur
 }
 
 /// Fetch user's casts.
-pub async fn fetch_users_casts(configuration: &configuration::Configuration, fid: i32, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchUsersCasts200Response, Error<FetchUsersCastsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_users_casts(configuration: &configuration::Configuration, params: FetchUsersCastsParams) -> Result<models::FetchUsersCasts200Response, Error<FetchUsersCastsError>> {
 
     let uri_str = format!("{}/v1/castsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_page_size {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -233,16 +268,13 @@ pub async fn fetch_users_casts(configuration: &configuration::Configuration, fid
 }
 
 /// Lookup a cast by its FID and hash.
-pub async fn lookup_cast_by_hash_and_fid(configuration: &configuration::Configuration, fid: i32, hash: &str) -> Result<models::CastAdd, Error<LookupCastByHashAndFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_hash = hash;
+pub async fn lookup_cast_by_hash_and_fid(configuration: &configuration::Configuration, params: LookupCastByHashAndFidParams) -> Result<models::CastAdd, Error<LookupCastByHashAndFidError>> {
 
     let uri_str = format!("{}/v1/castById", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("hash", &p_hash.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("hash", &params.hash.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

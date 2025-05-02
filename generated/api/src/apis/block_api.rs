@@ -14,6 +14,33 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_block`]
+#[derive(Clone, Debug)]
+pub struct DeleteBlockParams {
+    pub block_req_body: models::BlockReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_block_list`]
+#[derive(Clone, Debug)]
+pub struct FetchBlockListParams {
+    /// Providing this will return the users that this user has blocked
+    pub blocker_fid: Option<i32>,
+    /// Providing this will return the users that have blocked this user
+    pub blocked_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`publish_block`]
+#[derive(Clone, Debug)]
+pub struct PublishBlockParams {
+    pub block_req_body: models::BlockReqBody
+}
+
 
 /// struct for typed errors of method [`delete_block`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -47,9 +74,7 @@ pub enum PublishBlockError {
 
 
 /// Deletes a block for a given FID.
-pub async fn delete_block(configuration: &configuration::Configuration, block_req_body: models::BlockReqBody) -> Result<models::OperationResponse, Error<DeleteBlockError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_block_req_body = block_req_body;
+pub async fn delete_block(configuration: &configuration::Configuration, params: DeleteBlockParams) -> Result<models::OperationResponse, Error<DeleteBlockError>> {
 
     let uri_str = format!("{}/farcaster/block", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -65,7 +90,7 @@ pub async fn delete_block(configuration: &configuration::Configuration, block_re
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_block_req_body);
+    req_builder = req_builder.json(&params.block_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -93,33 +118,27 @@ pub async fn delete_block(configuration: &configuration::Configuration, block_re
 }
 
 /// Fetches all FIDs that a user has blocked or has been blocked by
-pub async fn fetch_block_list(configuration: &configuration::Configuration, blocker_fid: Option<i32>, blocked_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::BlockListResponse, Error<FetchBlockListError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_blocker_fid = blocker_fid;
-    let p_blocked_fid = blocked_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_block_list(configuration: &configuration::Configuration, params: FetchBlockListParams) -> Result<models::BlockListResponse, Error<FetchBlockListError>> {
 
     let uri_str = format!("{}/farcaster/block/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_blocker_fid {
+    if let Some(ref param_value) = params.blocker_fid {
         req_builder = req_builder.query(&[("blocker_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_blocked_fid {
+    if let Some(ref param_value) = params.blocked_fid {
         req_builder = req_builder.query(&[("blocked_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -157,9 +176,7 @@ pub async fn fetch_block_list(configuration: &configuration::Configuration, bloc
 }
 
 /// Adds a block for a given FID.
-pub async fn publish_block(configuration: &configuration::Configuration, block_req_body: models::BlockReqBody) -> Result<models::OperationResponse, Error<PublishBlockError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_block_req_body = block_req_body;
+pub async fn publish_block(configuration: &configuration::Configuration, params: PublishBlockParams) -> Result<models::OperationResponse, Error<PublishBlockError>> {
 
     let uri_str = format!("{}/farcaster/block", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -175,7 +192,7 @@ pub async fn publish_block(configuration: &configuration::Configuration, block_r
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_block_req_body);
+    req_builder = req_builder.json(&params.block_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

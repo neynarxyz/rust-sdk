@@ -14,6 +14,200 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_casts_for_user`]
+#[derive(Clone, Debug)]
+pub struct FetchCastsForUserParams {
+    /// FID of user whose recent casts you want to fetch
+    pub fid: i32,
+    /// Optionally filter to casts created via a specific app FID, e.g. 9152 for Warpcast
+    pub app_fid: Option<i32>,
+    /// FID of the user viewing the feed
+    pub viewer_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor
+    pub cursor: Option<String>,
+    /// Include reply casts by the author in the response, true by default
+    pub include_replies: Option<bool>,
+    /// Parent URL to filter the feed; mutually exclusive with channel_id
+    pub parent_url: Option<String>,
+    /// Channel ID to filter the feed; mutually exclusive with parent_url
+    pub channel_id: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_feed`]
+#[derive(Clone, Debug)]
+pub struct FetchFeedParams {
+    /// Defaults to following (requires FID or address). If set to filter (requires filter_type)
+    pub feed_type: models::FeedType,
+    /// Used when feed_type=filter. Can be set to FIDs (requires FIDs) or parent_url (requires parent_url) or channel_id (requires channel_id)
+    pub filter_type: Option<models::FilterType>,
+    /// (Optional) FID of user whose feed you want to create. By default, the API expects this field, except if you pass a filter_type
+    pub fid: Option<i32>,
+    /// Used when filter_type=FIDs . Create a feed based on a list of FIDs. Max array size is 100. Requires feed_type and filter_type.
+    pub fids: Option<String>,
+    /// Used when filter_type=parent_url can be used to fetch content under any parent url e.g. FIP-2 channels on Warpcast. Requires feed_type and filter_type.
+    pub parent_url: Option<String>,
+    /// Used when filter_type=channel_id can be used to fetch casts under a channel. Requires feed_type and filter_type.
+    pub channel_id: Option<String>,
+    /// Used when filter_type=channel_id. Only include casts from members of the channel. True by default.
+    pub members_only: Option<bool>,
+    /// Used when filter_type=embed_url. Casts with embedded URLs prefixed by this embed_url param will be returned. We normalize your given URL prefix and prepend 'https://' if no protocol is included. Requires feed_type and filter_type.
+    pub embed_url: Option<String>,
+    /// Used when filter_type=embed_types can be used to fetch all casts with matching content types. Requires feed_type and filter_type.
+    pub embed_types: Option<Vec<models::EmbedType>>,
+    /// Include recasts in the response, true by default
+    pub with_recasts: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_feed_by_channel_ids`]
+#[derive(Clone, Debug)]
+pub struct FetchFeedByChannelIdsParams {
+    /// Comma separated list of up to 10 channel IDs e.g. neynar,farcaster
+    pub channel_ids: String,
+    /// Include recasts in the response, true by default
+    pub with_recasts: Option<bool>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Include replies in the response, false by default
+    pub with_replies: Option<bool>,
+    /// Only include casts from members of the channel. True by default.
+    pub members_only: Option<bool>,
+    /// Comma separated list of FIDs to filter the feed by, up to 10 at a time
+    pub fids: Option<String>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// If true, only casts that have been liked by the moderator (if one exists) will be returned.
+    pub should_moderate: Option<bool>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_feed_by_parent_urls`]
+#[derive(Clone, Debug)]
+pub struct FetchFeedByParentUrlsParams {
+    /// Comma separated list of parent_urls
+    pub parent_urls: String,
+    /// Include recasts in the response, true by default
+    pub with_recasts: Option<bool>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Include replies in the response, false by default
+    pub with_replies: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_feed_for_you`]
+#[derive(Clone, Debug)]
+pub struct FetchFeedForYouParams {
+    /// FID of user whose feed you want to create
+    pub fid: i32,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    pub provider: Option<models::ForYouProvider>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use. 
+    pub provider_metadata: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_frames_only_feed`]
+#[derive(Clone, Debug)]
+pub struct FetchFramesOnlyFeedParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_popular_casts_by_user`]
+#[derive(Clone, Debug)]
+pub struct FetchPopularCastsByUserParams {
+    /// FID of user whose feed you want to create
+    pub fid: i32,
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_replies_and_recasts_for_user`]
+#[derive(Clone, Debug)]
+pub struct FetchRepliesAndRecastsForUserParams {
+    /// FID of user whose replies and recasts you want to fetch
+    pub fid: i32,
+    /// filter to fetch only replies or recasts
+    pub filter: Option<String>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_trending_feed`]
+#[derive(Clone, Debug)]
+pub struct FetchTrendingFeedParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor
+    pub cursor: Option<String>,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Time window for trending casts (7d window for channel feeds only)
+    pub time_window: Option<models::TrendingTimeWindow>,
+    /// Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
+    pub channel_id: Option<String>,
+    /// Parent URL to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both.
+    pub parent_url: Option<String>,
+    /// The provider of the trending casts feed.
+    pub provider: Option<models::FeedTrendingProvider>,
+    /// provider_metadata is a URI-encoded stringified JSON object that can be used to pass additional metadata to the provider. Only available for mbd provider right now. See [here](https://docs.neynar.com/docs/feed-for-you-w-external-providers) on how to use. 
+    pub provider_metadata: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_user_following_feed`]
+#[derive(Clone, Debug)]
+pub struct FetchUserFollowingFeedParams {
+    /// FID of user whose feed you want to create
+    pub fid: i32,
+    /// Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Include recasts in the response, true by default
+    pub with_recasts: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
 
 /// struct for typed errors of method [`fetch_casts_for_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -100,47 +294,37 @@ pub enum FetchUserFollowingFeedError {
 
 
 /// Fetch casts for a given user FID in reverse chronological order. Also allows filtering by parent_url and channel
-pub async fn fetch_casts_for_user(configuration: &configuration::Configuration, fid: i32, app_fid: Option<i32>, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, include_replies: Option<bool>, parent_url: Option<&str>, channel_id: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchCastsForUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_app_fid = app_fid;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_include_replies = include_replies;
-    let p_parent_url = parent_url;
-    let p_channel_id = channel_id;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_casts_for_user(configuration: &configuration::Configuration, params: FetchCastsForUserParams) -> Result<models::FeedResponse, Error<FetchCastsForUserError>> {
 
     let uri_str = format!("{}/farcaster/feed/user/casts", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_app_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.app_fid {
         req_builder = req_builder.query(&[("app_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_include_replies {
+    if let Some(ref param_value) = params.include_replies {
         req_builder = req_builder.query(&[("include_replies", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_parent_url {
+    if let Some(ref param_value) = params.parent_url {
         req_builder = req_builder.query(&[("parent_url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -178,70 +362,55 @@ pub async fn fetch_casts_for_user(configuration: &configuration::Configuration, 
 }
 
 /// Fetch casts based on filters. Ensure setting the correct parameters based on the feed_type and filter_type.
-pub async fn fetch_feed(configuration: &configuration::Configuration, feed_type: models::FeedType, filter_type: Option<models::FilterType>, fid: Option<i32>, fids: Option<&str>, parent_url: Option<&str>, channel_id: Option<&str>, members_only: Option<bool>, embed_url: Option<&str>, embed_types: Option<Vec<models::EmbedType>>, with_recasts: Option<bool>, limit: Option<i32>, cursor: Option<&str>, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchFeedError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_feed_type = feed_type;
-    let p_filter_type = filter_type;
-    let p_fid = fid;
-    let p_fids = fids;
-    let p_parent_url = parent_url;
-    let p_channel_id = channel_id;
-    let p_members_only = members_only;
-    let p_embed_url = embed_url;
-    let p_embed_types = embed_types;
-    let p_with_recasts = with_recasts;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_feed(configuration: &configuration::Configuration, params: FetchFeedParams) -> Result<models::FeedResponse, Error<FetchFeedError>> {
 
     let uri_str = format!("{}/farcaster/feed", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("feed_type", &p_feed_type.to_string())]);
-    if let Some(ref param_value) = p_filter_type {
+    req_builder = req_builder.query(&[("feed_type", &params.feed_type.to_string())]);
+    if let Some(ref param_value) = params.filter_type {
         req_builder = req_builder.query(&[("filter_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_fid {
+    if let Some(ref param_value) = params.fid {
         req_builder = req_builder.query(&[("fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_fids {
+    if let Some(ref param_value) = params.fids {
         req_builder = req_builder.query(&[("fids", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_parent_url {
+    if let Some(ref param_value) = params.parent_url {
         req_builder = req_builder.query(&[("parent_url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_members_only {
+    if let Some(ref param_value) = params.members_only {
         req_builder = req_builder.query(&[("members_only", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_embed_url {
+    if let Some(ref param_value) = params.embed_url {
         req_builder = req_builder.query(&[("embed_url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_embed_types {
+    if let Some(ref param_value) = params.embed_types {
         req_builder = match "csv" {
             "multi" => req_builder.query(&param_value.into_iter().map(|p| ("embed_types".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => req_builder.query(&[("embed_types", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
     }
-    if let Some(ref param_value) = p_with_recasts {
+    if let Some(ref param_value) = params.with_recasts {
         req_builder = req_builder.query(&[("with_recasts", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -279,51 +448,40 @@ pub async fn fetch_feed(configuration: &configuration::Configuration, feed_type:
 }
 
 /// Fetch feed based on channel IDs
-pub async fn fetch_feed_by_channel_ids(configuration: &configuration::Configuration, channel_ids: &str, with_recasts: Option<bool>, viewer_fid: Option<i32>, with_replies: Option<bool>, members_only: Option<bool>, fids: Option<&str>, limit: Option<i32>, cursor: Option<&str>, should_moderate: Option<bool>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchFeedByChannelIdsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_channel_ids = channel_ids;
-    let p_with_recasts = with_recasts;
-    let p_viewer_fid = viewer_fid;
-    let p_with_replies = with_replies;
-    let p_members_only = members_only;
-    let p_fids = fids;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_should_moderate = should_moderate;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_feed_by_channel_ids(configuration: &configuration::Configuration, params: FetchFeedByChannelIdsParams) -> Result<models::FeedResponse, Error<FetchFeedByChannelIdsError>> {
 
     let uri_str = format!("{}/farcaster/feed/channels", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("channel_ids", &p_channel_ids.to_string())]);
-    if let Some(ref param_value) = p_with_recasts {
+    req_builder = req_builder.query(&[("channel_ids", &params.channel_ids.to_string())]);
+    if let Some(ref param_value) = params.with_recasts {
         req_builder = req_builder.query(&[("with_recasts", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_with_replies {
+    if let Some(ref param_value) = params.with_replies {
         req_builder = req_builder.query(&[("with_replies", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_members_only {
+    if let Some(ref param_value) = params.members_only {
         req_builder = req_builder.query(&[("members_only", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_fids {
+    if let Some(ref param_value) = params.fids {
         req_builder = req_builder.query(&[("fids", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_should_moderate {
+    if let Some(ref param_value) = params.should_moderate {
         req_builder = req_builder.query(&[("should_moderate", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -361,39 +519,31 @@ pub async fn fetch_feed_by_channel_ids(configuration: &configuration::Configurat
 }
 
 /// Fetch feed based on parent URLs
-pub async fn fetch_feed_by_parent_urls(configuration: &configuration::Configuration, parent_urls: &str, with_recasts: Option<bool>, viewer_fid: Option<i32>, with_replies: Option<bool>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchFeedByParentUrlsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_parent_urls = parent_urls;
-    let p_with_recasts = with_recasts;
-    let p_viewer_fid = viewer_fid;
-    let p_with_replies = with_replies;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_feed_by_parent_urls(configuration: &configuration::Configuration, params: FetchFeedByParentUrlsParams) -> Result<models::FeedResponse, Error<FetchFeedByParentUrlsError>> {
 
     let uri_str = format!("{}/farcaster/feed/parent_urls", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("parent_urls", &p_parent_urls.to_string())]);
-    if let Some(ref param_value) = p_with_recasts {
+    req_builder = req_builder.query(&[("parent_urls", &params.parent_urls.to_string())]);
+    if let Some(ref param_value) = params.with_recasts {
         req_builder = req_builder.query(&[("with_recasts", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_with_replies {
+    if let Some(ref param_value) = params.with_replies {
         req_builder = req_builder.query(&[("with_replies", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -431,39 +581,31 @@ pub async fn fetch_feed_by_parent_urls(configuration: &configuration::Configurat
 }
 
 /// Fetch a personalized For You feed for a user
-pub async fn fetch_feed_for_you(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>, provider: Option<models::ForYouProvider>, limit: Option<i32>, cursor: Option<&str>, provider_metadata: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchFeedForYouError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
-    let p_provider = provider;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_provider_metadata = provider_metadata;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_feed_for_you(configuration: &configuration::Configuration, params: FetchFeedForYouParams) -> Result<models::FeedResponse, Error<FetchFeedForYouError>> {
 
     let uri_str = format!("{}/farcaster/feed/for_you", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_provider {
+    if let Some(ref param_value) = params.provider {
         req_builder = req_builder.query(&[("provider", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_provider_metadata {
+    if let Some(ref param_value) = params.provider_metadata {
         req_builder = req_builder.query(&[("provider_metadata", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -501,29 +643,24 @@ pub async fn fetch_feed_for_you(configuration: &configuration::Configuration, fi
 }
 
 /// Fetch feed of casts with mini apps, reverse chronological order
-pub async fn fetch_frames_only_feed(configuration: &configuration::Configuration, limit: Option<i32>, viewer_fid: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchFramesOnlyFeedError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_viewer_fid = viewer_fid;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_frames_only_feed(configuration: &configuration::Configuration, params: FetchFramesOnlyFeedParams) -> Result<models::FeedResponse, Error<FetchFramesOnlyFeedError>> {
 
     let uri_str = format!("{}/farcaster/feed/frames", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -561,16 +698,13 @@ pub async fn fetch_frames_only_feed(configuration: &configuration::Configuration
 }
 
 /// Fetch 10 most popular casts for a given user FID; popularity based on replies, likes and recasts; sorted by most popular first
-pub async fn fetch_popular_casts_by_user(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>) -> Result<models::BulkCastsResponse, Error<FetchPopularCastsByUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_popular_casts_by_user(configuration: &configuration::Configuration, params: FetchPopularCastsByUserParams) -> Result<models::BulkCastsResponse, Error<FetchPopularCastsByUserError>> {
 
     let uri_str = format!("{}/farcaster/feed/user/popular", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -611,28 +745,22 @@ pub async fn fetch_popular_casts_by_user(configuration: &configuration::Configur
 }
 
 /// Fetch recent replies and recasts for a given user FID; sorted by most recent first
-pub async fn fetch_replies_and_recasts_for_user(configuration: &configuration::Configuration, fid: i32, filter: Option<&str>, limit: Option<i32>, cursor: Option<&str>, viewer_fid: Option<i32>) -> Result<models::FeedResponse, Error<FetchRepliesAndRecastsForUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_filter = filter;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_replies_and_recasts_for_user(configuration: &configuration::Configuration, params: FetchRepliesAndRecastsForUserParams) -> Result<models::FeedResponse, Error<FetchRepliesAndRecastsForUserError>> {
 
     let uri_str = format!("{}/farcaster/feed/user/replies_and_recasts", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_filter {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.filter {
         req_builder = req_builder.query(&[("filter", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -673,49 +801,39 @@ pub async fn fetch_replies_and_recasts_for_user(configuration: &configuration::C
 }
 
 /// Fetch trending casts or on the global feed or channels feeds. 7d time window available for channel feeds only.
-pub async fn fetch_trending_feed(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>, viewer_fid: Option<i32>, time_window: Option<models::TrendingTimeWindow>, channel_id: Option<&str>, parent_url: Option<&str>, provider: Option<models::FeedTrendingProvider>, provider_metadata: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchTrendingFeedError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_viewer_fid = viewer_fid;
-    let p_time_window = time_window;
-    let p_channel_id = channel_id;
-    let p_parent_url = parent_url;
-    let p_provider = provider;
-    let p_provider_metadata = provider_metadata;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_trending_feed(configuration: &configuration::Configuration, params: FetchTrendingFeedParams) -> Result<models::FeedResponse, Error<FetchTrendingFeedError>> {
 
     let uri_str = format!("{}/farcaster/feed/trending", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_time_window {
+    if let Some(ref param_value) = params.time_window {
         req_builder = req_builder.query(&[("time_window", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_parent_url {
+    if let Some(ref param_value) = params.parent_url {
         req_builder = req_builder.query(&[("parent_url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_provider {
+    if let Some(ref param_value) = params.provider {
         req_builder = req_builder.query(&[("provider", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_provider_metadata {
+    if let Some(ref param_value) = params.provider_metadata {
         req_builder = req_builder.query(&[("provider_metadata", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -753,35 +871,28 @@ pub async fn fetch_trending_feed(configuration: &configuration::Configuration, l
 }
 
 /// Fetch feed based on who a user is following
-pub async fn fetch_user_following_feed(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>, with_recasts: Option<bool>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FeedResponse, Error<FetchUserFollowingFeedError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
-    let p_with_recasts = with_recasts;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_user_following_feed(configuration: &configuration::Configuration, params: FetchUserFollowingFeedParams) -> Result<models::FeedResponse, Error<FetchUserFollowingFeedError>> {
 
     let uri_str = format!("{}/farcaster/feed/following", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_with_recasts {
+    if let Some(ref param_value) = params.with_recasts {
         req_builder = req_builder.query(&[("with_recasts", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {

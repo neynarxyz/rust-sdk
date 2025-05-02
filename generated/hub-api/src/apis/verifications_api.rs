@@ -14,6 +14,21 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_verifications_by_fid`]
+#[derive(Clone, Debug)]
+pub struct FetchVerificationsByFidParams {
+    /// The FID being requested
+    pub fid: i32,
+    /// The optional ETH address to filter by
+    pub address: Option<String>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
 
 /// struct for typed errors of method [`fetch_verifications_by_fid`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,28 +40,22 @@ pub enum FetchVerificationsByFidError {
 
 
 /// Fetch verifications provided by a user.
-pub async fn fetch_verifications_by_fid(configuration: &configuration::Configuration, fid: i32, address: Option<&str>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchVerificationsByFid200Response, Error<FetchVerificationsByFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_address = address;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_verifications_by_fid(configuration: &configuration::Configuration, params: FetchVerificationsByFidParams) -> Result<models::FetchVerificationsByFid200Response, Error<FetchVerificationsByFidError>> {
 
     let uri_str = format!("{}/v1/verificationsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_address {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.address {
         req_builder = req_builder.query(&[("address", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {

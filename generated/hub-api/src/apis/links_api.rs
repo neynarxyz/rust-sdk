@@ -14,6 +14,44 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_user_followers`]
+#[derive(Clone, Debug)]
+pub struct FetchUserFollowersParams {
+    /// The FID of the target user for this link
+    pub target_fid: i32,
+    pub link_type: Option<models::LinkType>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_user_following`]
+#[derive(Clone, Debug)]
+pub struct FetchUserFollowingParams {
+    /// The FID of the link's originator
+    pub fid: i32,
+    pub link_type: Option<models::LinkType>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`lookup_user_relation`]
+#[derive(Clone, Debug)]
+pub struct LookupUserRelationParams {
+    /// The FID of the link's originator
+    pub fid: i32,
+    /// The FID of the target user for this link
+    pub target_fid: i32,
+    pub link_type: models::LinkType
+}
+
 
 /// struct for typed errors of method [`fetch_user_followers`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -41,28 +79,22 @@ pub enum LookupUserRelationError {
 
 
 /// Fetch a list of users that are following a user.
-pub async fn fetch_user_followers(configuration: &configuration::Configuration, target_fid: i32, link_type: Option<models::LinkType>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchUserFollowers200Response, Error<FetchUserFollowersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_target_fid = target_fid;
-    let p_link_type = link_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_user_followers(configuration: &configuration::Configuration, params: FetchUserFollowersParams) -> Result<models::FetchUserFollowers200Response, Error<FetchUserFollowersError>> {
 
     let uri_str = format!("{}/v1/linksByTargetFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("target_fid", &p_target_fid.to_string())]);
-    if let Some(ref param_value) = p_link_type {
+    req_builder = req_builder.query(&[("target_fid", &params.target_fid.to_string())]);
+    if let Some(ref param_value) = params.link_type {
         req_builder = req_builder.query(&[("link_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -103,28 +135,22 @@ pub async fn fetch_user_followers(configuration: &configuration::Configuration, 
 }
 
 /// Fetch a list of users that a user is following.
-pub async fn fetch_user_following(configuration: &configuration::Configuration, fid: i32, link_type: Option<models::LinkType>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchUserFollowing200Response, Error<FetchUserFollowingError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_link_type = link_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_user_following(configuration: &configuration::Configuration, params: FetchUserFollowingParams) -> Result<models::FetchUserFollowing200Response, Error<FetchUserFollowingError>> {
 
     let uri_str = format!("{}/v1/linksByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_link_type {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.link_type {
         req_builder = req_builder.query(&[("link_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -165,18 +191,14 @@ pub async fn fetch_user_following(configuration: &configuration::Configuration, 
 }
 
 /// Lookup a link by its FID and target FID.
-pub async fn lookup_user_relation(configuration: &configuration::Configuration, fid: i32, target_fid: i32, link_type: models::LinkType) -> Result<models::LinkAdd, Error<LookupUserRelationError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_target_fid = target_fid;
-    let p_link_type = link_type;
+pub async fn lookup_user_relation(configuration: &configuration::Configuration, params: LookupUserRelationParams) -> Result<models::LinkAdd, Error<LookupUserRelationError>> {
 
     let uri_str = format!("{}/v1/linkById", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("target_fid", &p_target_fid.to_string())]);
-    req_builder = req_builder.query(&[("link_type", &p_link_type.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("target_fid", &params.target_fid.to_string())]);
+    req_builder = req_builder.query(&[("link_type", &params.link_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

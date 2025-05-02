@@ -14,6 +14,19 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_cast_metrics`]
+#[derive(Clone, Debug)]
+pub struct FetchCastMetricsParams {
+    /// Query string to search for casts
+    pub q: String,
+    /// Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d`
+    pub interval: Option<String>,
+    /// Fid of the user whose casts you want to search
+    pub author_fid: Option<i32>,
+    /// Channel ID of the casts you want to search
+    pub channel_id: Option<String>
+}
+
 
 /// struct for typed errors of method [`fetch_cast_metrics`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,24 +38,19 @@ pub enum FetchCastMetricsError {
 
 
 /// Fetches metrics casts matching a query
-pub async fn fetch_cast_metrics(configuration: &configuration::Configuration, q: &str, interval: Option<&str>, author_fid: Option<i32>, channel_id: Option<&str>) -> Result<models::CastsMetricsResponse, Error<FetchCastMetricsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_q = q;
-    let p_interval = interval;
-    let p_author_fid = author_fid;
-    let p_channel_id = channel_id;
+pub async fn fetch_cast_metrics(configuration: &configuration::Configuration, params: FetchCastMetricsParams) -> Result<models::CastsMetricsResponse, Error<FetchCastMetricsError>> {
 
     let uri_str = format!("{}/farcaster/cast/metrics", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("q", &p_q.to_string())]);
-    if let Some(ref param_value) = p_interval {
+    req_builder = req_builder.query(&[("q", &params.q.to_string())]);
+    if let Some(ref param_value) = params.interval {
         req_builder = req_builder.query(&[("interval", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_author_fid {
+    if let Some(ref param_value) = params.author_fid {
         req_builder = req_builder.query(&[("author_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {

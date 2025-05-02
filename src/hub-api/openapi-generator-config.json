@@ -3,6 +3,7 @@
   "generateAliasAsModel": true,
   "additionalProperties": {
     "packageName": "hub-api",
-    "packageVersion": "0.0.1"
+    "packageVersion": "0.0.1",
+    "useSingleRequestParameter": true
   }
 }

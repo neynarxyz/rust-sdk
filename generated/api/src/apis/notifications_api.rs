@@ -14,6 +14,57 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_all_notifications`]
+#[derive(Clone, Debug)]
+pub struct FetchAllNotificationsParams {
+    /// FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+    pub fid: i32,
+    /// Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies.
+    pub r#type: Option<Vec<models::NotificationType>>,
+    /// When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+    pub priority_mode: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_channel_notifications_for_user`]
+#[derive(Clone, Debug)]
+pub struct FetchChannelNotificationsForUserParams {
+    /// FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+    pub fid: i32,
+    /// Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels)
+    pub channel_ids: String,
+    /// When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+    pub priority_mode: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_notifications_by_parent_url_for_user`]
+#[derive(Clone, Debug)]
+pub struct FetchNotificationsByParentUrlForUserParams {
+    /// FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks.
+    pub fid: i32,
+    /// Comma separated parent_urls
+    pub parent_urls: String,
+    /// When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided).
+    pub priority_mode: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`mark_notifications_as_seen`]
+#[derive(Clone, Debug)]
+pub struct MarkNotificationsAsSeenParams {
+    pub mark_notifications_as_seen_req_body: models::MarkNotificationsAsSeenReqBody
+}
+
 
 /// struct for typed errors of method [`fetch_all_notifications`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -50,31 +101,25 @@ pub enum MarkNotificationsAsSeenError {
 
 
 /// Returns a list of notifications for a specific FID.
-pub async fn fetch_all_notifications(configuration: &configuration::Configuration, fid: i32, r#type: Option<Vec<models::NotificationType>>, priority_mode: Option<bool>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::NotificationsResponse, Error<FetchAllNotificationsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_type = r#type;
-    let p_priority_mode = priority_mode;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_all_notifications(configuration: &configuration::Configuration, params: FetchAllNotificationsParams) -> Result<models::NotificationsResponse, Error<FetchAllNotificationsError>> {
 
     let uri_str = format!("{}/farcaster/notifications", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_type {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.r#type {
         req_builder = match "csv" {
             "multi" => req_builder.query(&param_value.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => req_builder.query(&[("type", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
     }
-    if let Some(ref param_value) = p_priority_mode {
+    if let Some(ref param_value) = params.priority_mode {
         req_builder = req_builder.query(&[("priority_mode", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -115,26 +160,20 @@ pub async fn fetch_all_notifications(configuration: &configuration::Configuratio
 }
 
 /// Returns a list of notifications for a user in specific channels
-pub async fn fetch_channel_notifications_for_user(configuration: &configuration::Configuration, fid: i32, channel_ids: &str, priority_mode: Option<bool>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::NotificationsResponse, Error<FetchChannelNotificationsForUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_channel_ids = channel_ids;
-    let p_priority_mode = priority_mode;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_channel_notifications_for_user(configuration: &configuration::Configuration, params: FetchChannelNotificationsForUserParams) -> Result<models::NotificationsResponse, Error<FetchChannelNotificationsForUserError>> {
 
     let uri_str = format!("{}/farcaster/notifications/channel", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("channel_ids", &p_channel_ids.to_string())]);
-    if let Some(ref param_value) = p_priority_mode {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("channel_ids", &params.channel_ids.to_string())]);
+    if let Some(ref param_value) = params.priority_mode {
         req_builder = req_builder.query(&[("priority_mode", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -175,26 +214,20 @@ pub async fn fetch_channel_notifications_for_user(configuration: &configuration:
 }
 
 /// Returns a list of notifications for a user in specific parent_urls
-pub async fn fetch_notifications_by_parent_url_for_user(configuration: &configuration::Configuration, fid: i32, parent_urls: &str, priority_mode: Option<bool>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::NotificationsResponse, Error<FetchNotificationsByParentUrlForUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_parent_urls = parent_urls;
-    let p_priority_mode = priority_mode;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_notifications_by_parent_url_for_user(configuration: &configuration::Configuration, params: FetchNotificationsByParentUrlForUserParams) -> Result<models::NotificationsResponse, Error<FetchNotificationsByParentUrlForUserError>> {
 
     let uri_str = format!("{}/farcaster/notifications/parent_url", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("parent_urls", &p_parent_urls.to_string())]);
-    if let Some(ref param_value) = p_priority_mode {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("parent_urls", &params.parent_urls.to_string())]);
+    if let Some(ref param_value) = params.priority_mode {
         req_builder = req_builder.query(&[("priority_mode", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -235,9 +268,7 @@ pub async fn fetch_notifications_by_parent_url_for_user(configuration: &configur
 }
 
 /// Mark notifications as seen
-pub async fn mark_notifications_as_seen(configuration: &configuration::Configuration, mark_notifications_as_seen_req_body: models::MarkNotificationsAsSeenReqBody) -> Result<models::OperationResponse, Error<MarkNotificationsAsSeenError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_mark_notifications_as_seen_req_body = mark_notifications_as_seen_req_body;
+pub async fn mark_notifications_as_seen(configuration: &configuration::Configuration, params: MarkNotificationsAsSeenParams) -> Result<models::OperationResponse, Error<MarkNotificationsAsSeenError>> {
 
     let uri_str = format!("{}/farcaster/notifications/seen", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -253,7 +284,7 @@ pub async fn mark_notifications_as_seen(configuration: &configuration::Configura
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_mark_notifications_as_seen_req_body);
+    req_builder = req_builder.json(&params.mark_notifications_as_seen_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

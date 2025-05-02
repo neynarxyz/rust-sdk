@@ -14,6 +14,29 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_bans`]
+#[derive(Clone, Debug)]
+pub struct DeleteBansParams {
+    pub ban_req_body: models::BanReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_ban_list`]
+#[derive(Clone, Debug)]
+pub struct FetchBanListParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`publish_bans`]
+#[derive(Clone, Debug)]
+pub struct PublishBansParams {
+    pub ban_req_body: models::BanReqBody
+}
+
 
 /// struct for typed errors of method [`delete_bans`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -47,9 +70,7 @@ pub enum PublishBansError {
 
 
 /// Deletes a list of FIDs from the app associated with your API key.
-pub async fn delete_bans(configuration: &configuration::Configuration, ban_req_body: models::BanReqBody) -> Result<models::BanResponse, Error<DeleteBansError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_ban_req_body = ban_req_body;
+pub async fn delete_bans(configuration: &configuration::Configuration, params: DeleteBansParams) -> Result<models::BanResponse, Error<DeleteBansError>> {
 
     let uri_str = format!("{}/farcaster/ban", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -65,7 +86,7 @@ pub async fn delete_bans(configuration: &configuration::Configuration, ban_req_b
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_ban_req_body);
+    req_builder = req_builder.json(&params.ban_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -93,25 +114,21 @@ pub async fn delete_bans(configuration: &configuration::Configuration, ban_req_b
 }
 
 /// Fetches all FIDs that your app has banned.
-pub async fn fetch_ban_list(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::BanListResponse, Error<FetchBanListError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_ban_list(configuration: &configuration::Configuration, params: FetchBanListParams) -> Result<models::BanListResponse, Error<FetchBanListError>> {
 
     let uri_str = format!("{}/farcaster/ban/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -149,9 +166,7 @@ pub async fn fetch_ban_list(configuration: &configuration::Configuration, limit:
 }
 
 /// Bans a list of FIDs from the app associated with your API key. Banned users, their casts and reactions will not appear in feeds.
-pub async fn publish_bans(configuration: &configuration::Configuration, ban_req_body: models::BanReqBody) -> Result<models::BanResponse, Error<PublishBansError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_ban_req_body = ban_req_body;
+pub async fn publish_bans(configuration: &configuration::Configuration, params: PublishBansParams) -> Result<models::BanResponse, Error<PublishBansError>> {
 
     let uri_str = format!("{}/farcaster/ban", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -167,7 +182,7 @@ pub async fn publish_bans(configuration: &configuration::Configuration, ban_req_
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_ban_req_body);
+    req_builder = req_builder.json(&params.ban_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

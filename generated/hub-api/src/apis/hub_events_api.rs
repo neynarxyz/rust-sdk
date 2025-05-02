@@ -14,6 +14,20 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_events`]
+#[derive(Clone, Debug)]
+pub struct FetchEventsParams {
+    /// An optional Hub Id to start getting events from. This is also returned from the API as nextPageEventId, which can be used to page through all the Hub events. Set it to 0 to start from the first event. 
+    pub from_event_id: Option<i32>
+}
+
+/// struct for passing parameters to the method [`lookup_event`]
+#[derive(Clone, Debug)]
+pub struct LookupEventParams {
+    /// The Hub Id of the event
+    pub event_id: i32
+}
+
 
 /// struct for typed errors of method [`fetch_events`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,14 +47,12 @@ pub enum LookupEventError {
 
 
 /// Fetch a list of events.
-pub async fn fetch_events(configuration: &configuration::Configuration, from_event_id: Option<i32>) -> Result<models::FetchEvents200Response, Error<FetchEventsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_from_event_id = from_event_id;
+pub async fn fetch_events(configuration: &configuration::Configuration, params: FetchEventsParams) -> Result<models::FetchEvents200Response, Error<FetchEventsError>> {
 
     let uri_str = format!("{}/v1/events", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_from_event_id {
+    if let Some(ref param_value) = params.from_event_id {
         req_builder = req_builder.query(&[("from_event_id", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -81,14 +93,12 @@ pub async fn fetch_events(configuration: &configuration::Configuration, from_eve
 }
 
 /// Lookup an event by its ID.
-pub async fn lookup_event(configuration: &configuration::Configuration, event_id: i32) -> Result<models::HubEvent, Error<LookupEventError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_event_id = event_id;
+pub async fn lookup_event(configuration: &configuration::Configuration, params: LookupEventParams) -> Result<models::HubEvent, Error<LookupEventError>> {
 
     let uri_str = format!("{}/v1/eventById", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("event_id", &p_event_id.to_string())]);
+    req_builder = req_builder.query(&[("event_id", &params.event_id.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

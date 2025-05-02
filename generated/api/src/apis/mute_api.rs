@@ -14,6 +14,31 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_mute`]
+#[derive(Clone, Debug)]
+pub struct DeleteMuteParams {
+    pub mute_req_body: models::MuteReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_mute_list`]
+#[derive(Clone, Debug)]
+pub struct FetchMuteListParams {
+    /// The user's FID (identifier)
+    pub fid: i32,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`publish_mute`]
+#[derive(Clone, Debug)]
+pub struct PublishMuteParams {
+    pub mute_req_body: models::MuteReqBody
+}
+
 
 /// struct for typed errors of method [`delete_mute`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -47,9 +72,7 @@ pub enum PublishMuteError {
 
 
 /// Deletes a mute for a given FID. This is an allowlisted API, reach out if you want access.
-pub async fn delete_mute(configuration: &configuration::Configuration, mute_req_body: models::MuteReqBody) -> Result<models::MuteResponse, Error<DeleteMuteError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_mute_req_body = mute_req_body;
+pub async fn delete_mute(configuration: &configuration::Configuration, params: DeleteMuteParams) -> Result<models::MuteResponse, Error<DeleteMuteError>> {
 
     let uri_str = format!("{}/farcaster/mute", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -65,7 +88,7 @@ pub async fn delete_mute(configuration: &configuration::Configuration, mute_req_
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_mute_req_body);
+    req_builder = req_builder.json(&params.mute_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -93,27 +116,22 @@ pub async fn delete_mute(configuration: &configuration::Configuration, mute_req_
 }
 
 /// Fetches all FIDs that a user has muted.
-pub async fn fetch_mute_list(configuration: &configuration::Configuration, fid: i32, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::MuteListResponse, Error<FetchMuteListError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_mute_list(configuration: &configuration::Configuration, params: FetchMuteListParams) -> Result<models::MuteListResponse, Error<FetchMuteListError>> {
 
     let uri_str = format!("{}/farcaster/mute/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -151,9 +169,7 @@ pub async fn fetch_mute_list(configuration: &configuration::Configuration, fid: 
 }
 
 /// Adds a mute for a given FID. This is an allowlisted API, reach out if you want access.
-pub async fn publish_mute(configuration: &configuration::Configuration, mute_req_body: models::MuteReqBody) -> Result<models::MuteResponse, Error<PublishMuteError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_mute_req_body = mute_req_body;
+pub async fn publish_mute(configuration: &configuration::Configuration, params: PublishMuteParams) -> Result<models::MuteResponse, Error<PublishMuteError>> {
 
     let uri_str = format!("{}/farcaster/mute", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -169,7 +185,7 @@ pub async fn publish_mute(configuration: &configuration::Configuration, mute_req
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_mute_req_body);
+    req_builder = req_builder.json(&params.mute_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

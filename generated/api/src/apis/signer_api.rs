@@ -14,6 +14,52 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_authorization_url`]
+#[derive(Clone, Debug)]
+pub struct FetchAuthorizationUrlParams {
+    pub client_id: String,
+    pub response_type: models::AuthorizationUrlResponseType
+}
+
+/// struct for passing parameters to the method [`fetch_signers`]
+#[derive(Clone, Debug)]
+pub struct FetchSignersParams {
+    /// A Sign-In with Ethereum (SIWE) message that the user's Ethereum wallet signs. This message includes details such as the domain, address, statement, URI, nonce, and other relevant information following the EIP-4361 standard. It should be structured and URL-encoded.  example:  example.com wants you to sign in with your Ethereum account:\\\\n0x23A...F232\\\\n\\\\nSign in to continue.\\\\n\\\\nURI: example.com\\\\nVersion: 1\\\\nChain ID: 1\\\\nNonce: xyz123\\\\nIssued At: 2021-09-01T14:52:07Z  Note: This is just an example message (So, message is invalid, since we don't want any signers related to NEYNAR_API_DOCS to be exposed).   [Checkout fetch-signers API documentation for more details.](https://docs.neynar.com/docs/fetch-signers-1) 
+    pub message: String,
+    /// The digital signature produced by signing the provided SIWE message with the user's Ethereum private key. This signature is used to verify the authenticity of the message and the identity of the signer. 
+    pub signature: String
+}
+
+/// struct for passing parameters to the method [`lookup_developer_managed_signer`]
+#[derive(Clone, Debug)]
+pub struct LookupDeveloperManagedSignerParams {
+    pub public_key: String
+}
+
+/// struct for passing parameters to the method [`lookup_signer`]
+#[derive(Clone, Debug)]
+pub struct LookupSignerParams {
+    pub signer_uuid: String
+}
+
+/// struct for passing parameters to the method [`publish_message_to_farcaster`]
+#[derive(Clone, Debug)]
+pub struct PublishMessageToFarcasterParams {
+    pub body: serde_json::Value
+}
+
+/// struct for passing parameters to the method [`register_signed_key`]
+#[derive(Clone, Debug)]
+pub struct RegisterSignedKeyParams {
+    pub register_signer_key_req_body: models::RegisterSignerKeyReqBody
+}
+
+/// struct for passing parameters to the method [`register_signed_key_for_developer_managed_signer`]
+#[derive(Clone, Debug)]
+pub struct RegisterSignedKeyForDeveloperManagedSignerParams {
+    pub register_developer_managed_signed_key_req_body: models::RegisterDeveloperManagedSignedKeyReqBody
+}
+
 
 /// struct for typed errors of method [`create_signer`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -92,7 +138,7 @@ pub enum RegisterSignedKeyForDeveloperManagedSignerError {
 
 
 /// Creates a signer and returns the signer status. \\ **Note**: While tesing please reuse the signer, it costs money to approve a signer. 
-pub async fn create_signer(configuration: &configuration::Configuration, ) -> Result<models::Signer, Error<CreateSignerError>> {
+pub async fn create_signer(configuration: &configuration::Configuration) -> Result<models::Signer, Error<CreateSignerError>> {
 
     let uri_str = format!("{}/farcaster/signer", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -135,16 +181,13 @@ pub async fn create_signer(configuration: &configuration::Configuration, ) -> Re
 }
 
 /// Fetch authorization url (Fetched authorized url useful for SIWN login operation)
-pub async fn fetch_authorization_url(configuration: &configuration::Configuration, client_id: &str, response_type: models::AuthorizationUrlResponseType) -> Result<models::AuthorizationUrlResponse, Error<FetchAuthorizationUrlError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_client_id = client_id;
-    let p_response_type = response_type;
+pub async fn fetch_authorization_url(configuration: &configuration::Configuration, params: FetchAuthorizationUrlParams) -> Result<models::AuthorizationUrlResponse, Error<FetchAuthorizationUrlError>> {
 
     let uri_str = format!("{}/farcaster/login/authorize", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("client_id", &p_client_id.to_string())]);
-    req_builder = req_builder.query(&[("response_type", &p_response_type.to_string())]);
+    req_builder = req_builder.query(&[("client_id", &params.client_id.to_string())]);
+    req_builder = req_builder.query(&[("response_type", &params.response_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -183,16 +226,13 @@ pub async fn fetch_authorization_url(configuration: &configuration::Configuratio
 }
 
 /// Fetches a list of signers for a custody address
-pub async fn fetch_signers(configuration: &configuration::Configuration, message: &str, signature: &str) -> Result<models::SignerListResponse, Error<FetchSignersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_message = message;
-    let p_signature = signature;
+pub async fn fetch_signers(configuration: &configuration::Configuration, params: FetchSignersParams) -> Result<models::SignerListResponse, Error<FetchSignersError>> {
 
     let uri_str = format!("{}/farcaster/signer/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("message", &p_message.to_string())]);
-    req_builder = req_builder.query(&[("signature", &p_signature.to_string())]);
+    req_builder = req_builder.query(&[("message", &params.message.to_string())]);
+    req_builder = req_builder.query(&[("signature", &params.signature.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -231,14 +271,12 @@ pub async fn fetch_signers(configuration: &configuration::Configuration, message
 }
 
 /// Fetches the status of a developer managed signer by public key
-pub async fn lookup_developer_managed_signer(configuration: &configuration::Configuration, public_key: &str) -> Result<models::DeveloperManagedSigner, Error<LookupDeveloperManagedSignerError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_public_key = public_key;
+pub async fn lookup_developer_managed_signer(configuration: &configuration::Configuration, params: LookupDeveloperManagedSignerParams) -> Result<models::DeveloperManagedSigner, Error<LookupDeveloperManagedSignerError>> {
 
     let uri_str = format!("{}/farcaster/signer/developer_managed", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("public_key", &p_public_key.to_string())]);
+    req_builder = req_builder.query(&[("public_key", &params.public_key.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -277,14 +315,12 @@ pub async fn lookup_developer_managed_signer(configuration: &configuration::Conf
 }
 
 /// Gets information status of a signer by passing in a signer_uuid (Use post API to generate a signer)
-pub async fn lookup_signer(configuration: &configuration::Configuration, signer_uuid: &str) -> Result<models::Signer, Error<LookupSignerError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_signer_uuid = signer_uuid;
+pub async fn lookup_signer(configuration: &configuration::Configuration, params: LookupSignerParams) -> Result<models::Signer, Error<LookupSignerError>> {
 
     let uri_str = format!("{}/farcaster/signer", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("signer_uuid", &p_signer_uuid.to_string())]);
+    req_builder = req_builder.query(&[("signer_uuid", &params.signer_uuid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -323,9 +359,7 @@ pub async fn lookup_signer(configuration: &configuration::Configuration, signer_
 }
 
 /// Publish a message to farcaster. The message must be signed by a signer managed by the developer. Use the @farcaster/core library to construct and sign the message. Use the Message.toJSON method on the signed message and pass the JSON in the body of this POST request.
-pub async fn publish_message_to_farcaster(configuration: &configuration::Configuration, body: serde_json::Value) -> Result<serde_json::Value, Error<PublishMessageToFarcasterError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_body = body;
+pub async fn publish_message_to_farcaster(configuration: &configuration::Configuration, params: PublishMessageToFarcasterParams) -> Result<serde_json::Value, Error<PublishMessageToFarcasterError>> {
 
     let uri_str = format!("{}/farcaster/message", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -341,7 +375,7 @@ pub async fn publish_message_to_farcaster(configuration: &configuration::Configu
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_body);
+    req_builder = req_builder.json(&params.body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -369,9 +403,7 @@ pub async fn publish_message_to_farcaster(configuration: &configuration::Configu
 }
 
 /// Registers an app FID, deadline and a signature. Returns the signer status with an approval url.
-pub async fn register_signed_key(configuration: &configuration::Configuration, register_signer_key_req_body: models::RegisterSignerKeyReqBody) -> Result<models::Signer, Error<RegisterSignedKeyError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_register_signer_key_req_body = register_signer_key_req_body;
+pub async fn register_signed_key(configuration: &configuration::Configuration, params: RegisterSignedKeyParams) -> Result<models::Signer, Error<RegisterSignedKeyError>> {
 
     let uri_str = format!("{}/farcaster/signer/signed_key", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -387,7 +419,7 @@ pub async fn register_signed_key(configuration: &configuration::Configuration, r
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_register_signer_key_req_body);
+    req_builder = req_builder.json(&params.register_signer_key_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -415,9 +447,7 @@ pub async fn register_signed_key(configuration: &configuration::Configuration, r
 }
 
 /// Registers an signed key and returns the developer managed signer status with an approval url.
-pub async fn register_signed_key_for_developer_managed_signer(configuration: &configuration::Configuration, register_developer_managed_signed_key_req_body: models::RegisterDeveloperManagedSignedKeyReqBody) -> Result<models::DeveloperManagedSigner, Error<RegisterSignedKeyForDeveloperManagedSignerError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_register_developer_managed_signed_key_req_body = register_developer_managed_signed_key_req_body;
+pub async fn register_signed_key_for_developer_managed_signer(configuration: &configuration::Configuration, params: RegisterSignedKeyForDeveloperManagedSignerParams) -> Result<models::DeveloperManagedSigner, Error<RegisterSignedKeyForDeveloperManagedSignerError>> {
 
     let uri_str = format!("{}/farcaster/signer/developer_managed/signed_key", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -433,7 +463,7 @@ pub async fn register_signed_key_for_developer_managed_signer(configuration: &co
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_register_developer_managed_signed_key_req_body);
+    req_builder = req_builder.json(&params.register_developer_managed_signed_key_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

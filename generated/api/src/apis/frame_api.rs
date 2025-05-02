@@ -14,6 +14,114 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_neynar_frame`]
+#[derive(Clone, Debug)]
+pub struct DeleteNeynarFrameParams {
+    pub delete_frame_req_body: models::DeleteFrameReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_frame_catalog`]
+#[derive(Clone, Debug)]
+pub struct FetchFrameCatalogParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor
+    pub cursor: Option<String>,
+    /// Time window used to calculate the change in trending score for each mini app, used to sort mini app results
+    pub time_window: Option<models::TrendingTimeWindow>
+}
+
+/// struct for passing parameters to the method [`fetch_frame_meta_tags_from_url`]
+#[derive(Clone, Debug)]
+pub struct FetchFrameMetaTagsFromUrlParams {
+    /// The mini app URL to crawl
+    pub url: String
+}
+
+/// struct for passing parameters to the method [`fetch_notification_tokens`]
+#[derive(Clone, Debug)]
+pub struct FetchNotificationTokensParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Comma separated list of FIDs, up to 100 at a time
+    pub fids: Option<String>,
+    /// Pagination cursor
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_relevant_frames`]
+#[derive(Clone, Debug)]
+pub struct FetchRelevantFramesParams {
+    /// FID of the user to fetch relevant mini apps for
+    pub viewer_fid: i32,
+    /// Time window used to limit statistics used to calculate mini app relevance
+    pub time_window: Option<models::TrendingTimeWindow>
+}
+
+/// struct for passing parameters to the method [`fetch_validate_frame_analytics`]
+#[derive(Clone, Debug)]
+pub struct FetchValidateFrameAnalyticsParams {
+    pub frame_url: String,
+    pub analytics_type: models::ValidateFrameAnalyticsType,
+    pub start: String,
+    pub stop: String,
+    /// Required for `analytics_type=interactions-per-cast`
+    pub aggregate_window: Option<models::ValidateFrameAggregateWindow>
+}
+
+/// struct for passing parameters to the method [`get_transaction_pay_frame`]
+#[derive(Clone, Debug)]
+pub struct GetTransactionPayFrameParams {
+    /// ID of the transaction mini app to retrieve
+    pub id: String
+}
+
+/// struct for passing parameters to the method [`lookup_neynar_frame`]
+#[derive(Clone, Debug)]
+pub struct LookupNeynarFrameParams {
+    pub r#type: models::FrameType,
+    /// UUID of the mini app to fetch
+    pub uuid: Option<String>,
+    /// URL of the Neynar mini app to fetch
+    pub url: Option<String>
+}
+
+/// struct for passing parameters to the method [`post_frame_action`]
+#[derive(Clone, Debug)]
+pub struct PostFrameActionParams {
+    pub frame_action_req_body: models::FrameActionReqBody
+}
+
+/// struct for passing parameters to the method [`post_frame_action_developer_managed`]
+#[derive(Clone, Debug)]
+pub struct PostFrameActionDeveloperManagedParams {
+    pub frame_developer_managed_action_req_body: models::FrameDeveloperManagedActionReqBody
+}
+
+/// struct for passing parameters to the method [`publish_frame_notifications`]
+#[derive(Clone, Debug)]
+pub struct PublishFrameNotificationsParams {
+    pub send_frame_notifications_req_body: models::SendFrameNotificationsReqBody
+}
+
+/// struct for passing parameters to the method [`publish_neynar_frame`]
+#[derive(Clone, Debug)]
+pub struct PublishNeynarFrameParams {
+    pub neynar_frame_creation_req_body: models::NeynarFrameCreationReqBody
+}
+
+/// struct for passing parameters to the method [`update_neynar_frame`]
+#[derive(Clone, Debug)]
+pub struct UpdateNeynarFrameParams {
+    pub neynar_frame_update_req_body: models::NeynarFrameUpdateReqBody
+}
+
+/// struct for passing parameters to the method [`validate_frame_action`]
+#[derive(Clone, Debug)]
+pub struct ValidateFrameActionParams {
+    pub validate_frame_action_req_body: models::ValidateFrameActionReqBody
+}
+
 
 /// struct for typed errors of method [`delete_neynar_frame`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -155,9 +263,7 @@ pub enum ValidateFrameActionError {
 
 
 /// Delete an existing mini app, if it was made by the developer (identified by API key)
-pub async fn delete_neynar_frame(configuration: &configuration::Configuration, delete_frame_req_body: models::DeleteFrameReqBody) -> Result<models::DeleteFrameResponse, Error<DeleteNeynarFrameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_delete_frame_req_body = delete_frame_req_body;
+pub async fn delete_neynar_frame(configuration: &configuration::Configuration, params: DeleteNeynarFrameParams) -> Result<models::DeleteFrameResponse, Error<DeleteNeynarFrameError>> {
 
     let uri_str = format!("{}/farcaster/frame", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -173,7 +279,7 @@ pub async fn delete_neynar_frame(configuration: &configuration::Configuration, d
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_delete_frame_req_body);
+    req_builder = req_builder.json(&params.delete_frame_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -201,22 +307,18 @@ pub async fn delete_neynar_frame(configuration: &configuration::Configuration, d
 }
 
 /// A curated list of featured mini apps
-pub async fn fetch_frame_catalog(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>, time_window: Option<models::TrendingTimeWindow>) -> Result<models::FrameCatalogResponse, Error<FetchFrameCatalogError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_time_window = time_window;
+pub async fn fetch_frame_catalog(configuration: &configuration::Configuration, params: FetchFrameCatalogParams) -> Result<models::FrameCatalogResponse, Error<FetchFrameCatalogError>> {
 
     let uri_str = format!("{}/farcaster/frame/catalog", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_time_window {
+    if let Some(ref param_value) = params.time_window {
         req_builder = req_builder.query(&[("time_window", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -257,14 +359,12 @@ pub async fn fetch_frame_catalog(configuration: &configuration::Configuration, l
 }
 
 /// Fetches the mini app meta tags from the URL
-pub async fn fetch_frame_meta_tags_from_url(configuration: &configuration::Configuration, url: &str) -> Result<models::FetchFrameMetaTagsFromUrl200Response, Error<FetchFrameMetaTagsFromUrlError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_url = url;
+pub async fn fetch_frame_meta_tags_from_url(configuration: &configuration::Configuration, params: FetchFrameMetaTagsFromUrlParams) -> Result<models::FetchFrameMetaTagsFromUrl200Response, Error<FetchFrameMetaTagsFromUrlError>> {
 
     let uri_str = format!("{}/farcaster/frame/crawl", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("url", &p_url.to_string())]);
+    req_builder = req_builder.query(&[("url", &params.url.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -303,7 +403,7 @@ pub async fn fetch_frame_meta_tags_from_url(configuration: &configuration::Confi
 }
 
 /// Fetch a list of mini apps made by the developer (identified by API key)
-pub async fn fetch_neynar_frames(configuration: &configuration::Configuration, ) -> Result<Vec<models::NeynarFrame>, Error<FetchNeynarFramesError>> {
+pub async fn fetch_neynar_frames(configuration: &configuration::Configuration) -> Result<Vec<models::NeynarFrame>, Error<FetchNeynarFramesError>> {
 
     let uri_str = format!("{}/farcaster/frame/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -346,22 +446,18 @@ pub async fn fetch_neynar_frames(configuration: &configuration::Configuration, )
 }
 
 /// Returns a list of notifications tokens related to a mini app 
-pub async fn fetch_notification_tokens(configuration: &configuration::Configuration, limit: Option<i32>, fids: Option<&str>, cursor: Option<&str>) -> Result<models::FrameNotificationTokens, Error<FetchNotificationTokensError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_fids = fids;
-    let p_cursor = cursor;
+pub async fn fetch_notification_tokens(configuration: &configuration::Configuration, params: FetchNotificationTokensParams) -> Result<models::FrameNotificationTokens, Error<FetchNotificationTokensError>> {
 
     let uri_str = format!("{}/farcaster/frame/notification_tokens", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_fids {
+    if let Some(ref param_value) = params.fids {
         req_builder = req_builder.query(&[("fids", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -402,16 +498,13 @@ pub async fn fetch_notification_tokens(configuration: &configuration::Configurat
 }
 
 /// Fetch a list of mini apps relevant to the user based on casts by users with strong affinity score for the user
-pub async fn fetch_relevant_frames(configuration: &configuration::Configuration, viewer_fid: i32, time_window: Option<models::TrendingTimeWindow>) -> Result<models::FetchRelevantFrames200Response, Error<FetchRelevantFramesError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_viewer_fid = viewer_fid;
-    let p_time_window = time_window;
+pub async fn fetch_relevant_frames(configuration: &configuration::Configuration, params: FetchRelevantFramesParams) -> Result<models::FetchRelevantFrames200Response, Error<FetchRelevantFramesError>> {
 
     let uri_str = format!("{}/farcaster/frame/relevant", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("viewer_fid", &p_viewer_fid.to_string())]);
-    if let Some(ref param_value) = p_time_window {
+    req_builder = req_builder.query(&[("viewer_fid", &params.viewer_fid.to_string())]);
+    if let Some(ref param_value) = params.time_window {
         req_builder = req_builder.query(&[("time_window", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -452,22 +545,16 @@ pub async fn fetch_relevant_frames(configuration: &configuration::Configuration,
 }
 
 /// Fetch analytics for total-interactors, interactors, nteractions-per-cast and input-text.
-pub async fn fetch_validate_frame_analytics(configuration: &configuration::Configuration, frame_url: &str, analytics_type: models::ValidateFrameAnalyticsType, start: String, stop: String, aggregate_window: Option<models::ValidateFrameAggregateWindow>) -> Result<models::FrameValidateAnalyticsResponse, Error<FetchValidateFrameAnalyticsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_frame_url = frame_url;
-    let p_analytics_type = analytics_type;
-    let p_start = start;
-    let p_stop = stop;
-    let p_aggregate_window = aggregate_window;
+pub async fn fetch_validate_frame_analytics(configuration: &configuration::Configuration, params: FetchValidateFrameAnalyticsParams) -> Result<models::FrameValidateAnalyticsResponse, Error<FetchValidateFrameAnalyticsError>> {
 
     let uri_str = format!("{}/farcaster/frame/validate/analytics", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("frame_url", &p_frame_url.to_string())]);
-    req_builder = req_builder.query(&[("analytics_type", &p_analytics_type.to_string())]);
-    req_builder = req_builder.query(&[("start", &p_start.to_string())]);
-    req_builder = req_builder.query(&[("stop", &p_stop.to_string())]);
-    if let Some(ref param_value) = p_aggregate_window {
+    req_builder = req_builder.query(&[("frame_url", &params.frame_url.to_string())]);
+    req_builder = req_builder.query(&[("analytics_type", &params.analytics_type.to_string())]);
+    req_builder = req_builder.query(&[("start", &params.start.to_string())]);
+    req_builder = req_builder.query(&[("stop", &params.stop.to_string())]);
+    if let Some(ref param_value) = params.aggregate_window {
         req_builder = req_builder.query(&[("aggregate_window", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -508,7 +595,7 @@ pub async fn fetch_validate_frame_analytics(configuration: &configuration::Confi
 }
 
 /// Fetch a list of all the mini apps validated by a user
-pub async fn fetch_validate_frame_list(configuration: &configuration::Configuration, ) -> Result<models::FrameValidateListResponse, Error<FetchValidateFrameListError>> {
+pub async fn fetch_validate_frame_list(configuration: &configuration::Configuration) -> Result<models::FrameValidateListResponse, Error<FetchValidateFrameListError>> {
 
     let uri_str = format!("{}/farcaster/frame/validate/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -551,14 +638,12 @@ pub async fn fetch_validate_frame_list(configuration: &configuration::Configurat
 }
 
 /// Retrieves details about a transaction pay mini app by ID
-pub async fn get_transaction_pay_frame(configuration: &configuration::Configuration, id: &str) -> Result<models::TransactionFrameResponse, Error<GetTransactionPayFrameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_id = id;
+pub async fn get_transaction_pay_frame(configuration: &configuration::Configuration, params: GetTransactionPayFrameParams) -> Result<models::TransactionFrameResponse, Error<GetTransactionPayFrameError>> {
 
     let uri_str = format!("{}/farcaster/frame/transaction/pay", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("id", &p_id.to_string())]);
+    req_builder = req_builder.query(&[("id", &params.id.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -597,20 +682,16 @@ pub async fn get_transaction_pay_frame(configuration: &configuration::Configurat
 }
 
 /// Fetch a mini app either by UUID or Neynar URL
-pub async fn lookup_neynar_frame(configuration: &configuration::Configuration, r#type: models::FrameType, uuid: Option<&str>, url: Option<&str>) -> Result<models::NeynarFrame, Error<LookupNeynarFrameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_type = r#type;
-    let p_uuid = uuid;
-    let p_url = url;
+pub async fn lookup_neynar_frame(configuration: &configuration::Configuration, params: LookupNeynarFrameParams) -> Result<models::NeynarFrame, Error<LookupNeynarFrameError>> {
 
     let uri_str = format!("{}/farcaster/frame", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("type", &p_type.to_string())]);
-    if let Some(ref param_value) = p_uuid {
+    req_builder = req_builder.query(&[("type", &params.r#type.to_string())]);
+    if let Some(ref param_value) = params.uuid {
         req_builder = req_builder.query(&[("uuid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_url {
+    if let Some(ref param_value) = params.url {
         req_builder = req_builder.query(&[("url", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -651,9 +732,7 @@ pub async fn lookup_neynar_frame(configuration: &configuration::Configuration, r
 }
 
 /// Post mini app actions, cast actions or cast composer actions to the server  \\ (In order to post any of these actions, you need to have an approved `signer_uuid`)  The POST request to the post_url has a timeout of 5 seconds for mini apps. 
-pub async fn post_frame_action(configuration: &configuration::Configuration, frame_action_req_body: models::FrameActionReqBody) -> Result<models::Frame, Error<PostFrameActionError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_frame_action_req_body = frame_action_req_body;
+pub async fn post_frame_action(configuration: &configuration::Configuration, params: PostFrameActionParams) -> Result<models::Frame, Error<PostFrameActionError>> {
 
     let uri_str = format!("{}/farcaster/frame/action", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -669,7 +748,7 @@ pub async fn post_frame_action(configuration: &configuration::Configuration, fra
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_frame_action_req_body);
+    req_builder = req_builder.json(&params.frame_action_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -697,9 +776,7 @@ pub async fn post_frame_action(configuration: &configuration::Configuration, fra
 }
 
 /// Post a mini app action that has been signed with a developer managed signer  The POST request to the post_url has a timeout of 5 seconds. 
-pub async fn post_frame_action_developer_managed(configuration: &configuration::Configuration, frame_developer_managed_action_req_body: models::FrameDeveloperManagedActionReqBody) -> Result<models::Frame, Error<PostFrameActionDeveloperManagedError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_frame_developer_managed_action_req_body = frame_developer_managed_action_req_body;
+pub async fn post_frame_action_developer_managed(configuration: &configuration::Configuration, params: PostFrameActionDeveloperManagedParams) -> Result<models::Frame, Error<PostFrameActionDeveloperManagedError>> {
 
     let uri_str = format!("{}/farcaster/frame/developer_managed/action", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -715,7 +792,7 @@ pub async fn post_frame_action_developer_managed(configuration: &configuration::
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_frame_developer_managed_action_req_body);
+    req_builder = req_builder.json(&params.frame_developer_managed_action_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -743,9 +820,7 @@ pub async fn post_frame_action_developer_managed(configuration: &configuration::
 }
 
 /// Send notifications to interactors of a mini app 
-pub async fn publish_frame_notifications(configuration: &configuration::Configuration, send_frame_notifications_req_body: models::SendFrameNotificationsReqBody) -> Result<models::SendFrameNotificationsResponse, Error<PublishFrameNotificationsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_send_frame_notifications_req_body = send_frame_notifications_req_body;
+pub async fn publish_frame_notifications(configuration: &configuration::Configuration, params: PublishFrameNotificationsParams) -> Result<models::SendFrameNotificationsResponse, Error<PublishFrameNotificationsError>> {
 
     let uri_str = format!("{}/farcaster/frame/notifications", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -761,7 +836,7 @@ pub async fn publish_frame_notifications(configuration: &configuration::Configur
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_send_frame_notifications_req_body);
+    req_builder = req_builder.json(&params.send_frame_notifications_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -789,9 +864,7 @@ pub async fn publish_frame_notifications(configuration: &configuration::Configur
 }
 
 /// Create a new mini app with a list of pages.
-pub async fn publish_neynar_frame(configuration: &configuration::Configuration, neynar_frame_creation_req_body: models::NeynarFrameCreationReqBody) -> Result<models::NeynarFrame, Error<PublishNeynarFrameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_neynar_frame_creation_req_body = neynar_frame_creation_req_body;
+pub async fn publish_neynar_frame(configuration: &configuration::Configuration, params: PublishNeynarFrameParams) -> Result<models::NeynarFrame, Error<PublishNeynarFrameError>> {
 
     let uri_str = format!("{}/farcaster/frame", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -807,7 +880,7 @@ pub async fn publish_neynar_frame(configuration: &configuration::Configuration, 
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_neynar_frame_creation_req_body);
+    req_builder = req_builder.json(&params.neynar_frame_creation_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -835,9 +908,7 @@ pub async fn publish_neynar_frame(configuration: &configuration::Configuration, 
 }
 
 /// Update an existing mini app with a list of pages, if it was made by the developer (identified by API key)
-pub async fn update_neynar_frame(configuration: &configuration::Configuration, neynar_frame_update_req_body: models::NeynarFrameUpdateReqBody) -> Result<models::NeynarFrame, Error<UpdateNeynarFrameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_neynar_frame_update_req_body = neynar_frame_update_req_body;
+pub async fn update_neynar_frame(configuration: &configuration::Configuration, params: UpdateNeynarFrameParams) -> Result<models::NeynarFrame, Error<UpdateNeynarFrameError>> {
 
     let uri_str = format!("{}/farcaster/frame", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
@@ -853,7 +924,7 @@ pub async fn update_neynar_frame(configuration: &configuration::Configuration, n
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_neynar_frame_update_req_body);
+    req_builder = req_builder.json(&params.neynar_frame_update_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -881,9 +952,7 @@ pub async fn update_neynar_frame(configuration: &configuration::Configuration, n
 }
 
 /// Validates a mini app against by an interacting user against a Farcaster Hub \\ (In order to validate a mini app, message bytes from Frame Action must be provided in hex) 
-pub async fn validate_frame_action(configuration: &configuration::Configuration, validate_frame_action_req_body: models::ValidateFrameActionReqBody) -> Result<models::ValidateFrameActionResponse, Error<ValidateFrameActionError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_validate_frame_action_req_body = validate_frame_action_req_body;
+pub async fn validate_frame_action(configuration: &configuration::Configuration, params: ValidateFrameActionParams) -> Result<models::ValidateFrameActionResponse, Error<ValidateFrameActionError>> {
 
     let uri_str = format!("{}/farcaster/frame/validate", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -899,7 +968,7 @@ pub async fn validate_frame_action(configuration: &configuration::Configuration,
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_validate_frame_action_req_body);
+    req_builder = req_builder.json(&params.validate_frame_action_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

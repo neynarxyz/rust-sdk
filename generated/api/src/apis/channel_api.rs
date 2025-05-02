@@ -14,6 +14,175 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_all_channels`]
+#[derive(Clone, Debug)]
+pub struct FetchAllChannelsParams {
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_bulk_channels`]
+#[derive(Clone, Debug)]
+pub struct FetchBulkChannelsParams {
+    /// Comma separated list of channel IDs or parent_urls, up to 100 at a time
+    pub ids: String,
+    /// Type of identifier being used to query the channels. Defaults to ID.
+    pub r#type: Option<models::ChannelType>,
+    /// FID of the user viewing the channels.
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_channel_invites`]
+#[derive(Clone, Debug)]
+pub struct FetchChannelInvitesParams {
+    /// Channel ID for the channel being queried
+    pub channel_id: Option<String>,
+    /// FID of the user being invited
+    pub invited_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_channel_members`]
+#[derive(Clone, Debug)]
+pub struct FetchChannelMembersParams {
+    /// Channel ID for the channel being queried
+    pub channel_id: String,
+    /// FID of the user being queried. Specify this to check if a user is a member of the channel without paginating through all members.
+    pub fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_followers_for_a_channel`]
+#[derive(Clone, Debug)]
+pub struct FetchFollowersForAChannelParams {
+    /// Channel ID for the channel being queried
+    pub id: String,
+    /// Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Number of followers to fetch
+    pub limit: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_relevant_followers_for_a_channel`]
+#[derive(Clone, Debug)]
+pub struct FetchRelevantFollowersForAChannelParams {
+    /// Channel ID being queried
+    pub id: String,
+    /// The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: i32,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_trending_channels`]
+#[derive(Clone, Debug)]
+pub struct FetchTrendingChannelsParams {
+    pub time_window: Option<String>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_user_channel_memberships`]
+#[derive(Clone, Debug)]
+pub struct FetchUserChannelMembershipsParams {
+    /// The FID of the user.
+    pub fid: i32,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_user_channels`]
+#[derive(Clone, Debug)]
+pub struct FetchUserChannelsParams {
+    /// The FID of the user.
+    pub fid: i32,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_users_active_channels`]
+#[derive(Clone, Debug)]
+pub struct FetchUsersActiveChannelsParams {
+    /// The user's FID (identifier)
+    pub fid: i32,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`follow_channel`]
+#[derive(Clone, Debug)]
+pub struct FollowChannelParams {
+    pub channel_follow_req_body: models::ChannelFollowReqBody
+}
+
+/// struct for passing parameters to the method [`invite_channel_member`]
+#[derive(Clone, Debug)]
+pub struct InviteChannelMemberParams {
+    pub invite_channel_member_req_body: models::InviteChannelMemberReqBody
+}
+
+/// struct for passing parameters to the method [`lookup_channel`]
+#[derive(Clone, Debug)]
+pub struct LookupChannelParams {
+    /// Channel ID for the channel being queried
+    pub id: String,
+    /// Type of identifier being used to query the channel. Defaults to ID.
+    pub r#type: Option<models::ChannelType>,
+    /// FID of the user viewing the channel.
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`remove_channel_member`]
+#[derive(Clone, Debug)]
+pub struct RemoveChannelMemberParams {
+    pub remove_channel_member_req_body: models::RemoveChannelMemberReqBody
+}
+
+/// struct for passing parameters to the method [`respond_channel_invite`]
+#[derive(Clone, Debug)]
+pub struct RespondChannelInviteParams {
+    pub respond_channel_invite_req_body: models::RespondChannelInviteReqBody
+}
+
+/// struct for passing parameters to the method [`search_channels`]
+#[derive(Clone, Debug)]
+pub struct SearchChannelsParams {
+    /// Channel ID or name for the channel being queried
+    pub q: String,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`unfollow_channel`]
+#[derive(Clone, Debug)]
+pub struct UnfollowChannelParams {
+    pub channel_follow_req_body: models::ChannelFollowReqBody
+}
+
 
 /// struct for typed errors of method [`fetch_all_channels`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -164,18 +333,15 @@ pub enum UnfollowChannelError {
 
 
 /// Returns a list of all channels with their details
-pub async fn fetch_all_channels(configuration: &configuration::Configuration, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ChannelListResponse, Error<FetchAllChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_all_channels(configuration: &configuration::Configuration, params: FetchAllChannelsParams) -> Result<models::ChannelListResponse, Error<FetchAllChannelsError>> {
 
     let uri_str = format!("{}/farcaster/channel/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -216,20 +382,16 @@ pub async fn fetch_all_channels(configuration: &configuration::Configuration, li
 }
 
 /// Returns details of multiple channels
-pub async fn fetch_bulk_channels(configuration: &configuration::Configuration, ids: &str, r#type: Option<models::ChannelType>, viewer_fid: Option<i32>) -> Result<models::ChannelResponseBulk, Error<FetchBulkChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_ids = ids;
-    let p_type = r#type;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_bulk_channels(configuration: &configuration::Configuration, params: FetchBulkChannelsParams) -> Result<models::ChannelResponseBulk, Error<FetchBulkChannelsError>> {
 
     let uri_str = format!("{}/farcaster/channel/bulk", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("ids", &p_ids.to_string())]);
-    if let Some(ref param_value) = p_type {
+    req_builder = req_builder.query(&[("ids", &params.ids.to_string())]);
+    if let Some(ref param_value) = params.r#type {
         req_builder = req_builder.query(&[("type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -270,26 +432,21 @@ pub async fn fetch_bulk_channels(configuration: &configuration::Configuration, i
 }
 
 /// Fetch a list of invites, either in a channel or for a user. If both are provided, open channel invite for that user is returned.
-pub async fn fetch_channel_invites(configuration: &configuration::Configuration, channel_id: Option<&str>, invited_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ChannelMemberInviteListResponse, Error<FetchChannelInvitesError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_channel_id = channel_id;
-    let p_invited_fid = invited_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_channel_invites(configuration: &configuration::Configuration, params: FetchChannelInvitesParams) -> Result<models::ChannelMemberInviteListResponse, Error<FetchChannelInvitesError>> {
 
     let uri_str = format!("{}/farcaster/channel/member/invite/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_invited_fid {
+    if let Some(ref param_value) = params.invited_fid {
         req_builder = req_builder.query(&[("invited_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -330,31 +487,25 @@ pub async fn fetch_channel_invites(configuration: &configuration::Configuration,
 }
 
 /// Fetch a list of members in a channel
-pub async fn fetch_channel_members(configuration: &configuration::Configuration, channel_id: &str, fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::ChannelMemberListResponse, Error<FetchChannelMembersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_channel_id = channel_id;
-    let p_fid = fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_channel_members(configuration: &configuration::Configuration, params: FetchChannelMembersParams) -> Result<models::ChannelMemberListResponse, Error<FetchChannelMembersError>> {
 
     let uri_str = format!("{}/farcaster/channel/member/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("channel_id", &p_channel_id.to_string())]);
-    if let Some(ref param_value) = p_fid {
+    req_builder = req_builder.query(&[("channel_id", &params.channel_id.to_string())]);
+    if let Some(ref param_value) = params.fid {
         req_builder = req_builder.query(&[("fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -392,31 +543,25 @@ pub async fn fetch_channel_members(configuration: &configuration::Configuration,
 }
 
 /// Returns a list of followers for a specific channel. Max limit is 1000. Use cursor for pagination.
-pub async fn fetch_followers_for_a_channel(configuration: &configuration::Configuration, id: &str, viewer_fid: Option<i32>, cursor: Option<&str>, limit: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::UsersResponse, Error<FetchFollowersForAChannelError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_id = id;
-    let p_viewer_fid = viewer_fid;
-    let p_cursor = cursor;
-    let p_limit = limit;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_followers_for_a_channel(configuration: &configuration::Configuration, params: FetchFollowersForAChannelParams) -> Result<models::UsersResponse, Error<FetchFollowersForAChannelError>> {
 
     let uri_str = format!("{}/farcaster/channel/followers", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("id", &p_id.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("id", &params.id.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -454,21 +599,17 @@ pub async fn fetch_followers_for_a_channel(configuration: &configuration::Config
 }
 
 /// Returns a list of relevant channel followers for a specific FID. This usually shows on a channel as \"X, Y, Z follow this channel\".
-pub async fn fetch_relevant_followers_for_a_channel(configuration: &configuration::Configuration, id: &str, viewer_fid: i32, x_neynar_experimental: Option<bool>) -> Result<models::RelevantFollowersResponse, Error<FetchRelevantFollowersForAChannelError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_id = id;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_relevant_followers_for_a_channel(configuration: &configuration::Configuration, params: FetchRelevantFollowersForAChannelParams) -> Result<models::RelevantFollowersResponse, Error<FetchRelevantFollowersForAChannelError>> {
 
     let uri_str = format!("{}/farcaster/channel/followers/relevant", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("id", &p_id.to_string())]);
-    req_builder = req_builder.query(&[("viewer_fid", &p_viewer_fid.to_string())]);
+    req_builder = req_builder.query(&[("id", &params.id.to_string())]);
+    req_builder = req_builder.query(&[("viewer_fid", &params.viewer_fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -506,22 +647,18 @@ pub async fn fetch_relevant_followers_for_a_channel(configuration: &configuratio
 }
 
 /// Returns a list of trending channels based on activity
-pub async fn fetch_trending_channels(configuration: &configuration::Configuration, time_window: Option<&str>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::TrendingChannelResponse, Error<FetchTrendingChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_time_window = time_window;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_trending_channels(configuration: &configuration::Configuration, params: FetchTrendingChannelsParams) -> Result<models::TrendingChannelResponse, Error<FetchTrendingChannelsError>> {
 
     let uri_str = format!("{}/farcaster/channel/trending", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_time_window {
+    if let Some(ref param_value) = params.time_window {
         req_builder = req_builder.query(&[("time_window", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -562,20 +699,16 @@ pub async fn fetch_trending_channels(configuration: &configuration::Configuratio
 }
 
 /// Returns a list of all channels with their details that an FID is a member of. Data may have a delay of up to 1 hour.
-pub async fn fetch_user_channel_memberships(configuration: &configuration::Configuration, fid: i32, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ChannelMemberListResponse, Error<FetchUserChannelMembershipsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_user_channel_memberships(configuration: &configuration::Configuration, params: FetchUserChannelMembershipsParams) -> Result<models::ChannelMemberListResponse, Error<FetchUserChannelMembershipsError>> {
 
     let uri_str = format!("{}/farcaster/user/memberships/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -616,20 +749,16 @@ pub async fn fetch_user_channel_memberships(configuration: &configuration::Confi
 }
 
 /// Returns a list of all channels with their details that a FID follows.
-pub async fn fetch_user_channels(configuration: &configuration::Configuration, fid: i32, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ChannelListResponse, Error<FetchUserChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_user_channels(configuration: &configuration::Configuration, params: FetchUserChannelsParams) -> Result<models::ChannelListResponse, Error<FetchUserChannelsError>> {
 
     let uri_str = format!("{}/farcaster/user/channels", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -670,20 +799,16 @@ pub async fn fetch_user_channels(configuration: &configuration::Configuration, f
 }
 
 /// Fetches all channels that a user has casted in, in reverse chronological order.
-pub async fn fetch_users_active_channels(configuration: &configuration::Configuration, fid: i32, limit: Option<i32>, cursor: Option<&str>) -> Result<models::UsersActiveChannelsResponse, Error<FetchUsersActiveChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_users_active_channels(configuration: &configuration::Configuration, params: FetchUsersActiveChannelsParams) -> Result<models::UsersActiveChannelsResponse, Error<FetchUsersActiveChannelsError>> {
 
     let uri_str = format!("{}/farcaster/channel/user", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -724,9 +849,7 @@ pub async fn fetch_users_active_channels(configuration: &configuration::Configur
 }
 
 /// Follow a channel
-pub async fn follow_channel(configuration: &configuration::Configuration, channel_follow_req_body: models::ChannelFollowReqBody) -> Result<models::OperationResponse, Error<FollowChannelError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_channel_follow_req_body = channel_follow_req_body;
+pub async fn follow_channel(configuration: &configuration::Configuration, params: FollowChannelParams) -> Result<models::OperationResponse, Error<FollowChannelError>> {
 
     let uri_str = format!("{}/farcaster/channel/follow", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -742,7 +865,7 @@ pub async fn follow_channel(configuration: &configuration::Configuration, channe
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_channel_follow_req_body);
+    req_builder = req_builder.json(&params.channel_follow_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -770,9 +893,7 @@ pub async fn follow_channel(configuration: &configuration::Configuration, channe
 }
 
 /// Invite a user to a channel
-pub async fn invite_channel_member(configuration: &configuration::Configuration, invite_channel_member_req_body: models::InviteChannelMemberReqBody) -> Result<models::OperationResponse, Error<InviteChannelMemberError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_invite_channel_member_req_body = invite_channel_member_req_body;
+pub async fn invite_channel_member(configuration: &configuration::Configuration, params: InviteChannelMemberParams) -> Result<models::OperationResponse, Error<InviteChannelMemberError>> {
 
     let uri_str = format!("{}/farcaster/channel/member/invite", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -788,7 +909,7 @@ pub async fn invite_channel_member(configuration: &configuration::Configuration,
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_invite_channel_member_req_body);
+    req_builder = req_builder.json(&params.invite_channel_member_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -816,20 +937,16 @@ pub async fn invite_channel_member(configuration: &configuration::Configuration,
 }
 
 /// Returns details of a channel
-pub async fn lookup_channel(configuration: &configuration::Configuration, id: &str, r#type: Option<models::ChannelType>, viewer_fid: Option<i32>) -> Result<models::ChannelResponse, Error<LookupChannelError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_id = id;
-    let p_type = r#type;
-    let p_viewer_fid = viewer_fid;
+pub async fn lookup_channel(configuration: &configuration::Configuration, params: LookupChannelParams) -> Result<models::ChannelResponse, Error<LookupChannelError>> {
 
     let uri_str = format!("{}/farcaster/channel", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("id", &p_id.to_string())]);
-    if let Some(ref param_value) = p_type {
+    req_builder = req_builder.query(&[("id", &params.id.to_string())]);
+    if let Some(ref param_value) = params.r#type {
         req_builder = req_builder.query(&[("type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -870,9 +987,7 @@ pub async fn lookup_channel(configuration: &configuration::Configuration, id: &s
 }
 
 /// Remove a user from a channel or a user's invite to a channel role
-pub async fn remove_channel_member(configuration: &configuration::Configuration, remove_channel_member_req_body: models::RemoveChannelMemberReqBody) -> Result<models::OperationResponse, Error<RemoveChannelMemberError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_remove_channel_member_req_body = remove_channel_member_req_body;
+pub async fn remove_channel_member(configuration: &configuration::Configuration, params: RemoveChannelMemberParams) -> Result<models::OperationResponse, Error<RemoveChannelMemberError>> {
 
     let uri_str = format!("{}/farcaster/channel/member", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -888,7 +1003,7 @@ pub async fn remove_channel_member(configuration: &configuration::Configuration,
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_remove_channel_member_req_body);
+    req_builder = req_builder.json(&params.remove_channel_member_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -916,9 +1031,7 @@ pub async fn remove_channel_member(configuration: &configuration::Configuration,
 }
 
 /// Accept or reject a channel invite
-pub async fn respond_channel_invite(configuration: &configuration::Configuration, respond_channel_invite_req_body: models::RespondChannelInviteReqBody) -> Result<models::OperationResponse, Error<RespondChannelInviteError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_respond_channel_invite_req_body = respond_channel_invite_req_body;
+pub async fn respond_channel_invite(configuration: &configuration::Configuration, params: RespondChannelInviteParams) -> Result<models::OperationResponse, Error<RespondChannelInviteError>> {
 
     let uri_str = format!("{}/farcaster/channel/member/invite", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
@@ -934,7 +1047,7 @@ pub async fn respond_channel_invite(configuration: &configuration::Configuration
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_respond_channel_invite_req_body);
+    req_builder = req_builder.json(&params.respond_channel_invite_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -962,20 +1075,16 @@ pub async fn respond_channel_invite(configuration: &configuration::Configuration
 }
 
 /// Returns a list of channels based on ID or name
-pub async fn search_channels(configuration: &configuration::Configuration, q: &str, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ChannelSearchResponse, Error<SearchChannelsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_q = q;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn search_channels(configuration: &configuration::Configuration, params: SearchChannelsParams) -> Result<models::ChannelSearchResponse, Error<SearchChannelsError>> {
 
     let uri_str = format!("{}/farcaster/channel/search", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("q", &p_q.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("q", &params.q.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -1016,9 +1125,7 @@ pub async fn search_channels(configuration: &configuration::Configuration, q: &s
 }
 
 /// Unfollow a channel
-pub async fn unfollow_channel(configuration: &configuration::Configuration, channel_follow_req_body: models::ChannelFollowReqBody) -> Result<models::OperationResponse, Error<UnfollowChannelError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_channel_follow_req_body = channel_follow_req_body;
+pub async fn unfollow_channel(configuration: &configuration::Configuration, params: UnfollowChannelParams) -> Result<models::OperationResponse, Error<UnfollowChannelError>> {
 
     let uri_str = format!("{}/farcaster/channel/follow", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -1034,7 +1141,7 @@ pub async fn unfollow_channel(configuration: &configuration::Configuration, chan
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_channel_follow_req_body);
+    req_builder = req_builder.json(&params.channel_follow_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

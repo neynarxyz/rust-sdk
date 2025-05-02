@@ -14,6 +14,40 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_subscribed_to_for_fid`]
+#[derive(Clone, Debug)]
+pub struct FetchSubscribedToForFidParams {
+    pub fid: i32,
+    pub subscription_provider: models::SubscriptionProvider,
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_subscribers_for_fid`]
+#[derive(Clone, Debug)]
+pub struct FetchSubscribersForFidParams {
+    pub fid: i32,
+    pub subscription_provider: models::SubscriptionProviders,
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_subscription_check`]
+#[derive(Clone, Debug)]
+pub struct FetchSubscriptionCheckParams {
+    /// Comma separated list of Ethereum addresses, up to 350 at a time
+    pub addresses: String,
+    /// Ethereum address of the STP contract
+    pub contract_address: String,
+    /// Chain ID of the STP contract
+    pub chain_id: String
+}
+
+/// struct for passing parameters to the method [`fetch_subscriptions_for_fid`]
+#[derive(Clone, Debug)]
+pub struct FetchSubscriptionsForFidParams {
+    pub fid: i32,
+    pub subscription_provider: models::SubscriptionProvider
+}
+
 
 /// struct for typed errors of method [`fetch_subscribed_to_for_fid`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,20 +83,16 @@ pub enum FetchSubscriptionsForFidError {
 
 
 /// Fetch what FIDs and contracts a FID is subscribed to.
-pub async fn fetch_subscribed_to_for_fid(configuration: &configuration::Configuration, fid: i32, subscription_provider: models::SubscriptionProvider, viewer_fid: Option<i32>) -> Result<models::SubscribedToResponse, Error<FetchSubscribedToForFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_subscription_provider = subscription_provider;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_subscribed_to_for_fid(configuration: &configuration::Configuration, params: FetchSubscribedToForFidParams) -> Result<models::SubscribedToResponse, Error<FetchSubscribedToForFidError>> {
 
     let uri_str = format!("{}/farcaster/user/subscribed_to", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    req_builder = req_builder.query(&[("subscription_provider", &p_subscription_provider.to_string())]);
+    req_builder = req_builder.query(&[("subscription_provider", &params.subscription_provider.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -101,20 +131,16 @@ pub async fn fetch_subscribed_to_for_fid(configuration: &configuration::Configur
 }
 
 /// Fetch subscribers for a given FID's contracts. Doesn't return addresses that don't have an FID.
-pub async fn fetch_subscribers_for_fid(configuration: &configuration::Configuration, fid: i32, subscription_provider: models::SubscriptionProviders, viewer_fid: Option<i32>) -> Result<models::SubscribersResponse, Error<FetchSubscribersForFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_subscription_provider = subscription_provider;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_subscribers_for_fid(configuration: &configuration::Configuration, params: FetchSubscribersForFidParams) -> Result<models::SubscribersResponse, Error<FetchSubscribersForFidError>> {
 
     let uri_str = format!("{}/farcaster/user/subscribers", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    req_builder = req_builder.query(&[("subscription_provider", &p_subscription_provider.to_string())]);
+    req_builder = req_builder.query(&[("subscription_provider", &params.subscription_provider.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -153,18 +179,14 @@ pub async fn fetch_subscribers_for_fid(configuration: &configuration::Configurat
 }
 
 /// Check if a wallet address is subscribed to a given STP (Hypersub) contract.
-pub async fn fetch_subscription_check(configuration: &configuration::Configuration, addresses: &str, contract_address: &str, chain_id: &str) -> Result<models::SubscriptionCheckResponse, Error<FetchSubscriptionCheckError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_addresses = addresses;
-    let p_contract_address = contract_address;
-    let p_chain_id = chain_id;
+pub async fn fetch_subscription_check(configuration: &configuration::Configuration, params: FetchSubscriptionCheckParams) -> Result<models::SubscriptionCheckResponse, Error<FetchSubscriptionCheckError>> {
 
     let uri_str = format!("{}/stp/subscription_check", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("addresses", &p_addresses.to_string())]);
-    req_builder = req_builder.query(&[("contract_address", &p_contract_address.to_string())]);
-    req_builder = req_builder.query(&[("chain_id", &p_chain_id.to_string())]);
+    req_builder = req_builder.query(&[("addresses", &params.addresses.to_string())]);
+    req_builder = req_builder.query(&[("contract_address", &params.contract_address.to_string())]);
+    req_builder = req_builder.query(&[("chain_id", &params.chain_id.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -203,16 +225,13 @@ pub async fn fetch_subscription_check(configuration: &configuration::Configurati
 }
 
 /// Fetch created subscriptions for a given FID's.
-pub async fn fetch_subscriptions_for_fid(configuration: &configuration::Configuration, fid: i32, subscription_provider: models::SubscriptionProvider) -> Result<models::SubscriptionsResponse, Error<FetchSubscriptionsForFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_subscription_provider = subscription_provider;
+pub async fn fetch_subscriptions_for_fid(configuration: &configuration::Configuration, params: FetchSubscriptionsForFidParams) -> Result<models::SubscriptionsResponse, Error<FetchSubscriptionsForFidError>> {
 
     let uri_str = format!("{}/farcaster/user/subscriptions_created", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("subscription_provider", &p_subscription_provider.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("subscription_provider", &params.subscription_provider.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

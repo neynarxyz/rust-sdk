@@ -14,6 +14,24 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`buy_storage`]
+#[derive(Clone, Debug)]
+pub struct BuyStorageParams {
+    pub buy_storage_req_body: models::BuyStorageReqBody
+}
+
+/// struct for passing parameters to the method [`lookup_user_storage_allocations`]
+#[derive(Clone, Debug)]
+pub struct LookupUserStorageAllocationsParams {
+    pub fid: i32
+}
+
+/// struct for passing parameters to the method [`lookup_user_storage_usage`]
+#[derive(Clone, Debug)]
+pub struct LookupUserStorageUsageParams {
+    pub fid: i32
+}
+
 
 /// struct for typed errors of method [`buy_storage`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,9 +61,7 @@ pub enum LookupUserStorageUsageError {
 
 
 /// This api will help you rent units of storage for an year for a specific FID. A storage unit lets you store 5000 casts, 2500 reactions and 2500 links. 
-pub async fn buy_storage(configuration: &configuration::Configuration, buy_storage_req_body: models::BuyStorageReqBody) -> Result<models::StorageAllocationsResponse, Error<BuyStorageError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_buy_storage_req_body = buy_storage_req_body;
+pub async fn buy_storage(configuration: &configuration::Configuration, params: BuyStorageParams) -> Result<models::StorageAllocationsResponse, Error<BuyStorageError>> {
 
     let uri_str = format!("{}/farcaster/storage/buy", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -61,7 +77,7 @@ pub async fn buy_storage(configuration: &configuration::Configuration, buy_stora
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_buy_storage_req_body);
+    req_builder = req_builder.json(&params.buy_storage_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -89,14 +105,12 @@ pub async fn buy_storage(configuration: &configuration::Configuration, buy_stora
 }
 
 /// Fetches storage allocations for a given user
-pub async fn lookup_user_storage_allocations(configuration: &configuration::Configuration, fid: i32) -> Result<models::StorageAllocationsResponse, Error<LookupUserStorageAllocationsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
+pub async fn lookup_user_storage_allocations(configuration: &configuration::Configuration, params: LookupUserStorageAllocationsParams) -> Result<models::StorageAllocationsResponse, Error<LookupUserStorageAllocationsError>> {
 
     let uri_str = format!("{}/farcaster/storage/allocations", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -135,14 +149,12 @@ pub async fn lookup_user_storage_allocations(configuration: &configuration::Conf
 }
 
 /// Fetches storage usage for a given user
-pub async fn lookup_user_storage_usage(configuration: &configuration::Configuration, fid: i32) -> Result<models::StorageUsageResponse, Error<LookupUserStorageUsageError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
+pub async fn lookup_user_storage_usage(configuration: &configuration::Configuration, params: LookupUserStorageUsageParams) -> Result<models::StorageUsageResponse, Error<LookupUserStorageUsageError>> {
 
     let uri_str = format!("{}/farcaster/storage/usage", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

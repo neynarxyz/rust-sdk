@@ -14,6 +14,46 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_reaction`]
+#[derive(Clone, Debug)]
+pub struct DeleteReactionParams {
+    pub reaction_req_body: models::ReactionReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_cast_reactions`]
+#[derive(Clone, Debug)]
+pub struct FetchCastReactionsParams {
+    pub hash: String,
+    /// Customize which reaction types the request should search for. This is a comma-separated string that can include the following values: 'likes' and 'recasts'. By default api returns both. To select multiple types, use a comma-separated list of these values. 
+    pub types: Vec<models::ReactionsType>,
+    /// Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_user_reactions`]
+#[derive(Clone, Debug)]
+pub struct FetchUserReactionsParams {
+    pub fid: i32,
+    /// Type of reaction to fetch (likes or recasts or all)
+    pub r#type: models::ReactionsType,
+    /// Providing this will return a list of reactions that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`publish_reaction`]
+#[derive(Clone, Debug)]
+pub struct PublishReactionParams {
+    pub reaction_req_body: models::ReactionReqBody
+}
+
 
 /// struct for typed errors of method [`delete_reaction`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -55,9 +95,7 @@ pub enum PublishReactionError {
 
 
 /// Delete a reaction (like or recast) to a cast \\ (In order to delete a reaction `signer_uuid` must be approved) 
-pub async fn delete_reaction(configuration: &configuration::Configuration, reaction_req_body: models::ReactionReqBody) -> Result<models::OperationResponse, Error<DeleteReactionError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_reaction_req_body = reaction_req_body;
+pub async fn delete_reaction(configuration: &configuration::Configuration, params: DeleteReactionParams) -> Result<models::OperationResponse, Error<DeleteReactionError>> {
 
     let uri_str = format!("{}/farcaster/reaction", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -73,7 +111,7 @@ pub async fn delete_reaction(configuration: &configuration::Configuration, react
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_reaction_req_body);
+    req_builder = req_builder.json(&params.reaction_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -101,29 +139,23 @@ pub async fn delete_reaction(configuration: &configuration::Configuration, react
 }
 
 /// Fetches reactions for a given cast
-pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, hash: &str, types: Vec<models::ReactionsType>, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ReactionsCastResponse, Error<FetchCastReactionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_hash = hash;
-    let p_types = types;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, params: FetchCastReactionsParams) -> Result<models::ReactionsCastResponse, Error<FetchCastReactionsError>> {
 
     let uri_str = format!("{}/farcaster/reactions/cast", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("hash", &p_hash.to_string())]);
+    req_builder = req_builder.query(&[("hash", &params.hash.to_string())]);
     req_builder = match "csv" {
-        "multi" => req_builder.query(&p_types.into_iter().map(|p| ("types".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("types", &p_types.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&params.types.into_iter().map(|p| ("types".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("types", &params.types.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -164,26 +196,20 @@ pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, 
 }
 
 /// Fetches reactions for a given user
-pub async fn fetch_user_reactions(configuration: &configuration::Configuration, fid: i32, r#type: models::ReactionsType, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>) -> Result<models::ReactionsResponse, Error<FetchUserReactionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_type = r#type;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_user_reactions(configuration: &configuration::Configuration, params: FetchUserReactionsParams) -> Result<models::ReactionsResponse, Error<FetchUserReactionsError>> {
 
     let uri_str = format!("{}/farcaster/reactions/user", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    req_builder = req_builder.query(&[("type", &p_type.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("type", &params.r#type.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -224,9 +250,7 @@ pub async fn fetch_user_reactions(configuration: &configuration::Configuration, 
 }
 
 /// Post a reaction (like or recast) to a given cast \\ (In order to post a reaction `signer_uuid` must be approved) 
-pub async fn publish_reaction(configuration: &configuration::Configuration, reaction_req_body: models::ReactionReqBody) -> Result<models::OperationResponse, Error<PublishReactionError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_reaction_req_body = reaction_req_body;
+pub async fn publish_reaction(configuration: &configuration::Configuration, params: PublishReactionParams) -> Result<models::OperationResponse, Error<PublishReactionError>> {
 
     let uri_str = format!("{}/farcaster/reaction", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -242,7 +266,7 @@ pub async fn publish_reaction(configuration: &configuration::Configuration, reac
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_reaction_req_body);
+    req_builder = req_builder.json(&params.reaction_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

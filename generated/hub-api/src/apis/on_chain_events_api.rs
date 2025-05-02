@@ -14,6 +14,31 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_user_on_chain_events`]
+#[derive(Clone, Debug)]
+pub struct FetchUserOnChainEventsParams {
+    /// The FID being requested
+    pub fid: i32,
+    /// The numeric or string value of the event type being requested
+    pub event_type: models::OnChainEventType
+}
+
+/// struct for passing parameters to the method [`fetch_user_on_chain_signers_events`]
+#[derive(Clone, Debug)]
+pub struct FetchUserOnChainSignersEventsParams {
+    /// The FID being requested
+    pub fid: i32,
+    /// The optional key of signer
+    pub signer: Option<String>
+}
+
+/// struct for passing parameters to the method [`lookup_on_chain_id_registry_event_by_address`]
+#[derive(Clone, Debug)]
+pub struct LookupOnChainIdRegistryEventByAddressParams {
+    /// The ETH address being requested
+    pub address: String
+}
+
 
 /// struct for typed errors of method [`fetch_user_on_chain_events`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -41,16 +66,13 @@ pub enum LookupOnChainIdRegistryEventByAddressError {
 
 
 /// Fetch on-chain events provided by a user.
-pub async fn fetch_user_on_chain_events(configuration: &configuration::Configuration, fid: i32, event_type: models::OnChainEventType) -> Result<models::FetchUserOnChainEvents200Response, Error<FetchUserOnChainEventsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_event_type = event_type;
+pub async fn fetch_user_on_chain_events(configuration: &configuration::Configuration, params: FetchUserOnChainEventsParams) -> Result<models::FetchUserOnChainEvents200Response, Error<FetchUserOnChainEventsError>> {
 
     let uri_str = format!("{}/v1/onChainEventsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("event_type", &p_event_type.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("event_type", &params.event_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -89,16 +111,13 @@ pub async fn fetch_user_on_chain_events(configuration: &configuration::Configura
 }
 
 /// **Note:** one of two different response schemas is returned based on whether the caller provides the `signer` parameter. If included, a single `OnChainEventSigner` message is returned (or a `not_found` error). If omitted, a non-paginated list of `OnChainEventSigner` messages is returned instead.
-pub async fn fetch_user_on_chain_signers_events(configuration: &configuration::Configuration, fid: i32, signer: Option<&str>) -> Result<models::FetchUserOnChainSignersEvents200Response, Error<FetchUserOnChainSignersEventsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_signer = signer;
+pub async fn fetch_user_on_chain_signers_events(configuration: &configuration::Configuration, params: FetchUserOnChainSignersEventsParams) -> Result<models::FetchUserOnChainSignersEvents200Response, Error<FetchUserOnChainSignersEventsError>> {
 
     let uri_str = format!("{}/v1/onChainSignersByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_signer {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.signer {
         req_builder = req_builder.query(&[("signer", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -139,14 +158,12 @@ pub async fn fetch_user_on_chain_signers_events(configuration: &configuration::C
 }
 
 /// Fetch an on-chain ID Registry Event for a given Address.
-pub async fn lookup_on_chain_id_registry_event_by_address(configuration: &configuration::Configuration, address: &str) -> Result<models::OnChainEventIdRegister, Error<LookupOnChainIdRegistryEventByAddressError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_address = address;
+pub async fn lookup_on_chain_id_registry_event_by_address(configuration: &configuration::Configuration, params: LookupOnChainIdRegistryEventByAddressParams) -> Result<models::OnChainEventIdRegister, Error<LookupOnChainIdRegistryEventByAddressError>> {
 
     let uri_str = format!("{}/v1/onChainIdRegistryEventByAddress", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("address", &p_address.to_string())]);
+    req_builder = req_builder.query(&[("address", &params.address.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

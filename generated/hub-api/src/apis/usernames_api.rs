@@ -14,6 +14,20 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_username_proof_by_name`]
+#[derive(Clone, Debug)]
+pub struct FetchUsernameProofByNameParams {
+    /// The Farcaster username or ENS address
+    pub name: String
+}
+
+/// struct for passing parameters to the method [`fetch_username_proofs_by_fid`]
+#[derive(Clone, Debug)]
+pub struct FetchUsernameProofsByFidParams {
+    /// The FID being requested
+    pub fid: i32
+}
+
 
 /// struct for typed errors of method [`fetch_username_proof_by_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,14 +47,12 @@ pub enum FetchUsernameProofsByFidError {
 
 
 /// Fetch a proof for a username.
-pub async fn fetch_username_proof_by_name(configuration: &configuration::Configuration, name: &str) -> Result<models::UserNameProof, Error<FetchUsernameProofByNameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_name = name;
+pub async fn fetch_username_proof_by_name(configuration: &configuration::Configuration, params: FetchUsernameProofByNameParams) -> Result<models::UserNameProof, Error<FetchUsernameProofByNameError>> {
 
     let uri_str = format!("{}/v1/userNameProofByName", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("name", &p_name.to_string())]);
+    req_builder = req_builder.query(&[("name", &params.name.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -79,14 +91,12 @@ pub async fn fetch_username_proof_by_name(configuration: &configuration::Configu
 }
 
 /// Fetch proofs provided by a user.
-pub async fn fetch_username_proofs_by_fid(configuration: &configuration::Configuration, fid: i32) -> Result<models::UsernameProofsResponse, Error<FetchUsernameProofsByFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
+pub async fn fetch_username_proofs_by_fid(configuration: &configuration::Configuration, params: FetchUsernameProofsByFidParams) -> Result<models::UsernameProofsResponse, Error<FetchUsernameProofsByFidError>> {
 
     let uri_str = format!("{}/v1/userNameProofsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

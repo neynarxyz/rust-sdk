@@ -14,6 +14,149 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_verification`]
+#[derive(Clone, Debug)]
+pub struct DeleteVerificationParams {
+    pub remove_verification_req_body: models::RemoveVerificationReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_bulk_users`]
+#[derive(Clone, Debug)]
+pub struct FetchBulkUsersParams {
+    /// Comma separated list of FIDs, up to 100 at a time
+    pub fids: String,
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_bulk_users_by_eth_or_sol_address`]
+#[derive(Clone, Debug)]
+pub struct FetchBulkUsersByEthOrSolAddressParams {
+    /// Comma separated list of Ethereum addresses, up to 350 at a time
+    pub addresses: String,
+    /// Customize which address types the request should search for. This is a comma-separated string that can include the following values: 'custody_address' and 'verified_address'. By default api returns both. To select multiple types, use a comma-separated list of these values. 
+    pub address_types: Option<Vec<models::BulkUserAddressType>>,
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_power_users`]
+#[derive(Clone, Debug)]
+pub struct FetchPowerUsersParams {
+    pub viewer_fid: Option<i32>,
+    /// Number of power users to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_power_users_lite`]
+#[derive(Clone, Debug)]
+pub struct FetchPowerUsersLiteParams {
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_users_by_location`]
+#[derive(Clone, Debug)]
+pub struct FetchUsersByLocationParams {
+    /// Latitude of the location
+    pub latitude: f64,
+    /// Longitude of the location
+    pub longitude: f64,
+    /// FID of the user viewing the feed. Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`follow_user`]
+#[derive(Clone, Debug)]
+pub struct FollowUserParams {
+    pub follow_req_body: models::FollowReqBody
+}
+
+/// struct for passing parameters to the method [`get_fresh_account_fid`]
+#[derive(Clone, Debug)]
+pub struct GetFreshAccountFidParams {
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`lookup_user_by_custody_address`]
+#[derive(Clone, Debug)]
+pub struct LookupUserByCustodyAddressParams {
+    /// Custody Address associated with mnemonic
+    pub custody_address: String
+}
+
+/// struct for passing parameters to the method [`lookup_user_by_username`]
+#[derive(Clone, Debug)]
+pub struct LookupUserByUsernameParams {
+    /// Username of the user to fetch
+    pub username: String,
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`lookup_users_by_x_username`]
+#[derive(Clone, Debug)]
+pub struct LookupUsersByXUsernameParams {
+    /// X (Twitter) username to search for, without the @ symbol
+    pub x_username: String,
+    /// FID of the viewer for contextual information like follows and blocks
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`publish_verification`]
+#[derive(Clone, Debug)]
+pub struct PublishVerificationParams {
+    pub add_verification_req_body: models::AddVerificationReqBody
+}
+
+/// struct for passing parameters to the method [`register_account`]
+#[derive(Clone, Debug)]
+pub struct RegisterAccountParams {
+    pub register_user_req_body: models::RegisterUserReqBody
+}
+
+/// struct for passing parameters to the method [`search_user`]
+#[derive(Clone, Debug)]
+pub struct SearchUserParams {
+    pub q: String,
+    /// Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Number of users to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`unfollow_user`]
+#[derive(Clone, Debug)]
+pub struct UnfollowUserParams {
+    pub follow_req_body: models::FollowReqBody
+}
+
+/// struct for passing parameters to the method [`update_user`]
+#[derive(Clone, Debug)]
+pub struct UpdateUserParams {
+    pub update_user_req_body: models::UpdateUserReqBody
+}
+
 
 /// struct for typed errors of method [`delete_verification`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -165,9 +308,7 @@ pub enum UpdateUserError {
 
 
 /// Removes verification for an eth address for the user \\ (In order to delete verification `signer_uuid` must be approved) 
-pub async fn delete_verification(configuration: &configuration::Configuration, remove_verification_req_body: models::RemoveVerificationReqBody) -> Result<models::OperationResponse, Error<DeleteVerificationError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_remove_verification_req_body = remove_verification_req_body;
+pub async fn delete_verification(configuration: &configuration::Configuration, params: DeleteVerificationParams) -> Result<models::OperationResponse, Error<DeleteVerificationError>> {
 
     let uri_str = format!("{}/farcaster/user/verification", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -183,7 +324,7 @@ pub async fn delete_verification(configuration: &configuration::Configuration, r
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_remove_verification_req_body);
+    req_builder = req_builder.json(&params.remove_verification_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -211,23 +352,19 @@ pub async fn delete_verification(configuration: &configuration::Configuration, r
 }
 
 /// Fetches information about multiple users based on FIDs
-pub async fn fetch_bulk_users(configuration: &configuration::Configuration, fids: &str, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::BulkUsersResponse, Error<FetchBulkUsersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fids = fids;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_bulk_users(configuration: &configuration::Configuration, params: FetchBulkUsersParams) -> Result<models::BulkUsersResponse, Error<FetchBulkUsersError>> {
 
     let uri_str = format!("{}/farcaster/user/bulk", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fids", &p_fids.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fids", &params.fids.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -265,30 +402,25 @@ pub async fn fetch_bulk_users(configuration: &configuration::Configuration, fids
 }
 
 /// Fetches all users based on multiple Ethereum or Solana addresses.  Each farcaster user has a custody Ethereum address and optionally verified Ethereum or Solana addresses. This endpoint returns all users that have any of the given addresses as their custody or verified Ethereum or Solana addresses.  A custody address can be associated with only 1 farcaster user at a time but a verified address can be associated with multiple users. You can pass in Ethereum and Solana addresses, comma separated, in the same request. The response will contain users associated with the given addresses.
-pub async fn fetch_bulk_users_by_eth_or_sol_address(configuration: &configuration::Configuration, addresses: &str, address_types: Option<Vec<models::BulkUserAddressType>>, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::BulkUsersByAddressResponse, Error<FetchBulkUsersByEthOrSolAddressError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_addresses = addresses;
-    let p_address_types = address_types;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_bulk_users_by_eth_or_sol_address(configuration: &configuration::Configuration, params: FetchBulkUsersByEthOrSolAddressParams) -> Result<models::BulkUsersByAddressResponse, Error<FetchBulkUsersByEthOrSolAddressError>> {
 
     let uri_str = format!("{}/farcaster/user/bulk-by-address", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("addresses", &p_addresses.to_string())]);
-    if let Some(ref param_value) = p_address_types {
+    req_builder = req_builder.query(&[("addresses", &params.addresses.to_string())]);
+    if let Some(ref param_value) = params.address_types {
         req_builder = match "csv" {
             "multi" => req_builder.query(&param_value.into_iter().map(|p| ("address_types".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => req_builder.query(&[("address_types", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -326,29 +458,24 @@ pub async fn fetch_bulk_users_by_eth_or_sol_address(configuration: &configuratio
 }
 
 /// Fetches power users based on Warpcast power badges. Information is updated once a day.
-pub async fn fetch_power_users(configuration: &configuration::Configuration, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::UsersResponse, Error<FetchPowerUsersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_power_users(configuration: &configuration::Configuration, params: FetchPowerUsersParams) -> Result<models::UsersResponse, Error<FetchPowerUsersError>> {
 
     let uri_str = format!("{}/farcaster/user/power", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -386,9 +513,7 @@ pub async fn fetch_power_users(configuration: &configuration::Configuration, vie
 }
 
 /// Fetches power users and respond in a backwards compatible format to Warpcast's deprecated power badge endpoint.
-pub async fn fetch_power_users_lite(configuration: &configuration::Configuration, x_neynar_experimental: Option<bool>) -> Result<models::UserPowerLiteResponse, Error<FetchPowerUsersLiteError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_power_users_lite(configuration: &configuration::Configuration, params: FetchPowerUsersLiteParams) -> Result<models::UserPowerLiteResponse, Error<FetchPowerUsersLiteError>> {
 
     let uri_str = format!("{}/farcaster/user/power_lite", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -396,7 +521,7 @@ pub async fn fetch_power_users_lite(configuration: &configuration::Configuration
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -434,33 +559,26 @@ pub async fn fetch_power_users_lite(configuration: &configuration::Configuration
 }
 
 /// Fetches a list of users given a location
-pub async fn fetch_users_by_location(configuration: &configuration::Configuration, latitude: f64, longitude: f64, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::UsersResponse, Error<FetchUsersByLocationError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_latitude = latitude;
-    let p_longitude = longitude;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_users_by_location(configuration: &configuration::Configuration, params: FetchUsersByLocationParams) -> Result<models::UsersResponse, Error<FetchUsersByLocationError>> {
 
     let uri_str = format!("{}/farcaster/user/by_location", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("latitude", &p_latitude.to_string())]);
-    req_builder = req_builder.query(&[("longitude", &p_longitude.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("latitude", &params.latitude.to_string())]);
+    req_builder = req_builder.query(&[("longitude", &params.longitude.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -498,9 +616,7 @@ pub async fn fetch_users_by_location(configuration: &configuration::Configuratio
 }
 
 /// Follow a user \\ (In order to follow a user `signer_uuid` must be approved) 
-pub async fn follow_user(configuration: &configuration::Configuration, follow_req_body: models::FollowReqBody) -> Result<models::BulkFollowResponse, Error<FollowUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_follow_req_body = follow_req_body;
+pub async fn follow_user(configuration: &configuration::Configuration, params: FollowUserParams) -> Result<models::BulkFollowResponse, Error<FollowUserError>> {
 
     let uri_str = format!("{}/farcaster/user/follow", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -516,7 +632,7 @@ pub async fn follow_user(configuration: &configuration::Configuration, follow_re
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_follow_req_body);
+    req_builder = req_builder.json(&params.follow_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -544,9 +660,7 @@ pub async fn follow_user(configuration: &configuration::Configuration, follow_re
 }
 
 /// Fetches FID to [assign it to new user](https://docs.neynar.com/reference/register-account)
-pub async fn get_fresh_account_fid(configuration: &configuration::Configuration, x_neynar_experimental: Option<bool>) -> Result<models::UserFidResponse, Error<GetFreshAccountFidError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn get_fresh_account_fid(configuration: &configuration::Configuration, params: GetFreshAccountFidParams) -> Result<models::UserFidResponse, Error<GetFreshAccountFidError>> {
 
     let uri_str = format!("{}/farcaster/user/fid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -554,7 +668,7 @@ pub async fn get_fresh_account_fid(configuration: &configuration::Configuration,
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -592,14 +706,12 @@ pub async fn get_fresh_account_fid(configuration: &configuration::Configuration,
 }
 
 /// Lookup a user by custody-address
-pub async fn lookup_user_by_custody_address(configuration: &configuration::Configuration, custody_address: &str) -> Result<models::UserResponse, Error<LookupUserByCustodyAddressError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_custody_address = custody_address;
+pub async fn lookup_user_by_custody_address(configuration: &configuration::Configuration, params: LookupUserByCustodyAddressParams) -> Result<models::UserResponse, Error<LookupUserByCustodyAddressError>> {
 
     let uri_str = format!("{}/farcaster/user/custody-address", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("custody_address", &p_custody_address.to_string())]);
+    req_builder = req_builder.query(&[("custody_address", &params.custody_address.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -638,23 +750,19 @@ pub async fn lookup_user_by_custody_address(configuration: &configuration::Confi
 }
 
 /// Fetches a single hydrated user object given a username
-pub async fn lookup_user_by_username(configuration: &configuration::Configuration, username: &str, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::UserResponse, Error<LookupUserByUsernameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_username = username;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn lookup_user_by_username(configuration: &configuration::Configuration, params: LookupUserByUsernameParams) -> Result<models::UserResponse, Error<LookupUserByUsernameError>> {
 
     let uri_str = format!("{}/farcaster/user/by_username", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("username", &p_username.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("username", &params.username.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -692,23 +800,19 @@ pub async fn lookup_user_by_username(configuration: &configuration::Configuratio
 }
 
 /// Fetches the users who have verified the specified X (Twitter) username
-pub async fn lookup_users_by_x_username(configuration: &configuration::Configuration, x_username: &str, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::BulkUsersResponse, Error<LookupUsersByXUsernameError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_x_username = x_username;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn lookup_users_by_x_username(configuration: &configuration::Configuration, params: LookupUsersByXUsernameParams) -> Result<models::BulkUsersResponse, Error<LookupUsersByXUsernameError>> {
 
     let uri_str = format!("{}/farcaster/user/by_x_username", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("x_username", &p_x_username.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("x_username", &params.x_username.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -746,9 +850,7 @@ pub async fn lookup_users_by_x_username(configuration: &configuration::Configura
 }
 
 /// Adds verification for an eth address or contract for the user \\ (In order to add verification `signer_uuid` must be approved) 
-pub async fn publish_verification(configuration: &configuration::Configuration, add_verification_req_body: models::AddVerificationReqBody) -> Result<models::OperationResponse, Error<PublishVerificationError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_add_verification_req_body = add_verification_req_body;
+pub async fn publish_verification(configuration: &configuration::Configuration, params: PublishVerificationParams) -> Result<models::OperationResponse, Error<PublishVerificationError>> {
 
     let uri_str = format!("{}/farcaster/user/verification", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -764,7 +866,7 @@ pub async fn publish_verification(configuration: &configuration::Configuration, 
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_add_verification_req_body);
+    req_builder = req_builder.json(&params.add_verification_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -792,9 +894,7 @@ pub async fn publish_verification(configuration: &configuration::Configuration, 
 }
 
 /// Register account on farcaster.  **Note:** This API must be called within 10 minutes of the fetch FID API call (i.e., /v2/farcaster/user/fid). Otherwise, Neynar will assign this FID to another available user. 
-pub async fn register_account(configuration: &configuration::Configuration, register_user_req_body: models::RegisterUserReqBody) -> Result<models::RegisterUserResponse, Error<RegisterAccountError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_register_user_req_body = register_user_req_body;
+pub async fn register_account(configuration: &configuration::Configuration, params: RegisterAccountParams) -> Result<models::RegisterUserResponse, Error<RegisterAccountError>> {
 
     let uri_str = format!("{}/farcaster/user", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -810,7 +910,7 @@ pub async fn register_account(configuration: &configuration::Configuration, regi
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_register_user_req_body);
+    req_builder = req_builder.json(&params.register_user_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -838,31 +938,25 @@ pub async fn register_account(configuration: &configuration::Configuration, regi
 }
 
 /// Search for Usernames
-pub async fn search_user(configuration: &configuration::Configuration, q: &str, viewer_fid: Option<i32>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::UserSearchResponse, Error<SearchUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_q = q;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn search_user(configuration: &configuration::Configuration, params: SearchUserParams) -> Result<models::UserSearchResponse, Error<SearchUserError>> {
 
     let uri_str = format!("{}/farcaster/user/search", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("q", &p_q.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("q", &params.q.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -900,9 +994,7 @@ pub async fn search_user(configuration: &configuration::Configuration, q: &str, 
 }
 
 /// Unfollow a user \\ (In order to unfollow a user `signer_uuid` must be approved) 
-pub async fn unfollow_user(configuration: &configuration::Configuration, follow_req_body: models::FollowReqBody) -> Result<models::BulkFollowResponse, Error<UnfollowUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_follow_req_body = follow_req_body;
+pub async fn unfollow_user(configuration: &configuration::Configuration, params: UnfollowUserParams) -> Result<models::BulkFollowResponse, Error<UnfollowUserError>> {
 
     let uri_str = format!("{}/farcaster/user/follow", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -918,7 +1010,7 @@ pub async fn unfollow_user(configuration: &configuration::Configuration, follow_
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_follow_req_body);
+    req_builder = req_builder.json(&params.follow_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -946,9 +1038,7 @@ pub async fn unfollow_user(configuration: &configuration::Configuration, follow_
 }
 
 /// Update user profile \\ (In order to update user's profile `signer_uuid` must be approved) 
-pub async fn update_user(configuration: &configuration::Configuration, update_user_req_body: models::UpdateUserReqBody) -> Result<models::OperationResponse, Error<UpdateUserError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_update_user_req_body = update_user_req_body;
+pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<models::OperationResponse, Error<UpdateUserError>> {
 
     let uri_str = format!("{}/farcaster/user", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PATCH, &uri_str);
@@ -964,7 +1054,7 @@ pub async fn update_user(configuration: &configuration::Configuration, update_us
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_update_user_req_body);
+    req_builder = req_builder.json(&params.update_user_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

@@ -14,6 +14,12 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`publish_farcaster_action`]
+#[derive(Clone, Debug)]
+pub struct PublishFarcasterActionParams {
+    pub farcaster_action_req_body: models::FarcasterActionReqBody
+}
+
 
 /// struct for typed errors of method [`publish_farcaster_action`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,9 +31,7 @@ pub enum PublishFarcasterActionError {
 
 
 /// Securely communicate and perform actions on behalf of users across different apps. It enables an app to send data or trigger actions in another app on behalf of a mutual user by signing messages using the user's Farcaster signer.
-pub async fn publish_farcaster_action(configuration: &configuration::Configuration, farcaster_action_req_body: models::FarcasterActionReqBody) -> Result<std::collections::HashMap<String, serde_json::Value>, Error<PublishFarcasterActionError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_farcaster_action_req_body = farcaster_action_req_body;
+pub async fn publish_farcaster_action(configuration: &configuration::Configuration, params: PublishFarcasterActionParams) -> Result<std::collections::HashMap<String, serde_json::Value>, Error<PublishFarcasterActionError>> {
 
     let uri_str = format!("{}/farcaster/action", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -43,7 +47,7 @@ pub async fn publish_farcaster_action(configuration: &configuration::Configurati
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_farcaster_action_req_body);
+    req_builder = req_builder.json(&params.farcaster_action_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

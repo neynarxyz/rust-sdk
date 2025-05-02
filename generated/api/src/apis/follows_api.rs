@@ -14,6 +14,64 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_follow_suggestions`]
+#[derive(Clone, Debug)]
+pub struct FetchFollowSuggestionsParams {
+    /// FID of the user whose following you want to fetch.
+    pub fid: i32,
+    /// Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_relevant_followers`]
+#[derive(Clone, Debug)]
+pub struct FetchRelevantFollowersParams {
+    /// User who's profile you are looking at
+    pub target_fid: i32,
+    /// The FID of the user to customize this response for. Providing this will also return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: i32,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_user_followers`]
+#[derive(Clone, Debug)]
+pub struct FetchUserFollowersParams {
+    /// User who's profile you are looking at
+    pub fid: i32,
+    /// Providing this will return a list of followers that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Sort type for fetch followers. Default is `desc_chron`
+    pub sort_type: Option<models::FollowSortType>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_user_following`]
+#[derive(Clone, Debug)]
+pub struct FetchUserFollowingParams {
+    /// FID of the user whose following you want to fetch.
+    pub fid: i32,
+    /// Providing this will return a list of users that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Optional parameter to sort the users based on different criteria.
+    pub sort_type: Option<models::FollowSortType>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
 
 /// struct for typed errors of method [`fetch_follow_suggestions`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -52,27 +110,22 @@ pub enum FetchUserFollowingError {
 
 
 /// Fetch a list of suggested users to follow. Used to help users discover new users to follow
-pub async fn fetch_follow_suggestions(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>, limit: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::UsersResponse, Error<FetchFollowSuggestionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
-    let p_limit = limit;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_follow_suggestions(configuration: &configuration::Configuration, params: FetchFollowSuggestionsParams) -> Result<models::UsersResponse, Error<FetchFollowSuggestionsError>> {
 
     let uri_str = format!("{}/farcaster/following/suggested", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -110,21 +163,17 @@ pub async fn fetch_follow_suggestions(configuration: &configuration::Configurati
 }
 
 /// Returns a list of relevant followers for a specific FID. This usually shows on a profile as \"X, Y and Z follow this user\".
-pub async fn fetch_relevant_followers(configuration: &configuration::Configuration, target_fid: i32, viewer_fid: i32, x_neynar_experimental: Option<bool>) -> Result<models::RelevantFollowersResponse, Error<FetchRelevantFollowersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_target_fid = target_fid;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_relevant_followers(configuration: &configuration::Configuration, params: FetchRelevantFollowersParams) -> Result<models::RelevantFollowersResponse, Error<FetchRelevantFollowersError>> {
 
     let uri_str = format!("{}/farcaster/followers/relevant", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("target_fid", &p_target_fid.to_string())]);
-    req_builder = req_builder.query(&[("viewer_fid", &p_viewer_fid.to_string())]);
+    req_builder = req_builder.query(&[("target_fid", &params.target_fid.to_string())]);
+    req_builder = req_builder.query(&[("viewer_fid", &params.viewer_fid.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -162,35 +211,28 @@ pub async fn fetch_relevant_followers(configuration: &configuration::Configurati
 }
 
 /// Returns a list of followers for a specific FID.
-pub async fn fetch_user_followers(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>, sort_type: Option<models::FollowSortType>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FollowersResponse, Error<FetchUserFollowersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
-    let p_sort_type = sort_type;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_user_followers(configuration: &configuration::Configuration, params: FetchUserFollowersParams) -> Result<models::FollowersResponse, Error<FetchUserFollowersError>> {
 
     let uri_str = format!("{}/farcaster/followers", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_sort_type {
+    if let Some(ref param_value) = params.sort_type {
         req_builder = req_builder.query(&[("sort_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -228,35 +270,28 @@ pub async fn fetch_user_followers(configuration: &configuration::Configuration, 
 }
 
 /// Fetch a list of users who a given user is following. Can optionally include a viewer_fid and sort_type.
-pub async fn fetch_user_following(configuration: &configuration::Configuration, fid: i32, viewer_fid: Option<i32>, sort_type: Option<models::FollowSortType>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::FollowersResponse, Error<FetchUserFollowingError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_viewer_fid = viewer_fid;
-    let p_sort_type = sort_type;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_user_following(configuration: &configuration::Configuration, params: FetchUserFollowingParams) -> Result<models::FollowersResponse, Error<FetchUserFollowingError>> {
 
     let uri_str = format!("{}/farcaster/following", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_sort_type {
+    if let Some(ref param_value) = params.sort_type {
         req_builder = req_builder.query(&[("sort_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {

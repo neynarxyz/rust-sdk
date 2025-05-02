@@ -14,6 +14,112 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_cast`]
+#[derive(Clone, Debug)]
+pub struct DeleteCastParams {
+    pub delete_cast_req_body: models::DeleteCastReqBody
+}
+
+/// struct for passing parameters to the method [`fetch_bulk_casts`]
+#[derive(Clone, Debug)]
+pub struct FetchBulkCastsParams {
+    /// Hashes of the cast to be retrived (Comma separated, no spaces)
+    pub casts: String,
+    /// adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+    pub viewer_fid: Option<i32>,
+    /// Optional parameter to sort the casts based on different criteria
+    pub sort_type: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`fetch_composer_actions`]
+#[derive(Clone, Debug)]
+pub struct FetchComposerActionsParams {
+    /// Type of list to fetch.
+    pub list: models::CastComposerType,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_embedded_url_metadata`]
+#[derive(Clone, Debug)]
+pub struct FetchEmbeddedUrlMetadataParams {
+    /// URL to crawl metadata of
+    pub url: Option<String>
+}
+
+/// struct for passing parameters to the method [`lookup_cast_by_hash_or_warpcast_url`]
+#[derive(Clone, Debug)]
+pub struct LookupCastByHashOrWarpcastUrlParams {
+    /// Cast identifier (Its either a url or a hash)
+    pub identifier: String,
+    pub r#type: models::CastParamType,
+    /// adds viewer_context to cast object to show whether viewer has liked or recasted the cast.
+    pub viewer_fid: Option<i32>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`lookup_cast_conversation`]
+#[derive(Clone, Debug)]
+pub struct LookupCastConversationParams {
+    /// Cast identifier (Its either a url or a hash)
+    pub identifier: String,
+    pub r#type: models::CastParamType,
+    /// The depth of replies in the conversation that will be returned (default 2)
+    pub reply_depth: Option<i32>,
+    /// Include all parent casts in chronological order
+    pub include_chronological_parent_casts: Option<bool>,
+    /// Providing this will return a conversation that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Sort type for the ordering of descendants. Default is `chron`
+    pub sort_type: Option<models::CastConversationSortType>,
+    /// Show conversation above or below the fold. Lower quality responses are hidden below the fold. Not passing in a value shows the full conversation without any folding.
+    pub fold: Option<String>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor.
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
+/// struct for passing parameters to the method [`publish_cast`]
+#[derive(Clone, Debug)]
+pub struct PublishCastParams {
+    pub post_cast_req_body: models::PostCastReqBody
+}
+
+/// struct for passing parameters to the method [`search_casts`]
+#[derive(Clone, Debug)]
+pub struct SearchCastsParams {
+    /// Query string to search for casts. Supported operators:  | Operator  | Description                                                                                              | | --------- | -------------------------------------------------------------------------------------------------------- | | `+`       | Acts as the AND operator. This is the default operator between terms and can usually be omitted.         | | `\\|`      | Acts as the OR operator.                                                                                 | | `*`       | When used at the end of a term, signifies a prefix query.                                                  | | `\"`       | Wraps several terms into a phrase (for example, `\"star wars\"`).                                          | | `(`, `)`  | Wrap a clause for precedence (for example, `star + (wars \\| trek)`).                                     | | `~n`      | When used after a term (for example, `satr~3`), sets `fuzziness`. When used after a phrase, sets `slop`. | | `-`       | Negates the term.                                                                                        | | `before:` | Search for casts before a specific date. (e.g. `before:2025-04-20`)                                       | | `after:`  | Search for casts after a specific date. (e.g. `after:2025-04-20`)                                         | 
+    pub q: String,
+    /// Choices are: - `literal` - Searches for the words in the query string (default) - `semantic` - Searches for the meaning of the query string - `hybrid` - Combines both literal and semantic results 
+    pub mode: Option<String>,
+    /// Choices are: - `desc_chron` - All casts sorted by time (default) - `algorithmic` - Casts sorted by engagement and time 
+    pub sort_type: Option<models::SearchSortType>,
+    /// Fid of the user whose casts you want to search
+    pub author_fid: Option<i32>,
+    /// Providing this will return search results that respects this user's mutes and blocks and includes `viewer_context`.
+    pub viewer_fid: Option<i32>,
+    /// Parent URL of the casts you want to search
+    pub parent_url: Option<String>,
+    /// Channel ID of the casts you want to search
+    pub channel_id: Option<String>,
+    /// When true, only returns search results from power badge users and users that the viewer follows (if viewer_fid is provided).
+    pub priority_mode: Option<bool>,
+    /// Number of results to fetch
+    pub limit: Option<i32>,
+    /// Pagination cursor
+    pub cursor: Option<String>,
+    /// Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details.
+    pub x_neynar_experimental: Option<bool>
+}
+
 
 /// struct for typed errors of method [`delete_cast`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -88,9 +194,7 @@ pub enum SearchCastsError {
 
 
 /// Delete an existing cast. \\ (In order to delete a cast `signer_uuid` must be approved) 
-pub async fn delete_cast(configuration: &configuration::Configuration, delete_cast_req_body: models::DeleteCastReqBody) -> Result<models::OperationResponse, Error<DeleteCastError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_delete_cast_req_body = delete_cast_req_body;
+pub async fn delete_cast(configuration: &configuration::Configuration, params: DeleteCastParams) -> Result<models::OperationResponse, Error<DeleteCastError>> {
 
     let uri_str = format!("{}/farcaster/cast", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -106,7 +210,7 @@ pub async fn delete_cast(configuration: &configuration::Configuration, delete_ca
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_delete_cast_req_body);
+    req_builder = req_builder.json(&params.delete_cast_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -134,27 +238,22 @@ pub async fn delete_cast(configuration: &configuration::Configuration, delete_ca
 }
 
 /// Fetch multiple casts using their respective hashes.
-pub async fn fetch_bulk_casts(configuration: &configuration::Configuration, casts: &str, viewer_fid: Option<i32>, sort_type: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::CastsResponse, Error<FetchBulkCastsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_casts = casts;
-    let p_viewer_fid = viewer_fid;
-    let p_sort_type = sort_type;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn fetch_bulk_casts(configuration: &configuration::Configuration, params: FetchBulkCastsParams) -> Result<models::CastsResponse, Error<FetchBulkCastsError>> {
 
     let uri_str = format!("{}/farcaster/casts", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("casts", &p_casts.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("casts", &params.casts.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_sort_type {
+    if let Some(ref param_value) = params.sort_type {
         req_builder = req_builder.query(&[("sort_type", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -192,20 +291,16 @@ pub async fn fetch_bulk_casts(configuration: &configuration::Configuration, cast
 }
 
 /// Fetches all composer actions on Warpcast. You can filter by top or featured.
-pub async fn fetch_composer_actions(configuration: &configuration::Configuration, list: models::CastComposerType, limit: Option<i32>, cursor: Option<&str>) -> Result<models::CastComposerActionsListResponse, Error<FetchComposerActionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_list = list;
-    let p_limit = limit;
-    let p_cursor = cursor;
+pub async fn fetch_composer_actions(configuration: &configuration::Configuration, params: FetchComposerActionsParams) -> Result<models::CastComposerActionsListResponse, Error<FetchComposerActionsError>> {
 
     let uri_str = format!("{}/farcaster/cast/composer_actions/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("list", &p_list.to_string())]);
-    if let Some(ref param_value) = p_limit {
+    req_builder = req_builder.query(&[("list", &params.list.to_string())]);
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -246,14 +341,12 @@ pub async fn fetch_composer_actions(configuration: &configuration::Configuration
 }
 
 /// Crawls the given URL and returns metadata useful when embedding the URL in a cast.
-pub async fn fetch_embedded_url_metadata(configuration: &configuration::Configuration, url: Option<&str>) -> Result<models::CastEmbedCrawlResponse, Error<FetchEmbeddedUrlMetadataError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_url = url;
+pub async fn fetch_embedded_url_metadata(configuration: &configuration::Configuration, params: FetchEmbeddedUrlMetadataParams) -> Result<models::CastEmbedCrawlResponse, Error<FetchEmbeddedUrlMetadataError>> {
 
     let uri_str = format!("{}/farcaster/cast/embed/crawl", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_url {
+    if let Some(ref param_value) = params.url {
         req_builder = req_builder.query(&[("url", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -294,25 +387,20 @@ pub async fn fetch_embedded_url_metadata(configuration: &configuration::Configur
 }
 
 /// Gets information about an individual cast by passing in a Warpcast web URL or cast hash
-pub async fn lookup_cast_by_hash_or_warpcast_url(configuration: &configuration::Configuration, identifier: &str, r#type: models::CastParamType, viewer_fid: Option<i32>, x_neynar_experimental: Option<bool>) -> Result<models::CastResponse, Error<LookupCastByHashOrWarpcastUrlError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_identifier = identifier;
-    let p_type = r#type;
-    let p_viewer_fid = viewer_fid;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn lookup_cast_by_hash_or_warpcast_url(configuration: &configuration::Configuration, params: LookupCastByHashOrWarpcastUrlParams) -> Result<models::CastResponse, Error<LookupCastByHashOrWarpcastUrlError>> {
 
     let uri_str = format!("{}/farcaster/cast", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("identifier", &p_identifier.to_string())]);
-    req_builder = req_builder.query(&[("type", &p_type.to_string())]);
-    if let Some(ref param_value) = p_viewer_fid {
+    req_builder = req_builder.query(&[("identifier", &params.identifier.to_string())]);
+    req_builder = req_builder.query(&[("type", &params.r#type.to_string())]);
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -350,49 +438,38 @@ pub async fn lookup_cast_by_hash_or_warpcast_url(configuration: &configuration::
 }
 
 /// Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
-pub async fn lookup_cast_conversation(configuration: &configuration::Configuration, identifier: &str, r#type: models::CastParamType, reply_depth: Option<i32>, include_chronological_parent_casts: Option<bool>, viewer_fid: Option<i32>, sort_type: Option<models::CastConversationSortType>, fold: Option<&str>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::Conversation, Error<LookupCastConversationError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_identifier = identifier;
-    let p_type = r#type;
-    let p_reply_depth = reply_depth;
-    let p_include_chronological_parent_casts = include_chronological_parent_casts;
-    let p_viewer_fid = viewer_fid;
-    let p_sort_type = sort_type;
-    let p_fold = fold;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn lookup_cast_conversation(configuration: &configuration::Configuration, params: LookupCastConversationParams) -> Result<models::Conversation, Error<LookupCastConversationError>> {
 
     let uri_str = format!("{}/farcaster/cast/conversation", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("identifier", &p_identifier.to_string())]);
-    req_builder = req_builder.query(&[("type", &p_type.to_string())]);
-    if let Some(ref param_value) = p_reply_depth {
+    req_builder = req_builder.query(&[("identifier", &params.identifier.to_string())]);
+    req_builder = req_builder.query(&[("type", &params.r#type.to_string())]);
+    if let Some(ref param_value) = params.reply_depth {
         req_builder = req_builder.query(&[("reply_depth", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_include_chronological_parent_casts {
+    if let Some(ref param_value) = params.include_chronological_parent_casts {
         req_builder = req_builder.query(&[("include_chronological_parent_casts", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_sort_type {
+    if let Some(ref param_value) = params.sort_type {
         req_builder = req_builder.query(&[("sort_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_fold {
+    if let Some(ref param_value) = params.fold {
         req_builder = req_builder.query(&[("fold", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {
@@ -430,9 +507,7 @@ pub async fn lookup_cast_conversation(configuration: &configuration::Configurati
 }
 
 /// Posts a cast or cast reply. Works with mentions and embeds.   (In order to post a cast `signer_uuid` must be approved) 
-pub async fn publish_cast(configuration: &configuration::Configuration, post_cast_req_body: models::PostCastReqBody) -> Result<models::PostCastResponse, Error<PublishCastError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_post_cast_req_body = post_cast_req_body;
+pub async fn publish_cast(configuration: &configuration::Configuration, params: PublishCastParams) -> Result<models::PostCastResponse, Error<PublishCastError>> {
 
     let uri_str = format!("{}/farcaster/cast", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -448,7 +523,7 @@ pub async fn publish_cast(configuration: &configuration::Configuration, post_cas
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_post_cast_req_body);
+    req_builder = req_builder.json(&params.post_cast_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -476,55 +551,43 @@ pub async fn publish_cast(configuration: &configuration::Configuration, post_cas
 }
 
 /// Search for casts based on a query string, with optional AND filters
-pub async fn search_casts(configuration: &configuration::Configuration, q: &str, mode: Option<&str>, sort_type: Option<models::SearchSortType>, author_fid: Option<i32>, viewer_fid: Option<i32>, parent_url: Option<&str>, channel_id: Option<&str>, priority_mode: Option<bool>, limit: Option<i32>, cursor: Option<&str>, x_neynar_experimental: Option<bool>) -> Result<models::CastsSearchResponse, Error<SearchCastsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_q = q;
-    let p_mode = mode;
-    let p_sort_type = sort_type;
-    let p_author_fid = author_fid;
-    let p_viewer_fid = viewer_fid;
-    let p_parent_url = parent_url;
-    let p_channel_id = channel_id;
-    let p_priority_mode = priority_mode;
-    let p_limit = limit;
-    let p_cursor = cursor;
-    let p_x_neynar_experimental = x_neynar_experimental;
+pub async fn search_casts(configuration: &configuration::Configuration, params: SearchCastsParams) -> Result<models::CastsSearchResponse, Error<SearchCastsError>> {
 
     let uri_str = format!("{}/farcaster/cast/search", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("q", &p_q.to_string())]);
-    if let Some(ref param_value) = p_mode {
+    req_builder = req_builder.query(&[("q", &params.q.to_string())]);
+    if let Some(ref param_value) = params.mode {
         req_builder = req_builder.query(&[("mode", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_sort_type {
+    if let Some(ref param_value) = params.sort_type {
         req_builder = req_builder.query(&[("sort_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_author_fid {
+    if let Some(ref param_value) = params.author_fid {
         req_builder = req_builder.query(&[("author_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_parent_url {
+    if let Some(ref param_value) = params.parent_url {
         req_builder = req_builder.query(&[("parent_url", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_channel_id {
+    if let Some(ref param_value) = params.channel_id {
         req_builder = req_builder.query(&[("channel_id", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_priority_mode {
+    if let Some(ref param_value) = params.priority_mode {
         req_builder = req_builder.query(&[("priority_mode", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_limit {
+    if let Some(ref param_value) = params.limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cursor {
+    if let Some(ref param_value) = params.cursor {
         req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_x_neynar_experimental {
+    if let Some(param_value) = params.x_neynar_experimental {
         req_builder = req_builder.header("x-neynar-experimental", param_value.to_string());
     }
     if let Some(ref apikey) = configuration.api_key {

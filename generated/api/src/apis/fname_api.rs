@@ -14,6 +14,12 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`is_fname_available`]
+#[derive(Clone, Debug)]
+pub struct IsFnameAvailableParams {
+    pub fname: String
+}
+
 
 /// struct for typed errors of method [`is_fname_available`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,14 +31,12 @@ pub enum IsFnameAvailableError {
 
 
 /// Check if a given fname is available
-pub async fn is_fname_available(configuration: &configuration::Configuration, fname: &str) -> Result<models::FnameAvailabilityResponse, Error<IsFnameAvailableError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fname = fname;
+pub async fn is_fname_available(configuration: &configuration::Configuration, params: IsFnameAvailableParams) -> Result<models::FnameAvailabilityResponse, Error<IsFnameAvailableError>> {
 
     let uri_str = format!("{}/farcaster/fname/availability", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fname", &p_fname.to_string())]);
+    req_builder = req_builder.query(&[("fname", &params.fname.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

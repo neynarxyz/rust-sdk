@@ -14,6 +14,62 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`fetch_cast_reactions`]
+#[derive(Clone, Debug)]
+pub struct FetchCastReactionsParams {
+    /// The FID of the cast's creator. Required to uniquely identify the cast that received the reactions. Must be used in conjunction with target_hash.
+    pub target_fid: i32,
+    /// The unique hash identifier of the cast that received the reactions. This is a 40-character hexadecimal string prefixed with '0x' that uniquely identifies the cast within the creator's posts. Must be used with target_fid.
+    pub target_hash: String,
+    pub reaction_type: models::ReactionType,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_reactions_by_target`]
+#[derive(Clone, Debug)]
+pub struct FetchReactionsByTargetParams {
+    /// Target URL starting with 'chain://'.
+    pub url: String,
+    pub reaction_type: Option<models::ReactionType>,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_user_reactions`]
+#[derive(Clone, Debug)]
+pub struct FetchUserReactionsParams {
+    /// The FID of the reaction's creator
+    pub fid: i32,
+    pub reaction_type: models::ReactionType,
+    /// Maximum number of messages to return in a single response
+    pub page_size: Option<i32>,
+    /// Reverse the sort order, returning latest messages first
+    pub reverse: Option<bool>,
+    /// The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page
+    pub page_token: Option<String>
+}
+
+/// struct for passing parameters to the method [`lookup_reaction_by_id`]
+#[derive(Clone, Debug)]
+pub struct LookupReactionByIdParams {
+    /// The FID of the reaction's creator
+    pub fid: i32,
+    /// The FID of the cast's creator
+    pub target_fid: i32,
+    /// The cast's hash
+    pub target_hash: String,
+    pub reaction_type: models::ReactionType
+}
+
 
 /// struct for typed errors of method [`fetch_cast_reactions`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,28 +105,21 @@ pub enum LookupReactionByIdError {
 
 
 /// Retrieve all reactions (likes or recasts) on a specific cast in the Farcaster network. The cast is identified by its creator's FID and unique hash. This endpoint helps track engagement metrics and user interactions with specific content.
-pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, target_fid: i32, target_hash: &str, reaction_type: models::ReactionType, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchCastReactions200Response, Error<FetchCastReactionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_target_fid = target_fid;
-    let p_target_hash = target_hash;
-    let p_reaction_type = reaction_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, params: FetchCastReactionsParams) -> Result<models::FetchCastReactions200Response, Error<FetchCastReactionsError>> {
 
     let uri_str = format!("{}/v1/reactionsByCast", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("target_fid", &p_target_fid.to_string())]);
-    req_builder = req_builder.query(&[("target_hash", &p_target_hash.to_string())]);
-    req_builder = req_builder.query(&[("reaction_type", &p_reaction_type.to_string())]);
-    if let Some(ref param_value) = p_page_size {
+    req_builder = req_builder.query(&[("target_fid", &params.target_fid.to_string())]);
+    req_builder = req_builder.query(&[("target_hash", &params.target_hash.to_string())]);
+    req_builder = req_builder.query(&[("reaction_type", &params.reaction_type.to_string())]);
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -111,28 +160,22 @@ pub async fn fetch_cast_reactions(configuration: &configuration::Configuration, 
 }
 
 /// Fetch all reactions of a specific type (like or recast) that target a given URL. This endpoint is useful for tracking engagement with content across the Farcaster network.
-pub async fn fetch_reactions_by_target(configuration: &configuration::Configuration, url: &str, reaction_type: Option<models::ReactionType>, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchReactionsByTarget200Response, Error<FetchReactionsByTargetError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_url = url;
-    let p_reaction_type = reaction_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_reactions_by_target(configuration: &configuration::Configuration, params: FetchReactionsByTargetParams) -> Result<models::FetchReactionsByTarget200Response, Error<FetchReactionsByTargetError>> {
 
     let uri_str = format!("{}/v1/reactionsByTarget", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("url", &p_url.to_string())]);
-    if let Some(ref param_value) = p_reaction_type {
+    req_builder = req_builder.query(&[("url", &params.url.to_string())]);
+    if let Some(ref param_value) = params.reaction_type {
         req_builder = req_builder.query(&[("reaction_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_size {
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -173,26 +216,20 @@ pub async fn fetch_reactions_by_target(configuration: &configuration::Configurat
 }
 
 /// Fetch reactions by a user.
-pub async fn fetch_user_reactions(configuration: &configuration::Configuration, fid: i32, reaction_type: models::ReactionType, page_size: Option<i32>, reverse: Option<bool>, page_token: Option<&str>) -> Result<models::FetchUserReactions200Response, Error<FetchUserReactionsError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_reaction_type = reaction_type;
-    let p_page_size = page_size;
-    let p_reverse = reverse;
-    let p_page_token = page_token;
+pub async fn fetch_user_reactions(configuration: &configuration::Configuration, params: FetchUserReactionsParams) -> Result<models::FetchUserReactions200Response, Error<FetchUserReactionsError>> {
 
     let uri_str = format!("{}/v1/reactionsByFid", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("reaction_type", &p_reaction_type.to_string())]);
-    if let Some(ref param_value) = p_page_size {
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("reaction_type", &params.reaction_type.to_string())]);
+    if let Some(ref param_value) = params.page_size {
         req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_reverse {
+    if let Some(ref param_value) = params.reverse {
         req_builder = req_builder.query(&[("reverse", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_page_token {
+    if let Some(ref param_value) = params.page_token {
         req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -233,20 +270,15 @@ pub async fn fetch_user_reactions(configuration: &configuration::Configuration, 
 }
 
 /// Lookup a reaction by its FID or cast.
-pub async fn lookup_reaction_by_id(configuration: &configuration::Configuration, fid: i32, target_fid: i32, target_hash: &str, reaction_type: models::ReactionType) -> Result<models::Reaction, Error<LookupReactionByIdError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_target_fid = target_fid;
-    let p_target_hash = target_hash;
-    let p_reaction_type = reaction_type;
+pub async fn lookup_reaction_by_id(configuration: &configuration::Configuration, params: LookupReactionByIdParams) -> Result<models::Reaction, Error<LookupReactionByIdError>> {
 
     let uri_str = format!("{}/v1/reactionById", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
-    req_builder = req_builder.query(&[("target_fid", &p_target_fid.to_string())]);
-    req_builder = req_builder.query(&[("target_hash", &p_target_hash.to_string())]);
-    req_builder = req_builder.query(&[("reaction_type", &p_reaction_type.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
+    req_builder = req_builder.query(&[("target_fid", &params.target_fid.to_string())]);
+    req_builder = req_builder.query(&[("target_hash", &params.target_hash.to_string())]);
+    req_builder = req_builder.query(&[("reaction_type", &params.reaction_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

@@ -26,7 +26,7 @@ pub enum FetchNonceError {
 
 
 /// Nonce to sign a message
-pub async fn fetch_nonce(configuration: &configuration::Configuration, ) -> Result<models::NonceResponse, Error<FetchNonceError>> {
+pub async fn fetch_nonce(configuration: &configuration::Configuration) -> Result<models::NonceResponse, Error<FetchNonceError>> {
 
     let uri_str = format!("{}/farcaster/login/nonce", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);

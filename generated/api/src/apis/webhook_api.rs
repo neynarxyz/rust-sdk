@@ -14,6 +14,36 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`delete_webhook`]
+#[derive(Clone, Debug)]
+pub struct DeleteWebhookParams {
+    pub webhook_delete_req_body: models::WebhookDeleteReqBody
+}
+
+/// struct for passing parameters to the method [`lookup_webhook`]
+#[derive(Clone, Debug)]
+pub struct LookupWebhookParams {
+    pub webhook_id: String
+}
+
+/// struct for passing parameters to the method [`publish_webhook`]
+#[derive(Clone, Debug)]
+pub struct PublishWebhookParams {
+    pub webhook_post_req_body: models::WebhookPostReqBody
+}
+
+/// struct for passing parameters to the method [`update_webhook`]
+#[derive(Clone, Debug)]
+pub struct UpdateWebhookParams {
+    pub webhook_put_req_body: models::WebhookPutReqBody
+}
+
+/// struct for passing parameters to the method [`update_webhook_active_status`]
+#[derive(Clone, Debug)]
+pub struct UpdateWebhookActiveStatusParams {
+    pub webhook_patch_req_body: models::WebhookPatchReqBody
+}
+
 
 /// struct for typed errors of method [`delete_webhook`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -65,9 +95,7 @@ pub enum UpdateWebhookActiveStatusError {
 
 
 /// Delete a webhook
-pub async fn delete_webhook(configuration: &configuration::Configuration, webhook_delete_req_body: models::WebhookDeleteReqBody) -> Result<models::WebhookResponse, Error<DeleteWebhookError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_webhook_delete_req_body = webhook_delete_req_body;
+pub async fn delete_webhook(configuration: &configuration::Configuration, params: DeleteWebhookParams) -> Result<models::WebhookResponse, Error<DeleteWebhookError>> {
 
     let uri_str = format!("{}/farcaster/webhook", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
@@ -83,7 +111,7 @@ pub async fn delete_webhook(configuration: &configuration::Configuration, webhoo
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_webhook_delete_req_body);
+    req_builder = req_builder.json(&params.webhook_delete_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -111,7 +139,7 @@ pub async fn delete_webhook(configuration: &configuration::Configuration, webhoo
 }
 
 /// Fetch a list of webhooks associated to a user
-pub async fn fetch_webhooks(configuration: &configuration::Configuration, ) -> Result<models::WebhookListResponse, Error<FetchWebhooksError>> {
+pub async fn fetch_webhooks(configuration: &configuration::Configuration) -> Result<models::WebhookListResponse, Error<FetchWebhooksError>> {
 
     let uri_str = format!("{}/farcaster/webhook/list", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -154,14 +182,12 @@ pub async fn fetch_webhooks(configuration: &configuration::Configuration, ) -> R
 }
 
 /// Fetch a webhook
-pub async fn lookup_webhook(configuration: &configuration::Configuration, webhook_id: &str) -> Result<models::WebhookResponse, Error<LookupWebhookError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_webhook_id = webhook_id;
+pub async fn lookup_webhook(configuration: &configuration::Configuration, params: LookupWebhookParams) -> Result<models::WebhookResponse, Error<LookupWebhookError>> {
 
     let uri_str = format!("{}/farcaster/webhook", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("webhook_id", &p_webhook_id.to_string())]);
+    req_builder = req_builder.query(&[("webhook_id", &params.webhook_id.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -200,9 +226,7 @@ pub async fn lookup_webhook(configuration: &configuration::Configuration, webhoo
 }
 
 /// Create a webhook
-pub async fn publish_webhook(configuration: &configuration::Configuration, webhook_post_req_body: models::WebhookPostReqBody) -> Result<models::WebhookResponse, Error<PublishWebhookError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_webhook_post_req_body = webhook_post_req_body;
+pub async fn publish_webhook(configuration: &configuration::Configuration, params: PublishWebhookParams) -> Result<models::WebhookResponse, Error<PublishWebhookError>> {
 
     let uri_str = format!("{}/farcaster/webhook", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -218,7 +242,7 @@ pub async fn publish_webhook(configuration: &configuration::Configuration, webho
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_webhook_post_req_body);
+    req_builder = req_builder.json(&params.webhook_post_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -246,9 +270,7 @@ pub async fn publish_webhook(configuration: &configuration::Configuration, webho
 }
 
 /// Update a webhook
-pub async fn update_webhook(configuration: &configuration::Configuration, webhook_put_req_body: models::WebhookPutReqBody) -> Result<models::WebhookResponse, Error<UpdateWebhookError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_webhook_put_req_body = webhook_put_req_body;
+pub async fn update_webhook(configuration: &configuration::Configuration, params: UpdateWebhookParams) -> Result<models::WebhookResponse, Error<UpdateWebhookError>> {
 
     let uri_str = format!("{}/farcaster/webhook", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
@@ -264,7 +286,7 @@ pub async fn update_webhook(configuration: &configuration::Configuration, webhoo
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_webhook_put_req_body);
+    req_builder = req_builder.json(&params.webhook_put_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -292,9 +314,7 @@ pub async fn update_webhook(configuration: &configuration::Configuration, webhoo
 }
 
 /// Update webhook active status
-pub async fn update_webhook_active_status(configuration: &configuration::Configuration, webhook_patch_req_body: models::WebhookPatchReqBody) -> Result<models::WebhookResponse, Error<UpdateWebhookActiveStatusError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_webhook_patch_req_body = webhook_patch_req_body;
+pub async fn update_webhook_active_status(configuration: &configuration::Configuration, params: UpdateWebhookActiveStatusParams) -> Result<models::WebhookResponse, Error<UpdateWebhookActiveStatusError>> {
 
     let uri_str = format!("{}/farcaster/webhook", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PATCH, &uri_str);
@@ -310,7 +330,7 @@ pub async fn update_webhook_active_status(configuration: &configuration::Configu
         };
         req_builder = req_builder.header("x-api-key", value);
     };
-    req_builder = req_builder.json(&p_webhook_patch_req_body);
+    req_builder = req_builder.json(&params.webhook_patch_req_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

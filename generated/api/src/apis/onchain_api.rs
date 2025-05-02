@@ -14,6 +14,55 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`deploy_fungible`]
+#[derive(Clone, Debug)]
+pub struct DeployFungibleParams {
+    /// Ethereum address of the one who is creating the token
+    pub owner: String,
+    /// Symbol/Ticker for the token
+    pub symbol: String,
+    /// Name of the token
+    pub name: String,
+    /// Media file associated with the token.  Supported formats are image/jpeg, image/gif and image/png 
+    pub metadata_left_square_bracket_media_right_square_bracket: Option<Vec<u8>>,
+    /// Description of the token
+    pub metadata_left_square_bracket_description_right_square_bracket: Option<String>,
+    /// Indicates if the token is NSFW (Not Safe For Work). 
+    pub metadata_left_square_bracket_nsfw_right_square_bracket: Option<String>,
+    /// Website link related to the token
+    pub metadata_left_square_bracket_website_link_right_square_bracket: Option<String>,
+    /// Twitter profile link
+    pub metadata_left_square_bracket_twitter_right_square_bracket: Option<String>,
+    /// Discord server link
+    pub metadata_left_square_bracket_discord_right_square_bracket: Option<String>,
+    /// Telegram link
+    pub metadata_left_square_bracket_telegram_right_square_bracket: Option<String>,
+    /// Network/Chain name
+    pub network: Option<String>,
+    /// Factory name - wow -> [wow.xyz](https://wow.xyz) - clanker -> [clanker.world](https://www.clanker.world) 
+    pub factory: Option<String>
+}
+
+/// struct for passing parameters to the method [`fetch_relevant_fungible_owners`]
+#[derive(Clone, Debug)]
+pub struct FetchRelevantFungibleOwnersParams {
+    /// Contract address of the fungible asset
+    pub contract_address: String,
+    /// Comma separated list of networks to fetch balances for. Currently, only \"base\" is supported.
+    pub networks: Vec<models::Networks>,
+    /// If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired.
+    pub viewer_fid: Option<i32>
+}
+
+/// struct for passing parameters to the method [`fetch_user_balance`]
+#[derive(Clone, Debug)]
+pub struct FetchUserBalanceParams {
+    /// FID of the user to fetch
+    pub fid: i32,
+    /// Comma separated list of networks to fetch balances for. Currently, only \"base\" is supported.
+    pub networks: Vec<models::Networks>
+}
+
 
 /// struct for typed errors of method [`deploy_fungible`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -44,20 +93,7 @@ pub enum FetchUserBalanceError {
 
 
 /// Creates a new token. This is an allowlisted API, reach out if you want access. 
-pub async fn deploy_fungible(configuration: &configuration::Configuration, owner: &str, symbol: &str, name: &str, metadata_left_square_bracket_media_right_square_bracket: Option<Vec<u8>>, metadata_left_square_bracket_description_right_square_bracket: Option<&str>, metadata_left_square_bracket_nsfw_right_square_bracket: Option<&str>, metadata_left_square_bracket_website_link_right_square_bracket: Option<&str>, metadata_left_square_bracket_twitter_right_square_bracket: Option<&str>, metadata_left_square_bracket_discord_right_square_bracket: Option<&str>, metadata_left_square_bracket_telegram_right_square_bracket: Option<&str>, network: Option<&str>, factory: Option<&str>) -> Result<models::DeployFungibleResponse, Error<DeployFungibleError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_owner = owner;
-    let p_symbol = symbol;
-    let p_name = name;
-    let p_metadata_left_square_bracket_media_right_square_bracket = metadata_left_square_bracket_media_right_square_bracket;
-    let p_metadata_left_square_bracket_description_right_square_bracket = metadata_left_square_bracket_description_right_square_bracket;
-    let p_metadata_left_square_bracket_nsfw_right_square_bracket = metadata_left_square_bracket_nsfw_right_square_bracket;
-    let p_metadata_left_square_bracket_website_link_right_square_bracket = metadata_left_square_bracket_website_link_right_square_bracket;
-    let p_metadata_left_square_bracket_twitter_right_square_bracket = metadata_left_square_bracket_twitter_right_square_bracket;
-    let p_metadata_left_square_bracket_discord_right_square_bracket = metadata_left_square_bracket_discord_right_square_bracket;
-    let p_metadata_left_square_bracket_telegram_right_square_bracket = metadata_left_square_bracket_telegram_right_square_bracket;
-    let p_network = network;
-    let p_factory = factory;
+pub async fn deploy_fungible(configuration: &configuration::Configuration, params: DeployFungibleParams) -> Result<models::DeployFungibleResponse, Error<DeployFungibleError>> {
 
     let uri_str = format!("{}/fungible", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -74,32 +110,32 @@ pub async fn deploy_fungible(configuration: &configuration::Configuration, owner
         req_builder = req_builder.header("x-api-key", value);
     };
     let mut multipart_form = reqwest::multipart::Form::new();
-    multipart_form = multipart_form.text("owner", p_owner.to_string());
-    multipart_form = multipart_form.text("symbol", p_symbol.to_string());
-    multipart_form = multipart_form.text("name", p_name.to_string());
+    multipart_form = multipart_form.text("owner", params.owner.to_string());
+    multipart_form = multipart_form.text("symbol", params.symbol.to_string());
+    multipart_form = multipart_form.text("name", params.name.to_string());
     // TODO: support file upload for 'metadata[media]' parameter
-    if let Some(param_value) = p_metadata_left_square_bracket_description_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_description_right_square_bracket {
         multipart_form = multipart_form.text("metadata[description]", param_value.to_string());
     }
-    if let Some(param_value) = p_metadata_left_square_bracket_nsfw_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_nsfw_right_square_bracket {
         multipart_form = multipart_form.text("metadata[nsfw]", param_value.to_string());
     }
-    if let Some(param_value) = p_metadata_left_square_bracket_website_link_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_website_link_right_square_bracket {
         multipart_form = multipart_form.text("metadata[website_link]", param_value.to_string());
     }
-    if let Some(param_value) = p_metadata_left_square_bracket_twitter_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_twitter_right_square_bracket {
         multipart_form = multipart_form.text("metadata[twitter]", param_value.to_string());
     }
-    if let Some(param_value) = p_metadata_left_square_bracket_discord_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_discord_right_square_bracket {
         multipart_form = multipart_form.text("metadata[discord]", param_value.to_string());
     }
-    if let Some(param_value) = p_metadata_left_square_bracket_telegram_right_square_bracket {
+    if let Some(param_value) = params.metadata_left_square_bracket_telegram_right_square_bracket {
         multipart_form = multipart_form.text("metadata[telegram]", param_value.to_string());
     }
-    if let Some(param_value) = p_network {
+    if let Some(param_value) = params.network {
         multipart_form = multipart_form.text("network", param_value.to_string());
     }
-    if let Some(param_value) = p_factory {
+    if let Some(param_value) = params.factory {
         multipart_form = multipart_form.text("factory", param_value.to_string());
     }
     req_builder = req_builder.multipart(multipart_form);
@@ -130,21 +166,17 @@ pub async fn deploy_fungible(configuration: &configuration::Configuration, owner
 }
 
 /// Fetch a list of relevant owners for a specific FID. This usually shows on a fungible asset page as \"X, Y, Z and N others you know own this asset\".
-pub async fn fetch_relevant_fungible_owners(configuration: &configuration::Configuration, contract_address: &str, networks: Vec<models::Networks>, viewer_fid: Option<i32>) -> Result<models::RelevantFungibleOwnersResponse, Error<FetchRelevantFungibleOwnersError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_contract_address = contract_address;
-    let p_networks = networks;
-    let p_viewer_fid = viewer_fid;
+pub async fn fetch_relevant_fungible_owners(configuration: &configuration::Configuration, params: FetchRelevantFungibleOwnersParams) -> Result<models::RelevantFungibleOwnersResponse, Error<FetchRelevantFungibleOwnersError>> {
 
     let uri_str = format!("{}/farcaster/fungible/owner/relevant", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("contract_address", &p_contract_address.to_string())]);
+    req_builder = req_builder.query(&[("contract_address", &params.contract_address.to_string())]);
     req_builder = match "csv" {
-        "multi" => req_builder.query(&p_networks.into_iter().map(|p| ("networks".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("networks", &p_networks.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&params.networks.into_iter().map(|p| ("networks".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("networks", &params.networks.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
-    if let Some(ref param_value) = p_viewer_fid {
+    if let Some(ref param_value) = params.viewer_fid {
         req_builder = req_builder.query(&[("viewer_fid", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -185,18 +217,15 @@ pub async fn fetch_relevant_fungible_owners(configuration: &configuration::Confi
 }
 
 /// Fetches the token balances of a user given their FID
-pub async fn fetch_user_balance(configuration: &configuration::Configuration, fid: i32, networks: Vec<models::Networks>) -> Result<models::BalanceResponse, Error<FetchUserBalanceError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_fid = fid;
-    let p_networks = networks;
+pub async fn fetch_user_balance(configuration: &configuration::Configuration, params: FetchUserBalanceParams) -> Result<models::BalanceResponse, Error<FetchUserBalanceError>> {
 
     let uri_str = format!("{}/farcaster/user/balance", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fid", &p_fid.to_string())]);
+    req_builder = req_builder.query(&[("fid", &params.fid.to_string())]);
     req_builder = match "csv" {
-        "multi" => req_builder.query(&p_networks.into_iter().map(|p| ("networks".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("networks", &p_networks.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&params.networks.into_iter().map(|p| ("networks".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("networks", &params.networks.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

@@ -14,6 +14,13 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`lookup_hub_info`]
+#[derive(Clone, Debug)]
+pub struct LookupHubInfoParams {
+    /// Controls whether the response includes database statistics. When true, the response includes information about the hub's database state, storage usage, and performance metrics.
+    pub dbstats: bool
+}
+
 
 /// struct for typed errors of method [`lookup_hub_info`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,14 +32,12 @@ pub enum LookupHubInfoError {
 
 
 /// Retrieve hub information.
-pub async fn lookup_hub_info(configuration: &configuration::Configuration, dbstats: bool) -> Result<models::HubInfoResponse, Error<LookupHubInfoError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_dbstats = dbstats;
+pub async fn lookup_hub_info(configuration: &configuration::Configuration, params: LookupHubInfoParams) -> Result<models::HubInfoResponse, Error<LookupHubInfoError>> {
 
     let uri_str = format!("{}/v1/info", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("dbstats", &p_dbstats.to_string())]);
+    req_builder = req_builder.query(&[("dbstats", &params.dbstats.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
