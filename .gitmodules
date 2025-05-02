@@ -1,3 +1,3 @@
-[submodule "oas"]
-	path = oas
-	url = git@github.com:neynarxyz/OAS.git
+[submodule "OAS"]
+	path = OAS
+	url = https://github.com/neynarxyz/OAS
