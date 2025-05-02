@@ -18,14 +18,14 @@ use super::{Error, configuration, ContentType};
 #[derive(Clone, Debug)]
 pub struct PublishMessageParams {
     /// A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity. 
-    pub body: std::path::PathBuf
+    pub body: Vec<u8>
 }
 
 /// struct for passing parameters to the method [`validate_message`]
 #[derive(Clone, Debug)]
 pub struct ValidateMessageParams {
     /// A Message is a delta operation on the Farcaster network. The message protobuf is an envelope that wraps a MessageData object and contains a hash and signature which can verify its authenticity. 
-    pub body: std::path::PathBuf
+    pub body: Vec<u8>
 }
 
 
