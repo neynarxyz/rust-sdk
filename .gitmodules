@@ -1,3 +1,6 @@
 [submodule "OAS"]
 	path = src/OAS
 	url = https://github.com/neynarxyz/OAS
+[submodule "src/OAS"]
+	path = src/OAS
+	url = https://github.com/neynarxyz/OAS.git
