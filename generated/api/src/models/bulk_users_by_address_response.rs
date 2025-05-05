@@ -10,12 +10,19 @@
 
 use crate::models;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct BulkUsersByAddressResponse {}
+pub struct BulkUsersByAddressResponse {
+    pub additional_properties: HashMap<String, Vec<models::User>>,
+}
 
 impl BulkUsersByAddressResponse {
-    pub fn new() -> BulkUsersByAddressResponse {
-        BulkUsersByAddressResponse {}
+    pub fn new(
+        additional_properties: HashMap<String, Vec<models::User>>,
+    ) -> BulkUsersByAddressResponse {
+        BulkUsersByAddressResponse {
+            additional_properties,
+        }
     }
 }
