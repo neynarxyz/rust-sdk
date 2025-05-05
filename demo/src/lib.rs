@@ -96,7 +96,6 @@ mod tests {
 
         let result = fetch_bulk_users_by_eth_or_sol_address(&configuration, params).await;
 
-        dbg!(&result);
         match result {
             Ok(response) => {
                 println!("Fetched users successfully: {:?}", response);
