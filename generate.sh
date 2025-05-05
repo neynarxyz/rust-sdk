@@ -30,3 +30,5 @@ npx --yes @openapitools/openapi-generator-cli \
 # Build the workspace
 cargo fmt
 cargo build
+# test the workspace
+cargo test

@@ -10,12 +10,20 @@
 
 use crate::models;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct SubscriptionCheckResponse {}
+pub struct SubscriptionCheckResponse {
+    #[serde(flatten)]
+    pub additional_properties: HashMap<String, models::SubscriptionStatus>,
+}
 
 impl SubscriptionCheckResponse {
-    pub fn new() -> SubscriptionCheckResponse {
-        SubscriptionCheckResponse {}
+    pub fn new(
+        additional_properties: HashMap<String, models::SubscriptionStatus>,
+    ) -> SubscriptionCheckResponse {
+        SubscriptionCheckResponse {
+            additional_properties,
+        }
     }
 }

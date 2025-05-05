@@ -1,3 +1,6 @@
 /target/
 **/*.rs.bk
 Cargo.lock
+# generator artifacts
+**/.travis.yml
+**/git_push.sh
