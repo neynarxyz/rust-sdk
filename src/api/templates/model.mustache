@@ -150,7 +150,10 @@ pub struct {{{classname}}} {
     }}{{#isNullable}}>{{/isNullable}}{{^required}}>{{/required}},
 {{/vars}}
 {{! Dicts exist in the model but above individual vars in the schema}}
-{{#additionalPropertiesType}}pub additional_properties: HashMap<String,{{{additionalPropertiesType}}}>,{{/additionalPropertiesType}}
+{{#additionalPropertiesType}}
+#[serde(flatten)]
+pub additional_properties: HashMap<String,{{{additionalPropertiesType}}}>,
+{{/additionalPropertiesType}}
 }
 
 impl {{{classname}}} {

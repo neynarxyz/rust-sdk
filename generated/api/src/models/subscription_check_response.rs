@@ -14,6 +14,7 @@ use std::collections::HashMap;
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SubscriptionCheckResponse {
+    #[serde(flatten)]
     pub additional_properties: HashMap<String, models::SubscriptionStatus>,
 }
 

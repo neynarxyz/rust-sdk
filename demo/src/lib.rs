@@ -1,10 +1,10 @@
 #[cfg(test)]
 mod tests {
+    use api::apis::configuration as api_config;
+    use api::apis::configuration::Configuration as ApiConfig;
     use api::apis::user_api::{
         FetchBulkUsersByEthOrSolAddressParams, fetch_bulk_users_by_eth_or_sol_address,
     };
-    use api::apis::configuration::Configuration as ApiConfig;
-    use api::apis::configuration as api_config;
     use hub_api::apis::configuration;
     use hub_api::apis::configuration::Configuration;
     use hub_api::apis::message_api::{ValidateMessageParams, validate_message};
@@ -65,6 +65,46 @@ mod tests {
             Err(err) => {
                 eprintln!("Validation failed: {:?}", err);
                 panic!("Message validation failed");
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn test_fetch_bulk_users_by_address() {
+        let configuration = ApiConfig {
+            base_path: "https://api.neynar.com/v2".to_string(),
+            client: Client::builder().connection_verbose(true).build().unwrap(),
+            user_agent: Some("rust-sdk-demo".to_string()),
+            api_key: Some(api_config::ApiKey {
+                prefix: None,
+                key: "NEYNAR_API_DOCS".to_string(),
+            }),
+            basic_auth: None,
+            bearer_access_token: None,
+            oauth_access_token: None,
+        };
+
+        // TODO this shouldn't be a comma-separated string
+        // Ideally this should be an array of an address type that can be displayed as a string
+        let addresses = "0xBFc7CAE0Fad9B346270Ae8fde24827D2D779eF07".to_string();
+        let params = FetchBulkUsersByEthOrSolAddressParams {
+            addresses,
+            address_types: Some(vec![api::models::BulkUserAddressType::VerifiedAddress]),
+            viewer_fid: None,
+            x_neynar_experimental: None,
+        };
+
+        let result = fetch_bulk_users_by_eth_or_sol_address(&configuration, params).await;
+
+        dbg!(&result);
+        match result {
+            Ok(response) => {
+                println!("Fetched users successfully: {:?}", response);
+                assert!(!response.additional_properties.is_empty());
+            }
+            Err(err) => {
+                eprintln!("Failed to fetch users: {:?}", err);
+                panic!("User fetch failed");
             }
         }
     }
