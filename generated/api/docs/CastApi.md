@@ -122,7 +122,7 @@ Crawls the given URL and returns metadata useful when embedding the URL in a cas
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**url** | Option<**String**> | URL to crawl metadata of |  |
+**url** | **String** | URL to crawl metadata of | [required] |
 
 ### Return type
 

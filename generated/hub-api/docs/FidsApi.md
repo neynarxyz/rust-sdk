@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## fetch_fids
 
-> models::FidsResponse fetch_fids(page_size, reverse, page_token)
+> models::FidsResponse fetch_fids(shard_id, page_size, reverse, page_token)
 Fetch a list of all the FIDs
 
 Fetch a list of all the FIDs.
@@ -20,6 +20,7 @@ Fetch a list of all the FIDs.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
+**shard_id** | **i32** | The shard ID to filter by | [required] |
 **page_size** | Option<**i32**> | Maximum number of messages to return in a single response |  |
 **reverse** | Option<**bool**> | Reverse the sort order, returning latest messages first |  |
 **page_token** | Option<**String**> | The page token returned by the previous query, to fetch the next page. If this parameter is empty, fetch the first page |  |
