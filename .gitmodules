@@ -1,3 +1,4 @@
 [submodule "src/OAS"]
 	path = src/OAS
 	url = https://github.com/neynarxyz/OAS
+	branch = tdb/go-sdk-fixes
