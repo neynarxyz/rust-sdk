@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## fetch_cast_metrics
 
-> models::CastsMetricsResponse fetch_cast_metrics(q, interval, author_fid, channel_id)
+> models::CastsMetricsResponse fetch_cast_metrics(q, interval, author_fid, channel_id, x_neynar_experimental)
 Metrics for casts
 
 Fetches metrics casts matching a query
@@ -24,6 +24,7 @@ Name | Type | Description  | Required | Notes
 **interval** | Option<**String**> | Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d` |  |
 **author_fid** | Option<**i32**> | Fid of the user whose casts you want to search |  |
 **channel_id** | Option<**String**> | Channel ID of the casts you want to search |  |
+**x_neynar_experimental** | Option<**bool**> | Enables experimental features including filtering based on the Neynar score. See [docs](https://neynar.notion.site/Experimental-Features-1d2655195a8b80eb98b4d4ae7b76ae4a) for more details. |  |[default to false]
 
 ### Return type
 
