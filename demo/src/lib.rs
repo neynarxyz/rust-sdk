@@ -1,13 +1,14 @@
 #[cfg(test)]
 mod tests {
-    use api::apis::configuration as api_config;
-    use api::apis::configuration::Configuration as ApiConfig;
-    use api::apis::user_api::{
+    use neynar_hub_sdk::apis::configuration;
+    use neynar_hub_sdk::apis::configuration::Configuration;
+    use neynar_hub_sdk::apis::message_api::{ValidateMessageParams, validate_message};
+    use neynar_sdk::apis::configuration as api_config;
+    use neynar_sdk::apis::configuration::Configuration as ApiConfig;
+    use neynar_sdk::apis::user_api::{
         FetchBulkUsersByEthOrSolAddressParams, fetch_bulk_users_by_eth_or_sol_address,
     };
-    use hub_api::apis::configuration;
-    use hub_api::apis::configuration::Configuration;
-    use hub_api::apis::message_api::{ValidateMessageParams, validate_message};
+    use neynar_sdk::models::BulkUserAddressType::VerifiedAddress;
     use reqwest;
     use reqwest::Client;
 
@@ -89,7 +90,7 @@ mod tests {
         let addresses = "0xBFc7CAE0Fad9B346270Ae8fde24827D2D779eF07".to_string();
         let params = FetchBulkUsersByEthOrSolAddressParams {
             addresses,
-            address_types: Some(vec![api::models::BulkUserAddressType::VerifiedAddress]),
+            address_types: Some(vec![VerifiedAddress]),
             viewer_fid: None,
             x_neynar_experimental: None,
         };
