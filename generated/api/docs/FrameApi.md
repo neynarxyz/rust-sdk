@@ -55,7 +55,7 @@ Name | Type | Description  | Required | Notes
 
 ## fetch_frame_catalog
 
-> models::FrameCatalogResponse fetch_frame_catalog(limit, cursor, time_window)
+> models::FrameCatalogResponse fetch_frame_catalog(limit, cursor, time_window, categories)
 Mini apps catalog
 
 A curated list of featured mini apps
@@ -68,6 +68,7 @@ Name | Type | Description  | Required | Notes
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 100]
 **cursor** | Option<**String**> | Pagination cursor |  |
 **time_window** | Option<[**TrendingTimeWindow**](.md)> | Time window used to calculate the change in trending score for each mini app, used to sort mini app results |  |
+**categories** | Option<[**Vec<String>**](String.md)> | Comma separated list of categories to include in the results.  Includes all if left blank.  Example: `categories=games,social` OR: `categories=games&categories=social` |  |
 
 ### Return type
 
