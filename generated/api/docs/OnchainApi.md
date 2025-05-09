@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**deploy_fungible**](OnchainApi.md#deploy_fungible) | **POST** /fungible | Deploy fungible
 [**fetch_relevant_fungible_owners**](OnchainApi.md#fetch_relevant_fungible_owners) | **GET** /farcaster/fungible/owner/relevant | Relevant owners
 [**fetch_user_balance**](OnchainApi.md#fetch_user_balance) | **GET** /farcaster/user/balance | Token balance
-[**register_account_onchain**](OnchainApi.md#register_account_onchain) | **POST** /farcaster/user/register | Register account onchain
+[**register_account_onchain**](OnchainApi.md#register_account_onchain) | **POST** /farcaster/user/register | Register Farcaster account onchain
 
 
 
@@ -118,7 +118,7 @@ Name | Type | Description  | Required | Notes
 ## register_account_onchain
 
 > models::RegisterUserOnChainResponse register_account_onchain(register_user_on_chain_req_body)
-Register account onchain
+Register Farcaster account onchain
 
 Register a new farcaster account onchain. Optionally you can pass in signers along to register a new account and create multiple signers in a single transaction 
 

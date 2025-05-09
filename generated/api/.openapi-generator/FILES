@@ -102,9 +102,6 @@ docs/FarcasterActionReqBodyAction.md
 docs/FarcasterManifest.md
 docs/FarcasterManifestAccountAssociation.md
 docs/FarcasterManifestFrame.md
-docs/FarcasterManifestTriggersInner.md
-docs/FarcasterManifestTriggersInnerOneOf.md
-docs/FarcasterManifestTriggersInnerOneOf1.md
 docs/FeedApi.md
 docs/FeedResponse.md
 docs/FeedTrendingProvider.md
@@ -459,9 +456,6 @@ src/models/farcaster_action_req_body_action.rs
 src/models/farcaster_manifest.rs
 src/models/farcaster_manifest_account_association.rs
 src/models/farcaster_manifest_frame.rs
-src/models/farcaster_manifest_triggers_inner.rs
-src/models/farcaster_manifest_triggers_inner_one_of.rs
-src/models/farcaster_manifest_triggers_inner_one_of_1.rs
 src/models/feed_response.rs
 src/models/feed_trending_provider.rs
 src/models/feed_type.rs
