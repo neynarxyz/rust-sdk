@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**deploy_fungible**](OnchainApi.md#deploy_fungible) | **POST** /fungible | Deploy fungible
 [**fetch_relevant_fungible_owners**](OnchainApi.md#fetch_relevant_fungible_owners) | **GET** /farcaster/fungible/owner/relevant | Relevant owners
 [**fetch_user_balance**](OnchainApi.md#fetch_user_balance) | **GET** /farcaster/user/balance | Token balance
+[**register_account_onchain**](OnchainApi.md#register_account_onchain) | **POST** /farcaster/user/register | Register account onchain
 
 
 
@@ -109,6 +110,36 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## register_account_onchain
+
+> models::RegisterUserOnChainResponse register_account_onchain(register_user_on_chain_req_body)
+Register account onchain
+
+Register a new farcaster account onchain. Optionally you can pass in signers along to register a new account and create multiple signers in a single transaction 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**register_user_on_chain_req_body** | [**RegisterUserOnChainReqBody**](RegisterUserOnChainReqBody.md) |  | [required] |
+
+### Return type
+
+[**models::RegisterUserOnChainResponse**](RegisterUserOnChainResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

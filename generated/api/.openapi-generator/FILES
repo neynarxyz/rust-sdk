@@ -229,6 +229,10 @@ docs/ReactionsResponse.md
 docs/ReactionsType.md
 docs/RegisterDeveloperManagedSignedKeyReqBody.md
 docs/RegisterSignerKeyReqBody.md
+docs/RegisterUserOnChainReqBody.md
+docs/RegisterUserOnChainReqBodyRegistration.md
+docs/RegisterUserOnChainReqBodySignersInner.md
+docs/RegisterUserOnChainResponse.md
 docs/RegisterUserReqBody.md
 docs/RegisterUserReqBodyMetadata.md
 docs/RegisterUserReqBodyMetadataLocation.md
@@ -573,6 +577,10 @@ src/models/reactions_response.rs
 src/models/reactions_type.rs
 src/models/register_developer_managed_signed_key_req_body.rs
 src/models/register_signer_key_req_body.rs
+src/models/register_user_on_chain_req_body.rs
+src/models/register_user_on_chain_req_body_registration.rs
+src/models/register_user_on_chain_req_body_signers_inner.rs
+src/models/register_user_on_chain_response.rs
 src/models/register_user_req_body.rs
 src/models/register_user_req_body_metadata.rs
 src/models/register_user_req_body_metadata_location.rs
