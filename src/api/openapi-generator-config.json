@@ -2,8 +2,7 @@
   "templateDir": "./src/api/templates",
   "generateAliasAsModel": true,
   "additionalProperties": {
-    "packageName": "api",
-    "packageVersion": "0.0.1",
+    "packageName": "neynar_sdk",
     "useSingleRequestParameter": true
   }
 }

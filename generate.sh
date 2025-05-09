@@ -8,6 +8,7 @@ npx --yes @openapitools/openapi-generator-cli \
     --git-user-id neynarxyz \
     --git-repo-id rust-sdk \
     -g rust \
+    --additional-properties=packageVersion="$SDK_VERSION" \
     --config ./src/api/openapi-generator-config.json \
     -i ./src/OAS/src/v2/spec.yaml \
     -o ./generated/api \
@@ -24,6 +25,7 @@ npx --yes @openapitools/openapi-generator-cli \
     --config ./src/hub-api/openapi-generator-config.json \
     -i ./src/OAS/src/hub-rest-api/spec.yaml \
     -o ./generated/hub-api \
+    --additional-properties=packageVersion="$SDK_VERSION" \
     --inline-schema-options 'SKIP_SCHEMA_REUSE=true' \
     --type-mappings='"file=Vec<u8>"'
 

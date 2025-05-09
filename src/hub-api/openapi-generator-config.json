@@ -2,8 +2,7 @@
   "templateDir": "./src/hub-api/templates",
   "generateAliasAsModel": true,
   "additionalProperties": {
-    "packageName": "hub-api",
-    "packageVersion": "0.0.1",
+    "packageName": "neynar_hub_sdk",
     "useSingleRequestParameter": true
   }
 }
