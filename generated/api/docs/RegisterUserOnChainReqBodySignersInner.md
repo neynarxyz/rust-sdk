@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**signature** | **String** | Hex encoded signature | 
-**metadata** | **String** | Hex encoded signature | 
+**signature** | **String** | Hexadecimal number expressed as string with '0x' prefix | 
+**metadata** | **String** | Hexadecimal number expressed as string with '0x' prefix | 
 **public_key** | **String** | Ed25519 public key | 
 **key_type** | Option<**i32**> |  | [optional][default to 1]
 **metadata_type** | Option<**i32**> |  | [optional][default to 1]

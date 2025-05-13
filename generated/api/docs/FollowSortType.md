@@ -5,7 +5,7 @@
 | Name | Value |
 |---- | -----|
 | DescChron | desc_chron |
-| AffinityScore | affinity_score |
+| Algorithmic | algorithmic |
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
