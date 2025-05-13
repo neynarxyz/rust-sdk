@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**post_frame_action_developer_managed**](FrameApi.md#post_frame_action_developer_managed) | **POST** /farcaster/frame/developer_managed/action | Signature packet
 [**publish_frame_notifications**](FrameApi.md#publish_frame_notifications) | **POST** /farcaster/frame/notifications | Send notifications
 [**publish_neynar_frame**](FrameApi.md#publish_neynar_frame) | **POST** /farcaster/frame | Create mini app
+[**search_frames**](FrameApi.md#search_frames) | **GET** /farcaster/frame/search | Search mini apps
 [**update_neynar_frame**](FrameApi.md#update_neynar_frame) | **PUT** /farcaster/frame | Update mini app
 [**validate_frame_action**](FrameApi.md#validate_frame_action) | **POST** /farcaster/frame/validate | Validate mini app action
 
@@ -444,6 +445,38 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## search_frames
+
+> models::FrameCatalogResponse search_frames(q, limit, cursor)
+Search mini apps
+
+Search for mini apps based on a query string
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**q** | **String** | Query string to search for mini apps | [required] |
+**limit** | Option<**i32**> | Number of results to fetch |  |[default to 20]
+**cursor** | Option<**String**> | Pagination cursor |  |
+
+### Return type
+
+[**models::FrameCatalogResponse**](FrameCatalogResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

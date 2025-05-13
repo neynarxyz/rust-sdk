@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **deadline** | **i32** |  | 
-**signature** | **String** | Hex encoded signature | 
+**signature** | **String** | Hexadecimal number expressed as string with '0x' prefix | 
 **custody_address** | **String** | Ethereum address | 
 **recovery_address** | **String** | Ethereum address | 
 
