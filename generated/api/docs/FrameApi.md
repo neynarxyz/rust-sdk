@@ -68,7 +68,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 100]
 **cursor** | Option<**String**> | Pagination cursor |  |
-**time_window** | Option<[**TrendingTimeWindow**](.md)> | Time window used to calculate the change in trending score for each mini app, used to sort mini app results |  |
+**time_window** | Option<[**MiniAppTimeWindow**](.md)> | Time window used to calculate the change in trending score for each mini app, used to sort mini app results |  |
 **categories** | Option<[**Vec<String>**](String.md)> | Comma separated list of categories to include in the results.  Includes all if left blank.  Example: `categories=games,social` OR: `categories=games&categories=social` |  |
 
 ### Return type
@@ -189,7 +189,7 @@ Fetch a list of mini apps relevant to the user based on casts by users with stro
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **viewer_fid** | **i32** | FID of the user to fetch relevant mini apps for | [required] |
-**time_window** | Option<[**TrendingTimeWindow**](.md)> | Time window used to limit statistics used to calculate mini app relevance |  |
+**time_window** | Option<[**MiniAppTimeWindow**](.md)> | Time window used to limit statistics used to calculate mini app relevance |  |
 
 ### Return type
 

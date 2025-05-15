@@ -322,7 +322,7 @@ Name | Type | Description  | Required | Notes
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 10]
 **cursor** | Option<**String**> | Pagination cursor |  |
 **viewer_fid** | Option<**i32**> | Providing this will return a feed that respects this user's mutes and blocks and includes `viewer_context`. |  |
-**time_window** | Option<[**TrendingTimeWindow**](.md)> | Time window for trending casts (7d window for channel feeds only) |  |
+**time_window** | Option<**String**> | Time window for trending casts (7d window for channel feeds only) |  |[default to 24h]
 **channel_id** | Option<**String**> | Channel ID to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both. |  |
 **parent_url** | Option<**String**> | Parent URL to filter trending casts. Less active channels might have no casts in the time window selected. Provide either `channel_id` or `parent_url`, not both. |  |
 **provider** | Option<[**FeedTrendingProvider**](.md)> | The provider of the trending casts feed. |  |
