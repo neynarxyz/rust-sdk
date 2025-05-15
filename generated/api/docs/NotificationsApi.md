@@ -25,7 +25,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **fid** | **i32** | FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks. | [required] |
 **r#type** | Option<[**Vec<models::NotificationType>**](models::NotificationType.md)> | Notification type to fetch. Comma separated values of follows, recasts, likes, mentions, replies. |  |
-**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided). |  |[default to false]
+**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the user follows. |  |[default to false]
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 15]
 **cursor** | Option<**String**> | Pagination cursor. |  |
 
@@ -59,7 +59,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **fid** | **i32** | FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks. | [required] |
 **channel_ids** | **String** | Comma separated channel_ids (find list of all channels here - https://docs.neynar.com/reference/list-all-channels) | [required] |
-**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided). |  |[default to false]
+**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the user follows. |  |[default to false]
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 15]
 **cursor** | Option<**String**> | Pagination cursor. |  |
 
@@ -93,7 +93,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **fid** | **i32** | FID of the user you you want to fetch notifications for. The response will respect this user's mutes and blocks. | [required] |
 **parent_urls** | **String** | Comma separated parent_urls | [required] |
-**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the viewer follows (if viewer_fid is provided). |  |[default to false]
+**priority_mode** | Option<**bool**> | When true, only returns notifications from power badge users and users that the user follows. |  |[default to false]
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 15]
 **cursor** | Option<**String**> | Pagination cursor. |  |
 

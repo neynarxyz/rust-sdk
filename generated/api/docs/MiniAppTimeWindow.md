@@ -1,4 +1,4 @@
-# TrendingTimeWindow
+# MiniAppTimeWindow
 
 ## Enum Variants
 
