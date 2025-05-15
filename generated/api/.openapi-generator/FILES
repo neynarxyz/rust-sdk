@@ -168,6 +168,7 @@ docs/LocationAddress.md
 docs/LoginApi.md
 docs/MarkNotificationsAsSeenReqBody.md
 docs/MetricsApi.md
+docs/MiniAppTimeWindow.md
 docs/MuteApi.md
 docs/MuteListResponse.md
 docs/MuteRecord.md
@@ -243,6 +244,7 @@ docs/RespondChannelInviteReqBody.md
 docs/SearchSortType.md
 docs/SearchedUser.md
 docs/SendFrameNotificationsReqBody.md
+docs/SendFrameNotificationsReqBodyFilters.md
 docs/SendFrameNotificationsReqBodyNotification.md
 docs/SendFrameNotificationsResponse.md
 docs/SharedSignerPermission.md
@@ -288,7 +290,6 @@ docs/TransactionFrameResponse.md
 docs/TransactionFrameStatus.md
 docs/TransactionFrameType.md
 docs/TrendingChannelResponse.md
-docs/TrendingTimeWindow.md
 docs/UpdateUserReqBody.md
 docs/UpdateUserReqBodyLocation.md
 docs/UpdateUserReqBodyVerifiedAccounts.md
@@ -516,6 +517,7 @@ src/models/invite_channel_member_req_body.rs
 src/models/location.rs
 src/models/location_address.rs
 src/models/mark_notifications_as_seen_req_body.rs
+src/models/mini_app_time_window.rs
 src/models/mod.rs
 src/models/mute_list_response.rs
 src/models/mute_record.rs
@@ -588,6 +590,7 @@ src/models/respond_channel_invite_req_body.rs
 src/models/search_sort_type.rs
 src/models/searched_user.rs
 src/models/send_frame_notifications_req_body.rs
+src/models/send_frame_notifications_req_body_filters.rs
 src/models/send_frame_notifications_req_body_notification.rs
 src/models/send_frame_notifications_response.rs
 src/models/shared_signer_permission.rs
@@ -630,7 +633,6 @@ src/models/transaction_frame_response.rs
 src/models/transaction_frame_status.rs
 src/models/transaction_frame_type.rs
 src/models/trending_channel_response.rs
-src/models/trending_time_window.rs
 src/models/update_user_req_body.rs
 src/models/update_user_req_body_location.rs
 src/models/update_user_req_body_verified_accounts.rs
