@@ -157,7 +157,7 @@ Returns a list of notifications tokens related to a mini app
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **limit** | Option<**i32**> | Number of results to fetch |  |[default to 20]
-**fids** | Option<**String**> | Comma separated list of FIDs, up to 100 at a time |  |
+**fids** | Option<**String**> | Comma separated list of FIDs, up to 100 at a time. If you pass in FIDs, you will get back the notification tokens for those FIDs. If you don't pass in FIDs, you will get back all the notification tokens for the mini app. |  |
 **cursor** | Option<**String**> | Pagination cursor |  |
 
 ### Return type
