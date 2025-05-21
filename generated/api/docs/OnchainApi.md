@@ -66,7 +66,7 @@ Fetch a list of relevant owners for a specific FID. This usually shows on a fung
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **contract_address** | **String** | Contract address of the fungible asset | [required] |
-**network** | [**Network**](.md) | Network of the fungible asset. | [required] |
+**network** | [**FungibleOwnerRelevantNetwork**](.md) | Network of the fungible asset. | [required] |
 **viewer_fid** | Option<**i32**> | If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired. |  |
 
 ### Return type

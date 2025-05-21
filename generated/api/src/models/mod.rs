@@ -292,6 +292,8 @@ pub mod frame_validate_analytics_total_interactors;
 pub use self::frame_validate_analytics_total_interactors::FrameValidateAnalyticsTotalInteractors;
 pub mod frame_validate_list_response;
 pub use self::frame_validate_list_response::FrameValidateListResponse;
+pub mod fungible_owner_relevant_network;
+pub use self::fungible_owner_relevant_network::FungibleOwnerRelevantNetwork;
 pub mod html_metadata;
 pub use self::html_metadata::HtmlMetadata;
 pub mod html_metadata_all_of_oembed;

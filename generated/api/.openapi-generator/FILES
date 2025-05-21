@@ -159,6 +159,7 @@ docs/FrameValidateAnalyticsInteractorsInteractorsInner.md
 docs/FrameValidateAnalyticsResponse.md
 docs/FrameValidateAnalyticsTotalInteractors.md
 docs/FrameValidateListResponse.md
+docs/FungibleOwnerRelevantNetwork.md
 docs/HtmlMetadata.md
 docs/HtmlMetadataAllOfOembed.md
 docs/ImageObject.md
@@ -516,6 +517,7 @@ src/models/frame_validate_analytics_interactors_interactors_inner.rs
 src/models/frame_validate_analytics_response.rs
 src/models/frame_validate_analytics_total_interactors.rs
 src/models/frame_validate_list_response.rs
+src/models/fungible_owner_relevant_network.rs
 src/models/html_metadata.rs
 src/models/html_metadata_all_of_oembed.rs
 src/models/image_object.rs

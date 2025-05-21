@@ -11,10 +11,10 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// Network : A blockchain network e.g. \"ethereum\", \"optimism\", \"base\", \"arbitrum\"
-/// A blockchain network e.g. \"ethereum\", \"optimism\", \"base\", \"arbitrum\"
+/// FungibleOwnerRelevantNetwork : A blockchain network supported for fungible owner relevance queries
+/// A blockchain network supported for fungible owner relevance queries
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum Network {
+pub enum FungibleOwnerRelevantNetwork {
     #[serde(rename = "ethereum")]
     Ethereum,
     #[serde(rename = "optimism")]
@@ -23,21 +23,24 @@ pub enum Network {
     Base,
     #[serde(rename = "arbitrum")]
     Arbitrum,
+    #[serde(rename = "solana")]
+    Solana,
 }
 
-impl std::fmt::Display for Network {
+impl std::fmt::Display for FungibleOwnerRelevantNetwork {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::Ethereum => write!(f, "ethereum"),
             Self::Optimism => write!(f, "optimism"),
             Self::Base => write!(f, "base"),
             Self::Arbitrum => write!(f, "arbitrum"),
+            Self::Solana => write!(f, "solana"),
         }
     }
 }
 
-impl Default for Network {
-    fn default() -> Network {
+impl Default for FungibleOwnerRelevantNetwork {
+    fn default() -> FungibleOwnerRelevantNetwork {
         Self::Ethereum
     }
 }
