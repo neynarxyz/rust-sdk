@@ -174,7 +174,7 @@ docs/MuteListResponse.md
 docs/MuteRecord.md
 docs/MuteReqBody.md
 docs/MuteResponse.md
-docs/Networks.md
+docs/Network.md
 docs/NextCursor.md
 docs/NeynarFrame.md
 docs/NeynarFrameCreationReqBody.md
@@ -228,6 +228,7 @@ docs/ReactionsType.md
 docs/RegisterDeveloperManagedSignedKeyReqBody.md
 docs/RegisterSignerKeyReqBody.md
 docs/RegisterUserOnChainReqBody.md
+docs/RegisterUserOnChainReqBodyPreRegistrationCallsInner.md
 docs/RegisterUserOnChainReqBodyRegistration.md
 docs/RegisterUserOnChainReqBodySignersInner.md
 docs/RegisterUserOnChainResponse.md
@@ -289,6 +290,11 @@ docs/TransactionFramePayAllOfTransaction.md
 docs/TransactionFrameResponse.md
 docs/TransactionFrameStatus.md
 docs/TransactionFrameType.md
+docs/TransactionSendFungiblesReceipt.md
+docs/TransactionSendFungiblesRecipient.md
+docs/TransactionSendFungiblesRequest.md
+docs/TransactionSendFungiblesResponse.md
+docs/TransactionSendTxInfo.md
 docs/TrendingChannelResponse.md
 docs/UpdateUserReqBody.md
 docs/UpdateUserReqBodyLocation.md
@@ -523,7 +529,7 @@ src/models/mute_list_response.rs
 src/models/mute_record.rs
 src/models/mute_req_body.rs
 src/models/mute_response.rs
-src/models/networks.rs
+src/models/network.rs
 src/models/next_cursor.rs
 src/models/neynar_frame.rs
 src/models/neynar_frame_creation_req_body.rs
@@ -574,6 +580,7 @@ src/models/reactions_type.rs
 src/models/register_developer_managed_signed_key_req_body.rs
 src/models/register_signer_key_req_body.rs
 src/models/register_user_on_chain_req_body.rs
+src/models/register_user_on_chain_req_body_pre_registration_calls_inner.rs
 src/models/register_user_on_chain_req_body_registration.rs
 src/models/register_user_on_chain_req_body_signers_inner.rs
 src/models/register_user_on_chain_response.rs
@@ -632,6 +639,11 @@ src/models/transaction_frame_pay_all_of_transaction.rs
 src/models/transaction_frame_response.rs
 src/models/transaction_frame_status.rs
 src/models/transaction_frame_type.rs
+src/models/transaction_send_fungibles_receipt.rs
+src/models/transaction_send_fungibles_recipient.rs
+src/models/transaction_send_fungibles_request.rs
+src/models/transaction_send_fungibles_response.rs
+src/models/transaction_send_tx_info.rs
 src/models/trending_channel_response.rs
 src/models/update_user_req_body.rs
 src/models/update_user_req_body_location.rs

@@ -15,23 +15,23 @@ use serde::{Deserialize, Serialize};
 /// Type of interaction a user can have with content on the Farcaster network. - Like: Express appreciation for the target content. Similar to \"likes\" or \"favorites\" on other platforms. - Recast: Share the target content with the user's followers, similar to a \"retweet\" or \"reblog\". Helps increase content visibility.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ReactionType {
-    #[serde(rename = "REACTION_TYPE_LIKE")]
-    ReactionTypeLike,
-    #[serde(rename = "REACTION_TYPE_RECAST")]
-    ReactionTypeRecast,
+    #[serde(rename = "Like")]
+    Like,
+    #[serde(rename = "Recast")]
+    Recast,
 }
 
 impl std::fmt::Display for ReactionType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::ReactionTypeLike => write!(f, "REACTION_TYPE_LIKE"),
-            Self::ReactionTypeRecast => write!(f, "REACTION_TYPE_RECAST"),
+            Self::Like => write!(f, "Like"),
+            Self::Recast => write!(f, "Recast"),
         }
     }
 }
 
 impl Default for ReactionType {
     fn default() -> ReactionType {
-        Self::ReactionTypeLike
+        Self::Like
     }
 }

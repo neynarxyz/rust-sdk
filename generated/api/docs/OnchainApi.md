@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**fetch_relevant_fungible_owners**](OnchainApi.md#fetch_relevant_fungible_owners) | **GET** /farcaster/fungible/owner/relevant | Relevant owners
 [**fetch_user_balance**](OnchainApi.md#fetch_user_balance) | **GET** /farcaster/user/balance | Token balance
 [**register_account_onchain**](OnchainApi.md#register_account_onchain) | **POST** /farcaster/user/register | Register Farcaster account onchain
+[**send_fungibles_to_users**](OnchainApi.md#send_fungibles_to_users) | **POST** /farcaster/fungible/send | Send fungibles
 
 
 
@@ -54,7 +55,7 @@ Name | Type | Description  | Required | Notes
 
 ## fetch_relevant_fungible_owners
 
-> models::RelevantFungibleOwnersResponse fetch_relevant_fungible_owners(contract_address, networks, viewer_fid)
+> models::RelevantFungibleOwnersResponse fetch_relevant_fungible_owners(contract_address, network, viewer_fid)
 Relevant owners
 
 Fetch a list of relevant owners for a specific FID. This usually shows on a fungible asset page as \"X, Y, Z and N others you know own this asset\".
@@ -65,7 +66,7 @@ Fetch a list of relevant owners for a specific FID. This usually shows on a fung
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **contract_address** | **String** | Contract address of the fungible asset | [required] |
-**networks** | [**Vec<models::Networks>**](models::Networks.md) | Comma separated list of networks to fetch balances for. Currently, only \"base\" is supported. | [required] |
+**network** | [**Network**](.md) | Network of the fungible asset. | [required] |
 **viewer_fid** | Option<**i32**> | If you provide a viewer_fid, the response will include token holders from the user's network, respecting their mutes and blocks and including viewer_context; if not provided, the response will show top token holders across the network—both sets can be combined to generate a longer list if desired. |  |
 
 ### Return type
@@ -97,7 +98,7 @@ Fetches the token balances of a user given their FID
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **fid** | **i32** | FID of the user to fetch | [required] |
-**networks** | [**Vec<models::Networks>**](models::Networks.md) | Comma separated list of networks to fetch balances for. Currently, only \"base\" is supported. | [required] |
+**networks** | [**Vec<models::Network>**](models::Network.md) | Comma separated list of networks to fetch balances for | [required] |
 
 ### Return type
 
@@ -132,6 +133,37 @@ Name | Type | Description  | Required | Notes
 ### Return type
 
 [**models::RegisterUserOnChainResponse**](RegisterUserOnChainResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## send_fungibles_to_users
+
+> models::TransactionSendFungiblesResponse send_fungibles_to_users(x_wallet_id, transaction_send_fungibles_request)
+Send fungibles
+
+Send fungibles in bulk to several farcaster users. A funded wallet is to required use this API. React out to us on the Neynar channel on farcaster to get your wallet address.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**x_wallet_id** | **String** | Wallet ID to use for transactions | [required] |
+**transaction_send_fungibles_request** | [**TransactionSendFungiblesRequest**](TransactionSendFungiblesRequest.md) |  | [required] |
+
+### Return type
+
+[**models::TransactionSendFungiblesResponse**](TransactionSendFungiblesResponse.md)
 
 ### Authorization
 

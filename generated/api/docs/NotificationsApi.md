@@ -115,10 +115,10 @@ Name | Type | Description  | Required | Notes
 
 ## mark_notifications_as_seen
 
-> models::OperationResponse mark_notifications_as_seen(mark_notifications_as_seen_req_body)
+> models::OperationResponse mark_notifications_as_seen(mark_notifications_as_seen_req_body, authorization)
 Mark as seen
 
-Mark notifications as seen
+Mark notifications as seen. You can choose one of two authorization methods, either:   1. Provide a valid signer_uuid in the request body (Most common)   2. Provide a valid, signed \"Bearer\" token in the request's `Authorization` header similar to the      approach described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication) 
 
 ### Parameters
 
@@ -126,6 +126,7 @@ Mark notifications as seen
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **mark_notifications_as_seen_req_body** | [**MarkNotificationsAsSeenReqBody**](MarkNotificationsAsSeenReqBody.md) |  | [required] |
+**authorization** | Option<**String**> | Optional Bearer token for certain endpoints. The token format is described [here](https://docs.farcaster.xyz/reference/warpcast/api#authentication).  |  |
 
 ### Return type
 
