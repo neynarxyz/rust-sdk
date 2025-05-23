@@ -411,7 +411,7 @@ pub async fn fetch_embedded_url_metadata(
     }
 }
 
-/// Gets information about an individual cast by passing in a Warpcast web URL or cast hash
+/// Gets information about an individual cast by passing in a Farcaster web URL or cast hash
 pub async fn lookup_cast_by_hash_or_warpcast_url(
     configuration: &configuration::Configuration,
     params: LookupCastByHashOrWarpcastUrlParams,
@@ -469,7 +469,7 @@ pub async fn lookup_cast_by_hash_or_warpcast_url(
     }
 }
 
-/// Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+/// Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Farcaster URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
 pub async fn lookup_cast_conversation(
     configuration: &configuration::Configuration,
     params: LookupCastConversationParams,
