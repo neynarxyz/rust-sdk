@@ -145,7 +145,7 @@ Name | Type | Description  | Required | Notes
 > models::CastResponse lookup_cast_by_hash_or_warpcast_url(identifier, r#type, viewer_fid, x_neynar_experimental)
 By hash or URL
 
-Gets information about an individual cast by passing in a Warpcast web URL or cast hash
+Gets information about an individual cast by passing in a Farcaster web URL or cast hash
 
 ### Parameters
 
@@ -178,7 +178,7 @@ Name | Type | Description  | Required | Notes
 > models::Conversation lookup_cast_conversation(identifier, r#type, reply_depth, include_chronological_parent_casts, viewer_fid, sort_type, fold, limit, cursor, x_neynar_experimental)
 Conversation for a cast
 
-Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Warpcast URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
+Gets all casts related to a conversation surrounding a cast by passing in a cast hash or Farcaster URL. Includes all the ancestors of a cast up to the root parent in a chronological order. Includes all direct_replies to the cast up to the reply_depth specified in the query parameter.
 
 ### Parameters
 
