@@ -13,23 +13,20 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RelevantFungibleOwnersResponse {
-    #[serde(
-        rename = "top_relevant_owners_hydrated",
-        skip_serializing_if = "Option::is_none"
-    )]
-    pub top_relevant_owners_hydrated: Option<Vec<models::User>>,
-    #[serde(
-        rename = "all_relevant_owners_dehydrated",
-        skip_serializing_if = "Option::is_none"
-    )]
-    pub all_relevant_owners_dehydrated: Option<Vec<models::User>>,
+    #[serde(rename = "top_relevant_fungible_owners_hydrated")]
+    pub top_relevant_fungible_owners_hydrated: Vec<models::User>,
+    #[serde(rename = "all_relevant_fungible_owners_dehydrated")]
+    pub all_relevant_fungible_owners_dehydrated: Vec<models::User>,
 }
 
 impl RelevantFungibleOwnersResponse {
-    pub fn new() -> RelevantFungibleOwnersResponse {
+    pub fn new(
+        top_relevant_fungible_owners_hydrated: Vec<models::User>,
+        all_relevant_fungible_owners_dehydrated: Vec<models::User>,
+    ) -> RelevantFungibleOwnersResponse {
         RelevantFungibleOwnersResponse {
-            top_relevant_owners_hydrated: None,
-            all_relevant_owners_dehydrated: None,
+            top_relevant_fungible_owners_hydrated,
+            all_relevant_fungible_owners_dehydrated,
         }
     }
 }
