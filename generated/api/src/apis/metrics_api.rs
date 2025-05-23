@@ -18,7 +18,7 @@ use serde::{de::Error as _, Deserialize, Serialize};
 pub struct FetchCastMetricsParams {
     /// Query string to search for casts
     pub q: String,
-    /// Interval of time for which to fetch metrics. Choices are `1d`, `7d`, `30d`
+    /// Interval of time for which to fetch metrics. Default is 30d.
     pub interval: Option<String>,
     /// Fid of the user whose casts you want to search
     pub author_fid: Option<i32>,
