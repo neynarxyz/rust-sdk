@@ -121,7 +121,7 @@ pub enum SendFungiblesToUsersError {
     UnknownValue(serde_json::Value),
 }
 
-/// Creates a new token. This is an allowlisted API, reach out if you want access.
+/// Creates a new token.
 pub async fn deploy_fungible(
     configuration: &configuration::Configuration,
     params: DeployFungibleParams,
