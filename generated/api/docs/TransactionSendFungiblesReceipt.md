@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**fid** | **i32** | The unique identifier of a farcaster user (unsigned integer) | 
+**fid** | **i32** | The unique identifier of a farcaster user or app (unsigned integer) | 
 **amount** | **f64** |  | 
 **status** | **String** |  | 
 **reason** | Option<**String**> | Reason for failure (if status is failed) | [optional]
