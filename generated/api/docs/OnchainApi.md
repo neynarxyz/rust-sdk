@@ -17,7 +17,7 @@ Method | HTTP request | Description
 > models::DeployFungibleResponse deploy_fungible(owner, symbol, name, metadata_left_square_bracket_media_right_square_bracket, metadata_left_square_bracket_description_right_square_bracket, metadata_left_square_bracket_nsfw_right_square_bracket, metadata_left_square_bracket_website_link_right_square_bracket, metadata_left_square_bracket_twitter_right_square_bracket, metadata_left_square_bracket_discord_right_square_bracket, metadata_left_square_bracket_telegram_right_square_bracket, network, factory)
 Deploy fungible
 
-Creates a new token. This is an allowlisted API, reach out if you want access. 
+Creates a new token. 
 
 ### Parameters
 
