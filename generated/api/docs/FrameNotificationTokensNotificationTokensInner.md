@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **url** | Option<**String**> |  | [optional]
 **token** | Option<**String**> |  | [optional]
 **status** | Option<**String**> |  | [optional]
-**fid** | Option<**i32**> | The unique identifier of a farcaster user (unsigned integer) | [optional]
+**fid** | Option<**i32**> | The unique identifier of a farcaster user or app (unsigned integer) | [optional]
 **created_at** | Option<**String**> |  | [optional]
 **updated_at** | Option<**String**> |  | [optional]
 

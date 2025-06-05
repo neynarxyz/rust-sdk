@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**fetch_relevant_frames**](FrameApi.md#fetch_relevant_frames) | **GET** /farcaster/frame/relevant | Relevant mini apps
 [**fetch_validate_frame_analytics**](FrameApi.md#fetch_validate_frame_analytics) | **GET** /farcaster/frame/validate/analytics | Analytics for the mini app
 [**fetch_validate_frame_list**](FrameApi.md#fetch_validate_frame_list) | **GET** /farcaster/frame/validate/list | All mini apps validated by user
+[**get_notification_campaign_stats**](FrameApi.md#get_notification_campaign_stats) | **GET** /farcaster/frame/notifications | Get notification campaign stats
 [**get_transaction_pay_frame**](FrameApi.md#get_transaction_pay_frame) | **GET** /farcaster/frame/transaction/pay | Get transaction pay mini app
 [**lookup_neynar_frame**](FrameApi.md#lookup_neynar_frame) | **GET** /farcaster/frame | Mini app by UUID or URL
 [**post_frame_action**](FrameApi.md#post_frame_action) | **POST** /farcaster/frame/action | Post a mini app action, cast action or a cast composer action
@@ -255,6 +256,38 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**models::FrameValidateListResponse**](FrameValidateListResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_notification_campaign_stats
+
+> models::GetNotificationCampaignStats200Response get_notification_campaign_stats(campaign_id, limit, cursor)
+Get notification campaign stats
+
+Retrieve notification delivery and opened stats for notification campaigns
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**campaign_id** | Option<**String**> | An ID of a specific notification campaign to query |  |
+**limit** | Option<**i32**> | The number of results to return |  |[default to 100]
+**cursor** | Option<**String**> | Pagination cursor |  |
+
+### Return type
+
+[**models::GetNotificationCampaignStats200Response**](get_notification_campaign_stats_200_response.md)
 
 ### Authorization
 
