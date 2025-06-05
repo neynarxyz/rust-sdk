@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **object** | **String** |  | 
-**fid** | **i32** | The unique identifier of a farcaster user (unsigned integer) | 
+**fid** | **i32** | The unique identifier of a farcaster user or app (unsigned integer) | 
 **username** | **String** |  | 
 **display_name** | Option<**String**> |  | [optional]
 **custody_address** | **String** | Ethereum address | 
