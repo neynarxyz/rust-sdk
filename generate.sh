@@ -9,7 +9,7 @@ npx --yes @openapitools/openapi-generator-cli \
     --git-repo-id rust-sdk \
     -g rust \
     --config ./src/api/openapi-generator-config.json \
-    -i ./src/OAS/src/v2/spec.yaml \
+    -i ./src/OAS/src/api/spec.yaml \
     -o ./generated/api \
     --inline-schema-options 'SKIP_SCHEMA_REUSE=true' \
     --type-mappings='"file=Vec<u8>"'
@@ -22,7 +22,7 @@ npx --yes @openapitools/openapi-generator-cli \
     --git-repo-id rust-sdk \
     -g rust \
     --config ./src/hub-api/openapi-generator-config.json \
-    -i ./src/OAS/src/hub-rest-api/spec.yaml \
+    -i ./src/OAS/src/hub-api/spec.yaml \
     -o ./generated/hub-api \
     --inline-schema-options 'SKIP_SCHEMA_REUSE=true' \
     --type-mappings='"file=Vec<u8>"'
