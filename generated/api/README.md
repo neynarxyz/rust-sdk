@@ -1,5 +1,8 @@
 # Rust API client for neynar_sdk
 
+> [!WARNING]
+> **This SDK is deprecated and no longer maintained.** It will receive no further updates and the repository will be archived. Please use the [Neynar APIs](https://docs.neynar.com/) directly, or the actively maintained [@neynar/nodejs-sdk](https://github.com/neynarxyz/nodejs-sdk).
+
 The Farcaster API allows you to interact with the Farcaster protocol. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
 
 
