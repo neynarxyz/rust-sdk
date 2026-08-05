@@ -1,8 +1,9 @@
 # Rust SDK for Neynar
 
-`rust-sdk` is an easy-to-use SDK built to interact with [Neynar APIs](https://docs.neynar.com/) via the Rust programming language.
+> [!WARNING]
+> **This SDK is deprecated and no longer maintained.** It will receive no further updates and the repository will be archived. Please use the [Neynar APIs](https://docs.neynar.com/) directly, or the actively maintained [@neynar/nodejs-sdk](https://github.com/neynarxyz/nodejs-sdk).
 
-**This SDK is currently in beta/preview status.** Please flag any problems you encounter as issues here on the Github repository.
+`rust-sdk` is an easy-to-use SDK built to interact with [Neynar APIs](https://docs.neynar.com/) via the Rust programming language.
 
 ## Usage
 

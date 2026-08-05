@@ -1,5 +1,8 @@
 # Rust API client for neynar_hub_sdk
 
+> [!WARNING]
+> **This SDK is deprecated and no longer maintained.** It will receive no further updates and the repository will be archived. Please use the [Neynar APIs](https://docs.neynar.com/) directly, or the actively maintained [@neynar/nodejs-sdk](https://github.com/neynarxyz/nodejs-sdk).
+
 Perform basic queries of Farcaster state via the REST API of a Farcaster hub. See the [Neynar docs](https://docs.neynar.com/reference) for more details.
 
 
